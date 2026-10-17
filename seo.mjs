@@ -150,6 +150,12 @@ for (const p of projects) {
   writeFileSync(join(OUT, 'home.html'), dress(src('home.html'), m));
   urls.splice(1, 0, [m.url]);
 }
+// Netlify serves /name.html at /name and 301s /name/ → /name, which would replace the dressed
+// /name/ page (and its old WordPress address). Pages that have their own /name/ address keep
+// only that copy; /name.html still reaches it through _redirects.
+for (const p of SEO.pages) {
+  if (p.path !== '/' && p.path === '/' + p.file.replace(/\.html$/, '') + '/') rmSync(join(OUT, p.file), { force: true });
+}
 // a page for addresses that do not exist
 {
   const nf = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Page not found — Melis Ragusin</title><meta name="robots" content="noindex"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Jost:wght@300;400&display=swap" rel="stylesheet"><style>html,body{height:100%;margin:0;background:#000;color:#f4f2ee;font-family:Jost,system-ui,sans-serif}main{min-height:100%;display:grid;place-items:center;text-align:center;padding:24px}h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(40px,7vw,84px);margin:0 0 12px}p{color:#9d9890;letter-spacing:.04em}a{color:#c6a870;text-decoration:none;letter-spacing:.24em;text-transform:uppercase;font-size:12px;margin:0 14px}</style></head><body><main><div><h1>This page has moved</h1><p>The work you are looking for may have a new home.</p><p style="margin-top:34px"><a href="/home.html">Home</a><a href="/projects/">All works</a><a href="/">Virtual gallery</a></p></div></main></body></html>`;
