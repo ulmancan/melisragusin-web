@@ -42,7 +42,7 @@
 .scr{position:relative;overflow:hidden;border-radius:2px;background:#000;line-height:0}
 .frm.in .scr{animation:boot 1.5s cubic-bezier(.2,.7,.2,1) .35s both}
 @keyframes boot{0%{clip-path:inset(49.7% 0 49.7% 0);filter:brightness(5) saturate(0)}28%{clip-path:inset(49.7% 0 49.7% 0);filter:brightness(4) saturate(0)}62%{clip-path:inset(0 0 0 0);filter:brightness(1.8) saturate(.6)}100%{clip-path:inset(0 0 0 0);filter:none}}
-.frm.port .scr{height:min(72vh,760px);aspect-ratio:9/16;max-width:100%}
+.frm.port .scr{--h:min(72vh,760px,(100vw - 2 * var(--gx) - 26px) * 16 / 9);height:var(--h);width:calc(var(--h) * 9 / 16)}
 .frm.port video,.frm.port img{width:100%;height:100%;object-fit:cover;display:block}
 .frm.wide{width:min(56vw,1100px)}
 .frm.wide .scr{aspect-ratio:16/9}
@@ -129,7 +129,7 @@
   .pj-stage{align-items:flex-start;padding-top:110px}
   .pj-grid,.pj-stage.wide .pj-grid{grid-template-columns:1fr;gap:34px}
   .pj-work{order:-1}
-  .frm.port .scr{height:min(60vh,600px)}
+  .frm.port .scr{--h:min(60vh,600px,(100vw - 2 * var(--gx) - 18px) * 16 / 9)}
   .frm.wide{width:calc(100vw - 2 * var(--gx))}
   .spot{display:none}
   .rig{transform:none!important}

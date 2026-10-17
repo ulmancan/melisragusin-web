@@ -127,7 +127,8 @@
   // simple helpers for page scripts
   window.mrEsc = function (t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); };
   window.mrVideoExt = (function () {
-    var safari = /Safari/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Android|Edg/.test(navigator.userAgent);
+    // every browser on iPhone and iPad is Safari underneath: mp4 there
+    var safari = (/Safari/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Android|Edg/.test(navigator.userAgent)) || /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     return safari || !d.createElement('video').canPlayType('video/webm; codecs="vp9"') ? 'mp4' : 'webm';
   })();
 })();

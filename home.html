@@ -83,7 +83,7 @@
   .navitem{position:relative}
   .navitem:hover .car{transform:rotate(180deg)}
   .dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(10px);margin-top:14px;
-    background:rgba(9,9,9,.94);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:3px;
+    background:rgba(9,9,9,.94);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:3px;
     padding:12px 6px;min-width:220px;display:flex;flex-direction:column;
     opacity:0;visibility:hidden;transition:.4s var(--ease);z-index:30}
   .navitem:hover .dropdown{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
@@ -397,7 +397,7 @@
   .nl-l h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:clamp(28px,3.4vw,46px);line-height:1;margin-top:12px;color:var(--ink)}
   .nl-form{display:flex;align-items:center;border-bottom:1px solid var(--line);min-width:min(420px,82vw);transition:border-color .4s var(--ease)}
   .nl-form:focus-within{border-color:var(--accent)}
-  .nl-form input{flex:1;background:none;border:0;color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;font-size:15px;padding:14px 4px;outline:none;min-width:0}
+  .nl-form input{flex:1;background:none;border:0;color:var(--ink);font-family:'Jost',sans-serif;font-weight:300;font-size:16px;padding:14px 4px;outline:none;min-width:0}
   .nl-form input::placeholder{color:var(--faint)}
   .nl-form button{background:none;border:0;color:var(--gold);cursor:pointer;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.24em;text-transform:uppercase;padding:14px 4px 14px 18px;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;transition:color .4s var(--ease)}
   .nl-form button:hover{color:var(--ink)}
@@ -567,7 +567,7 @@
 document.documentElement.classList.add('js');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-const isAppleSafari = /Safari/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Android|Edg/.test(navigator.userAgent);
+const isAppleSafari = (/Safari/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Android|Edg/.test(navigator.userAgent)) || /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const vext = isAppleSafari || !document.createElement('video').canPlayType('video/webm; codecs="vp9"') ? 'mp4' : 'webm';
 const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 const pad = (n) => String(n).padStart(2, '0');
@@ -877,7 +877,7 @@ const hero = $('hero'), gallery = $('gallery'), canvas = $('heroGL'), still = $(
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 const saveData = !!(navigator.connection && navigator.connection.saveData);
-const isAppleSafari = /Safari/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Android|Edg/.test(navigator.userAgent);
+const isAppleSafari = (/Safari/.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Android|Edg/.test(navigator.userAgent)) || /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 /* Opened straight from disk (file://)? Browsers refuse to put file:// images and videos into WebGL, so the hero
    then loads the same media from small script packs in assets/hero/local/ (made by make_local_packs.py in the MELİS RAGUSİN WEB folder). */
 const LOCAL = location.protocol === 'file:';

@@ -334,3 +334,5 @@ details.more>div{display:grid;gap:22px;padding:8px 0 4px}
   .card .t{font-size:18px}
 }
 .gated .top{display:none}
+/* iPhone zooms the page into any field smaller than 16px: fields stay 16px on touch screens */
+@media (hover:none){.search input,.fact input,.in{font-size:16px}.fact input:first-child{font-size:16px;letter-spacing:.06em}}
