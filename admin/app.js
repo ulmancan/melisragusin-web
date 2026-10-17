@@ -483,6 +483,7 @@ function viewGallery(hid) {
   plan.addEventListener('input', (e) => { const i = e.target.closest('[data-size]'); if (!i) return; const x = items[+i.closest('.slot').dataset.k]; if (i.value.trim()) x.size = i.value; else delete x.size; touch(); });
   sortable(plan, '.slot', { handle: '.hd', onMove: (a, b) => { const A = hall.works.indexOf(items[a]), Bi = hall.works.indexOf(items[b]); moveIn(hall.works, A, Bi); touch(); viewGallery(H.id); } });
 }
+const dimsOf = (w) => { const m = ((w && w.meta) || []).find((x) => /^\s*dimensions?\s*:/i.test(x)); return m ? m.replace(/^[^:]*:\s*/, '').replace(/\s*cm\s*$/i, '') : ''; };
 function slot(H, x, k) {
   const w = work(x.work), opened = open.has(H.id + ':' + x.work), wall = x.wall || 'otomatik';
   const pic = x.image || cover(w);
@@ -492,12 +493,12 @@ function slot(H, x, k) {
       <div class="f"><span class="lb">${t('clip')}</span>${x.video ? `<video src="${esc(S.uploads[x.video.replace(/^\/+/, '')] ? S.uploads[x.video.replace(/^\/+/, '')].url : '/' + x.video.replace(/^\/+/, ''))}" muted loop autoplay playsinline style="width:${(x.orientation || 'portrait') === 'portrait' ? 90 : 180}px;border-radius:2px"></video>` : ''}
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-act="clip">${I.up}${t('uploadVideo')}</button>${x.video ? `<button class="btn sm ghost danger" type="button" data-act="rmclip">${t('removeVideo')}</button>` : ''}</div><span class="help">${t('clipHelp')}</span></div>`;
   else extra = `
-      <div class="f"><label>${t('size')}</label><input class="in" data-size value="${esc(x.size)}" placeholder="${t('sizePh')}"><span class="help">${t('sizeHelp')}</span></div>
+      <div class="f"><label>${t('size')}</label><input class="in" data-size value="${esc(x.size)}" placeholder="${esc(dimsOf(w) || t('sizePh'))}"><span class="help">${t('sizeHelp')}</span></div>
       <div class="f"><span class="lb">${t('altImage')}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-act="alt">${I.up}${t('choose')}</button>${x.image ? `<button class="btn sm ghost danger" type="button" data-act="rmalt">${t('remove')}</button>` : ''}</div><span class="help">${t('altImageHelp')}</span></div>`;
   return `<div class="slot${opened ? ' open' : ''}" data-k="${k}">
     <span class="hd" title="⇅">${I.grip}</span><span class="no">${k + 1}</span>
     <div class="pic">${pic ? `<img src="${esc(img(pic, 480))}" alt="">` : ''}</div>
-    <div class="nm"><b>${esc(w.title)}</b><span>${esc(w.year)}${x.size ? ' · ' + esc(x.size) + ' cm' : ''}${H.id === 'motion' ? ' · ' + t(x.orientation === 'landscape' ? 'landscape' : 'portrait') : ''}</span></div>
+    <div class="nm"><b>${esc(w.title)}</b><span>${esc(w.year)}${x.size || dimsOf(w) ? ' · ' + esc(x.size || dimsOf(w)) + ' cm' : ''}${H.id === 'motion' ? ' · ' + t(x.orientation === 'landscape' ? 'landscape' : 'portrait') : ''}</span></div>
     <div class="walls"><div class="seg">${WALLS.map(([v, l]) => `<button type="button" data-wall="${v}" aria-pressed="${wall === v}">${t(l)}</button>`).join('')}</div></div>
     <div style="display:flex"><button class="icon" type="button" data-act="open" aria-label="…" aria-expanded="${opened}" style="transform:rotate(${opened ? 180 : 0}deg)">${I.more}</button></div>
     <div class="ex">${extra}<div><button class="btn sm ghost danger" type="button" data-act="rm">${I.x}${t('remove')}</button></div></div>
@@ -507,6 +508,31 @@ function slot(H, x, k) {
 /* =========================================================
    HOME PAGE
    ========================================================= */
+// a strip on the home page starts from its work: the title, the kind, the cover and the opening of the
+// work's own statement (whole sentences, about two lines) — all of it can be changed afterwards
+const KIND = { 'New-Media': 'New-Media Works', Motion: 'Motion Art', 'Mixed-Media': 'Mixed-Media' };
+function shortText(st) {
+  const paras = String(st || '').replace(/\r/g, '').split(/\n\s*\n/).map((x) => x.replace(/\s+/g, ' ').trim()).filter((x) => x && !/^(description|about|statement)$/i.test(x));
+  // whole sentences only: a sentence ends at . ! ? … followed by a capital (so "RICH ENOUGH? floats" stays one)
+  const sents = paras.slice(0, 3).map((p) => p.split(/(?<=[.!?…]["'”’)]*)\s+(?=["'“‘(]?[A-ZÇĞİÖŞÜ0-9])/));
+  let out = '';
+  for (let i = 0; i < sents.length; i++) {
+    if (i > 0 && out.length >= 90) break; // a very short opening takes the next paragraph's first lines too
+    for (const x of sents[i]) { if (out && (out + ' ' + x).length > 190) return out; out = out ? out + ' ' + x : x; }
+  }
+  if (out.length > 230) out = out.slice(0, 220).replace(/\s+\S*$/, '') + '…';
+  return out;
+}
+function stripFrom(id) {
+  const w = work(id), s = { work: id }; if (!w) return s;
+  if (w.title) s.name = w.title;
+  const m = String(w.medium || '').trim();
+  const kind = m && (m.includes('·') || Object.values(KIND).includes(m)) ? m : KIND[w.cat] || m;
+  if (kind) s.medium = kind;
+  const pic = cover(w); if (pic) s.image = pic;
+  const tx = shortText(w.statement); if (tx) s.text = tx;
+  return s;
+}
 function viewHome() {
   const h = homeDoc(); h.series = h.series || [];
   app.innerHTML = `
@@ -519,7 +545,7 @@ function viewHome() {
           <div class="row"><div class="f"><label>${t('shortName')}</label><input class="in" data-s="name" value="${esc(s.name)}" placeholder="${esc(w ? w.title : t('shortNamePh'))}"></div>
           <div class="f"><label>${t('kind')}</label><input class="in" data-s="medium" value="${esc(s.medium)}" placeholder="${t('kindPh')}"></div></div>
           <div class="f"><label>${t('text')}</label><textarea class="in" data-s="text" rows="2" style="min-height:70px">${esc(s.text)}</textarea></div>
-          ${s.image ? `<div><button class="link" type="button" data-act="rmimg">${t('useCover')}</button></div>` : ''}
+          ${s.image && s.image !== cover(w) ? `<div><button class="link" type="button" data-act="rmimg">${t('useCover')}</button></div>` : ''}
         </div>
         <button class="icon" type="button" data-act="rm" aria-label="${t('remove')}">${I.x}</button>
       </div>`; }).join('')}</div>
@@ -530,11 +556,11 @@ function viewHome() {
     const b = e.target.closest('button[data-act]'); if (!b) return; const s = h.series[+b.closest('.ser').dataset.k];
     if (b.dataset.act === 'rm') { h.series.splice(h.series.indexOf(s), 1); touch(); viewHome(); }
     // a strip given another work starts from that work's own name, picture and kind (the old ones belonged to the previous work)
-    if (b.dataset.act === 'work') { const id = await pickWork({}); if (id && id !== s.work) { h.series[h.series.indexOf(s)] = { work: id }; touch(); viewHome(); } }
+    if (b.dataset.act === 'work') { const id = await pickWork({}); if (id && id !== s.work) { h.series[h.series.indexOf(s)] = stripFrom(id); touch(); viewHome(); } }
     if (b.dataset.act === 'img') { const f = await chooseFiles({ multiple: false }); const [p] = await addImages(f, s.work + '-home'); if (p) { s.image = p; touch(); viewHome(); } }
     if (b.dataset.act === 'rmimg') { delete s.image; touch(); viewHome(); }
   });
-  $('[data-act="add"]').onclick = async () => { const id = await pickWork({}); if (!id) return; h.series.push({ work: id }); touch(); viewHome(); };
+  $('[data-act="add"]').onclick = async () => { const id = await pickWork({}); if (!id) return; h.series.push(stripFrom(id)); touch(); viewHome(); };
   sortable(box, '.ser', { handle: '.hd', onMove: (a, b) => { moveIn(h.series, a, b); touch(); viewHome(); } });
 }
 
