@@ -626,7 +626,8 @@ function arcSet(i) {
   }, reduced ? 0 : 320);
   // the screen in front plays, its neighbours warm up, the rest stay as stills
   cards.forEach((a, k) => {
-    const near = Math.abs(k - i) <= 1;
+    const near = arcMobile ? k === i : Math.abs(k - i) <= 1;
+    if (!near && arcMobile && a._v) { a._v.pause(); a._v.removeAttribute('src'); a._v.load(); a._v.remove(); a._v = null; }
     if (near && !a._v) { const v = document.createElement('video'); v.muted = true; v.loop = true; v.playsInline = true; v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.preload = 'auto'; v.src = works[k].src; v.addEventListener('playing', () => v.classList.add('on')); a.firstChild.appendChild(v); a._v = v; }
     if (a._v) { if (near && arcVisible && !reduced) { const p = a._v.play(); if (p && p.catch) p.catch(() => {}); } else a._v.pause(); }
   });
@@ -997,9 +998,10 @@ const lazyNext = !finePointer || saveData;
 SCREENS.forEach((s, i) => {
   const S = st[i];
   S.vids = [makeVideo(s.playlist[0], 'auto'), makeVideo(s.playlist[1], lazyNext ? 'metadata' : 'auto')];
-  S.vids[0].addEventListener('loadeddata', () => { S.ready = true; maybeGoLive(); }, { once: true });
+  S.vids[0].addEventListener('loadeddata', () => { S.ready = true; if (!playsHere(i)) S.vids[0].pause(); maybeGoLive(); }, { once: true });
   tryPlay(S.vids[0]);
 });
+function playsHere(i) { return finePointer || i === selected; }
 function warm(i) { const v = st[i].vids[1 - st[i].cur]; if (v.preload !== 'auto') { v.preload = 'auto'; if (v.readyState < 2 && v.src) v.load(); } }
 
 /* ---------- WebGL ---------- */
@@ -1189,7 +1191,7 @@ function advance(i) {
     const go = () => {
       const old = S.vids[S.cur];
       S.cur = 1 - S.cur; S.idx = nextIdx; S.frame = true; S.lastTime = -1;
-      if (!paused) tryPlay(nv);
+      if (!paused && playsHere(i)) tryPlay(nv);
       old.pause();
       S.target = 1; if (!reduced) { S.curve = SWITCH; S.t0 = performance.now(); }
       if (performance.now() > holdUntil) { select(i, true); if (!cam.desk) panTo(i); } else renderPlan();
@@ -1231,6 +1233,7 @@ let swapTimer;
 function select(i, animate) {
   const changed = selected !== i || titleEl.textContent !== W[current(i)][0];
   selected = i; dirty = true;
+  if (!finePointer && live) playback();
   const key = current(i);
   const apply = () => {
     titleEl.textContent = W[key][0]; titleEl.href = href(key);
@@ -1286,7 +1289,7 @@ const pauseBtn = $('heroPause'), ICON_PAUSE = pauseBtn.innerHTML;
 const ICON_PLAY = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4.5 2.8v10.4c0 .5.5.8.9.5l8-5.2a.6.6 0 0 0 0-1L5.4 2.3c-.4-.3-.9 0-.9.5Z"/></svg>';
 function setPaused(p, auto) {
   paused = p;
-  if (!auto) st.forEach((S) => { const v = S.vids[S.cur]; if (p) v.pause(); else tryPlay(v); });
+  if (!auto) st.forEach((S, i) => { const v = S.vids[S.cur]; if (p || !playsHere(i)) v.pause(); else tryPlay(v); });
   pauseBtn.innerHTML = p ? ICON_PLAY : ICON_PAUSE;
   pauseBtn.setAttribute('aria-label', p ? 'Play the screens' : 'Pause the screens');
   pauseBtn.setAttribute('aria-pressed', p ? 'true' : 'false');
@@ -1294,7 +1297,7 @@ function setPaused(p, auto) {
   schedule();
 }
 pauseBtn.addEventListener('click', () => setPaused(!paused));
-function playback() { st.forEach((S) => { const v = S.vids[S.cur]; if (document.hidden || !visible) v.pause(); else if (!paused) tryPlay(v); }); }
+function playback() { st.forEach((S, i) => { const v = S.vids[S.cur]; if (document.hidden || !visible || !playsHere(i)) v.pause(); else if (!paused) tryPlay(v); }); }
 document.addEventListener('visibilitychange', playback);
 new IntersectionObserver((en) => { visible = en[0].isIntersecting; playback(); }, { threshold: 0.02 }).observe(hero);
 

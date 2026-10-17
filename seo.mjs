@@ -198,3 +198,21 @@ writeFileSync(join(OUT, 'robots.txt'), `User-agent: *\nDisallow: /admin/\n\nSite
 writeFileSync(join(OUT, '_redirects'), R.concat(['/sitemap_index.xml /sitemap.xml 301!', '/wp-sitemap.xml /sitemap.xml 301!', '/projects-sitemap.xml /sitemap.xml 301!', '/page-sitemap.xml /sitemap.xml 301!', '/post-sitemap.xml /sitemap.xml 301!', '/category-sitemap.xml /sitemap.xml 301!']).join('\n') + '\n');
 
 console.log(`seo: ${urls.length} pages in the sitemap, ${projects.length} works at /projects/<id>/, ${R.length + 6} redirects → ${OUT}/`);
+
+/* ---------- every page asks for the current scripts and styles ----------
+   /assets/* is cached by browsers for a week, so a script or stylesheet that changed would otherwise keep running
+   in its old form on a phone that visited before. Each reference gets the file's fingerprint (?v=…), a new one on
+   every change. */
+{
+  const { createHash } = await import('node:crypto');
+  const fp = {};
+  const finger = (rel) => { if (!(rel in fp)) { try { fp[rel] = createHash('md5').update(readFileSync(join(OUT, rel))).digest('hex').slice(0, 10); } catch (e) { fp[rel] = ''; } } return fp[rel]; };
+  const pages = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? (['assets', 'admin'].includes(e.name) && d === OUT ? (e.name === 'admin' ? pages(join(d, e.name)) : []) : pages(join(d, e.name))) : e.name.endsWith('.html') ? [join(d, e.name)] : []);
+  let n = 0;
+  for (const f of pages(OUT)) {
+    const html = readFileSync(f, 'utf8');
+    const out = html.replace(/\b(src|href)="(\/?)(assets\/[^"?#]+\.(?:js|css))"/g, (m, a, slash, rel) => { const v = finger(rel); if (!v) return m; n++; return `${a}="${slash}${rel}?v=${v}"`; });
+    if (out !== html) writeFileSync(f, out);
+  }
+  console.log(`seo: ${n} script/style references fingerprinted`);
+}
