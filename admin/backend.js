@@ -90,11 +90,21 @@ async function loadDemo() {
 
 /* ---------- publish: one commit with every change ---------- */
 // changes: [{ path, text }] (text null = delete); uploads: [{ path, blob }]
-export async function publish({ changes, uploads, message, onStep }) {
+// since: the commit the Studio was opened on; bases: { path: text the change was made on }.
+// If someone published one of the same files elsewhere in the meantime, nothing is written and
+// an error with code 'stale' and the paths is thrown (force: publish anyway).
+export async function publish({ changes, uploads, message, onStep, since, bases = {}, force = false }) {
   if (DEMO) { for (let i = 0; i <= 10; i++) { onStep && onStep(i / 10); await new Promise((r) => setTimeout(r, 120)); } return 'demo'; }
   const R = `/repos/${REPO.owner}/${REPO.name}`;
   const ref = await gh(`${R}/git/ref/heads/${REPO.branch}`);
   const head = ref.object.sha;
+  if (!force && since && head !== since) {
+    const norm = (txt) => { try { return JSON.stringify(JSON.parse(txt)); } catch (e) { return txt == null ? null : String(txt); } };
+    const now = async (path) => { try { const f = await gh(`${R}/contents/${path.split('/').map(encodeURIComponent).join('/')}?ref=${head}`); return new TextDecoder().decode(Uint8Array.from(atob(f.content.replace(/\s/g, '')), (c) => c.charCodeAt(0))); } catch (e) { if (e.code === 404) return null; throw e; } };
+    const stale = [];
+    for (const c of changes) if (norm(await now(c.path)) !== norm(bases[c.path] == null ? null : bases[c.path])) stale.push(c.path);
+    if (stale.length) throw Object.assign(new Error('stale'), { code: 'stale', paths: stale });
+  }
   const base = await gh(`${R}/git/commits/${head}`);
   const tree = [], steps = uploads.length + 3; let step = 0;
   const tick = () => onStep && onStep(++step / steps);
@@ -107,6 +117,18 @@ export async function publish({ changes, uploads, message, onStep }) {
   const nc = await gh(`${R}/git/commits`, { method: 'POST', body: JSON.stringify({ message, tree: nt.sha, parents: [head] }) }); tick();
   await gh(`${R}/git/refs/heads/${REPO.branch}`, { method: 'PATCH', body: JSON.stringify({ sha: nc.sha }) }); tick();
   return nc.sha;
+}
+
+// waits until melisragusin.com is built from this commit (the build writes /build.json); resolves true or false
+export async function waitLive(sha, { every = 8000, max = 9 * 60000 } = {}) {
+  if (DEMO || !sha) return false;
+  const site = /melisragusin\.com$/.test(location.hostname) ? '' : 'https://melisragusin.com';
+  const t0 = Date.now();
+  while (Date.now() - t0 < max) {
+    await new Promise((r) => setTimeout(r, every));
+    try { const b = await (await fetch(`${site}/build.json?t=${Date.now()}`, { cache: 'no-store' })).json(); if (b.commit === sha) return true; } catch (e) {}
+  }
+  return false;
 }
 const toBase64 = (blob) => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
 

@@ -143,3 +143,6 @@ console.log(`build: ${ORDER.length} projects, ${JOURNAL.length} journal entries,
 
 /* ---------- PUBLISHED SITE (dist/): old addresses, SEO, sitemap, redirects — see seo.mjs ---------- */
 await import('./seo.mjs');
+
+/* ---------- which commit this build shows (the Studio waits for it to say "live") ---------- */
+writeFileSync('dist/build.json', JSON.stringify({ commit: process.env.COMMIT_REF || '', at: new Date().toISOString() }) + '\n');

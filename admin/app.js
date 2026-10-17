@@ -74,9 +74,9 @@ let saveT;
 function touch() {
   clearTimeout(saveT);
   saveT = setTimeout(async () => {
-    const docs = {}; changes().forEach((c) => { docs[c.path] = c.text == null ? null : JSON.parse(c.text); });
+    const docs = {}, from = {}; changes().forEach((c) => { docs[c.path] = c.text == null ? null : JSON.parse(c.text); from[c.path] = S.base[c.path] == null ? null : S.base[c.path]; });
     const ups = {}; Object.entries(S.uploads).forEach(([p, u]) => { if (!u.published && u.files.length) ups[p] = { files: u.files }; });
-    await B.draftSave('state', { docs, uploads: ups, at: Date.now() });
+    await B.draftSave('state', { docs, from, uploads: ups, at: Date.now() });
   }, 350);
   topbar();
   actionBar();
@@ -117,6 +117,7 @@ function topbar() {
     <div class="tools">
       <a class="icon site" href="${SITE}" target="_blank" rel="noopener" title="${t('viewSite')}" aria-label="${t('viewSite')}">${I.ext}</a>
       <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="${getLang() === 'en'}">EN</button><button type="button" data-lang="tr" aria-pressed="${getLang() === 'tr'}">TR</button></div>
+      ${S.live === 'wait' ? `<span class="live" title="${t('updating')}"><span>${t('updating')}</span></span>` : S.live === 'done' ? `<a class="live on" href="${SITE}" target="_blank" rel="noopener" title="${t('liveShort')}"><span>${t('liveShort')}</span></a>` : ''}
       <button class="btn gold sm pub" type="button" data-act="publish"${n ? '' : ' hidden'}><span class="lbl">${t('publish')}</span>${n ? `<span class="n">${n}</span>` : ''}</button>
       <button class="me" type="button" data-act="menu" aria-label="${esc(S.user ? S.user.name : '')}">${S.user && S.user.avatar ? `<img src="${esc(S.user.avatar)}" alt="">` : ''}</button>
     </div>`;
@@ -170,36 +171,96 @@ async function addVideo(file, name, maxMB = 40) {
   return r.path;
 }
 
-/* drag to reorder — mouse, pen and touch. axis: 'x' for a row of pictures, 'y' for a list */
-function sortable(list, itemSel, { handle, axis = 'y', onMove }) {
+/* drag to reorder — mouse, pen and touch.
+   axis: 'x' for a row of pictures, 'y' for a list, 'grid' for cards in rows.
+   press: the items are links in a page that scrolls — with a finger they are picked up by holding them a moment
+   (a quick swipe still scrolls the page and a tap still opens the item). */
+let holding = false; // an item is held by a finger: the page must not scroll under it
+function sortable(list, itemSel, { handle, axis = 'y', press = false, onMove }) {
+  list.addEventListener('dragstart', (e) => e.preventDefault()); // links and pictures must not start the browser's own drag
+  // phones decide at the first touch whether a page may hold its scrolling back, so this listener is always there
+  list.addEventListener('touchmove', (e) => { if (holding && e.cancelable) e.preventDefault(); }, { passive: false });
   list.addEventListener('pointerdown', (e) => {
     const h = handle ? e.target.closest(handle) : e.target.closest(itemSel);
     if (!h || !list.contains(h) || e.button > 0) return;
-    if (!handle && e.target.closest('button,input,textarea,a')) return;
+    if (!handle && e.target.closest('button,input,textarea,select' + (press ? '' : ',a'))) return;
     const item = h.closest(itemSel); if (!item || item.parentNode !== list) return;
     const items = () => $$(itemSel, list).filter((x) => x.parentNode === list);
-    const from = items().indexOf(item);
-    let started = false; const x0 = e.clientX, y0 = e.clientY;
-    const move = (ev) => {
-      if (!started) { if (Math.hypot(ev.clientX - x0, ev.clientY - y0) < 6) return; started = true; item.classList.add('sortghost'); document.body.style.userSelect = 'none'; }
-      ev.preventDefault();
-      const over = document.elementFromPoint(ev.clientX, ev.clientY), tgt = over && over.closest(itemSel);
-      if (!tgt || tgt === item || tgt.parentNode !== list) return;
+    const from = items().indexOf(item), finger = press && e.pointerType !== 'mouse';
+    let started = false, armed = !finger, lx = e.clientX, ly = e.clientY, raf = 0, timer = 0; const x0 = e.clientX, y0 = e.clientY;
+    const place = () => {
+      const over = document.elementFromPoint(lx, ly);
+      let tgt = over && over.closest(itemSel);
+      // over the top bar, the bottom bar or a gap: the nearest item takes the place (so the ends are reachable too)
+      if (!tgt || tgt.parentNode !== list) {
+        let best = Infinity; tgt = null;
+        for (const el of items()) {
+          const r = el.getBoundingClientRect();
+          const dx = lx < r.left ? r.left - lx : lx > r.right ? lx - r.right : 0, dy = ly < r.top ? r.top - ly : ly > r.bottom ? ly - r.bottom : 0;
+          const d = axis === 'y' ? dy : axis === 'x' ? dx : Math.hypot(dx, dy * 2);
+          if (d < best) { best = d; tgt = el; }
+        }
+      }
+      if (!tgt || tgt === item) return;
       const r = tgt.getBoundingClientRect();
-      const after = axis === 'x' ? ev.clientX > r.left + r.width / 2 : ev.clientY > r.top + r.height / 2;
+      const after = axis === 'y' ? ly > r.top + r.height / 2 : lx > r.left + r.width / 2;
       list.insertBefore(item, after ? tgt.nextSibling : tgt);
     };
-    const up = () => {
-      removeEventListener('pointermove', move); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
-      document.body.style.userSelect = '';
+    // near the top or bottom of the screen the page scrolls by itself, so an item can be carried past the screen
+    const edge = () => {
+      raf = 0; if (!started || axis === 'x') return;
+      // the edges are those of the part not covered by the top bar and the bars at the bottom
+      let top = 0, bot = innerHeight;
+      const tb = $('#top'); if (tb) top = Math.max(0, tb.getBoundingClientRect().bottom);
+      $$('.act, .nav').forEach((el) => { const r = el.getBoundingClientRect(); if (r.height && getComputedStyle(el).position === 'fixed' && r.top > innerHeight / 2) bot = Math.min(bot, r.top); });
+      // only towards the edge the item is being carried to (picking one up near an edge does not scroll)
+      const m = Math.min(80, (bot - top) * 0.15), d = ly < top + m && ly < y0 - 24 ? ly - (top + m) : ly > bot - m && ly > y0 + 24 ? ly - (bot - m) : 0;
+      if (!d) return;
+      const v = Math.sign(d) * Math.min(32, 3 + Math.abs(d) / 3.5); // faster the closer to (or past) the edge
+      const y = scrollY; scrollBy(0, Math.round(v)); if (scrollY !== y) place();
+      raf = requestAnimationFrame(edge);
+    };
+    const begin = () => { started = true; item.classList.add('sortghost'); document.body.classList.add('sorting'); };
+    if (finger) timer = setTimeout(() => { armed = true; holding = true; item.classList.add('lift'); try { navigator.vibrate && navigator.vibrate(12); } catch (x) {} }, 320);
+    const move = (ev) => {
+      lx = ev.clientX; ly = ev.clientY;
+      if (!armed) { if (Math.hypot(lx - x0, ly - y0) > 8) end(); return; } // a swipe: the page scrolls as usual
+      if (!started) { if (!finger && Math.hypot(lx - x0, ly - y0) < 6) return; begin(); }
+      ev.preventDefault();
+      place();
+      if (!raf) raf = requestAnimationFrame(edge);
+    };
+    // the click that follows a drag (or a long hold) must not open the item
+    const eat = () => { const stop = (ev) => { ev.preventDefault(); ev.stopPropagation(); }; addEventListener('click', stop, true); setTimeout(() => removeEventListener('click', stop, true), 400); };
+    const end = () => {
+      clearTimeout(timer);
+      removeEventListener('pointermove', move); removeEventListener('pointerup', end); removeEventListener('pointercancel', end); holding = false;
+      if (raf) cancelAnimationFrame(raf); raf = 0;
+      document.body.classList.remove('sorting'); item.classList.remove('lift', 'sortghost');
+      if (finger && armed) eat();
       if (!started) return;
-      item.classList.remove('sortghost'); item.dataset.dragged = '1';
+      started = false; eat();
+      item.dataset.dragged = '1';
       const to = items().indexOf(item); if (to !== from) onMove(from, to);
     };
-    addEventListener('pointermove', move, { passive: false }); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+    addEventListener('pointermove', move, { passive: false }); addEventListener('pointerup', end); addEventListener('pointercancel', end);
   });
 }
 const moveIn = (arr, from, to) => { const [x] = arr.splice(from, 1); arr.splice(to, 0, x); };
+// works and stories are ordered by their "order" number. After a drag only the moved one gets a new number,
+// between its new neighbours, so a single file is published; if the numbers leave no room, all are numbered again.
+function reorder(all, shown, from, to) {
+  const moved = shown[from], seq = shown.slice(); moveIn(seq, from, to);
+  const slots = shown.map((d) => all.indexOf(d)).sort((a, b) => a - b), next = all.slice();
+  slots.forEach((k, i) => { next[k] = seq[i]; });
+  const k = next.indexOf(moved), num = (d) => +d.order || 0;
+  const before = next[k - 1], after = next[k + 1];
+  const fits = (x) => (!before || num(before) < x) && (!after || x < num(after)) && Number.isFinite(x);
+  let x = !before ? num(after) - 1 : !after ? num(before) + 1 : Math.round((num(before) + num(after)) / 2 * 1000) / 1000;
+  if (fits(x)) moved.order = x;
+  else next.forEach((d, i) => { if (+d.order !== i) d.order = i; });
+  touch();
+}
 
 /* =========================================================
    WORKS
@@ -221,11 +282,12 @@ function viewWorks() {
       ${filt.cat !== 'hidden' ? `<a class="card new" href="#/new-work"><div class="im"><div class="plus"><i>+</i><span class="k">${t('newWork')}</span></div></div></a>` : ''}
       ${list.map((w) => {
         const p = pPath(w.id), c = cover(w);
-        return `<a class="card${w.removed ? ' hid' : ''}" href="#/work/${encodeURIComponent(w.id)}"><div class="im">${c ? `<img src="${esc(img(c, 480))}" alt="" loading="lazy" decoding="async">` : ''}
+        return `<a class="card${w.removed ? ' hid' : ''}" data-id="${esc(w.id)}" draggable="false" href="#/work/${encodeURIComponent(w.id)}"><div class="im">${c ? `<img src="${esc(img(c, 480))}" alt="" loading="lazy" decoding="async" draggable="false">` : ''}
           <span class="tags">${isDirty(p) ? `<span class="tag gold">${S.base[p] == null ? t('draft') : t('edited')}</span>` : ''}${w.status ? `<span class="tag">${esc(w.status)}</span>` : ''}${w.removed ? `<span class="tag dim">${t('hidden')}</span>` : ''}</span></div>
           <span class="t">${esc(w.title || '—')}</span><span class="m"><b>${esc(w.year)}</b> · ${catName(w.cat)}</span></a>`;
       }).join('')}
     </div>${list.length ? '' : `<p class="empty">${t('nothing')}</p>`}`;
+  sortable($('#grid'), '.card[data-id]', { axis: 'grid', press: true, onMove: (a, b) => { reorder(all, list, a, b); viewWorks(); } });
   $$('[data-cat]').forEach((b) => b.onclick = () => { filt.cat = b.dataset.cat; viewWorks(); });
   const q2 = $('#q'); q2.oninput = () => { filt.q = q2.value; const pos = q2.selectionStart; viewWorks(); const n = $('#q'); n.focus(); n.setSelectionRange(pos, pos); };
 }
@@ -483,9 +545,10 @@ function viewJournal() {
   const list = stories();
   app.innerHTML = `
     <div class="head"><div><div class="k kl">${t('studio')}</div><h1>${t('journal')}</h1><p>${t('journalLead')}</p></div><button class="btn sm gold" type="button" data-act="new">${I.plus}${t('newStory')}</button></div>
-    <div class="jl">${list.map((a) => `<a class="jr" href="#/story/${encodeURIComponent(a.id)}"><div class="pic">${a.hero ? `<img src="${esc(img(a.hero, 480))}" alt="" loading="lazy">` : ''}</div>
+    <div class="jl" id="jl">${list.map((a) => `<a class="jr" draggable="false" href="#/story/${encodeURIComponent(a.id)}"><div class="pic">${a.hero ? `<img src="${esc(img(a.hero, 480))}" alt="" loading="lazy" draggable="false">` : ''}</div>
       <div><b>${esc(a.title || '—')}</b><span>${esc(a.date)}${a.category ? ' · ' + esc(a.category) : ''}</span></div>
       <span class="k">${isDirty(jPath(a.id)) ? `<span class="tag gold">${S.base[jPath(a.id)] == null ? t('draft') : t('edited')}</span>` : '→'}</span></a>`).join('')}</div>`;
+  sortable($('#jl'), '.jr', { press: true, onMove: (x, y) => { reorder(list, list, x, y); viewJournal(); } });
   $('[data-act="new"]').onclick = () => {
     let n = 1, id; do { id = `new-story-${n++}`; } while (S.docs[jPath(id)] !== undefined || S.base[jPath(id)] != null);
     const minO = Math.min(0, ...list.map((a) => +a.order || 0));
@@ -581,21 +644,44 @@ function publishDialog() {
         const ch = changes().map((c) => ({ path: c.path, text: c.text == null ? null : JSON.stringify(clean(JSON.parse(c.text)), null, 2) + '\n' }));
         const ups = usedUploads(ch);
         const names = ch.map((c) => { const m = c.path.match(/\/([^/]+)\.json$/); return m ? m[1] : c.path; });
-        try {
-          await B.publish({ changes: ch, uploads: ups, message: `Studio: ${names.slice(0, 4).join(', ')}${names.length > 4 ? ` +${names.length - 4}` : ''}`, onStep: (f) => { prog.firstChild.style.width = Math.round(f * 100) + '%'; } });
+        const bases = {}; ch.forEach((c) => { bases[c.path] = S.base[c.path] == null ? null : S.base[c.path]; });
+        const go = async (force) => {
+          const sha = await B.publish({ changes: ch, uploads: ups, since: S.head, bases, force, message: `Studio: ${names.slice(0, 4).join(', ')}${names.length > 4 ? ` +${names.length - 4}` : ''}`, onStep: (f) => { prog.firstChild.style.width = Math.round(f * 100) + '%'; } });
           // what is now published becomes the new starting point
+          S.head = sha;
           ch.forEach((c) => { if (c.text == null) { delete S.base[c.path]; delete S.docs[c.path]; } else { S.base[c.path] = c.text; S.docs[c.path] = JSON.parse(c.text); } });
           Object.values(S.uploads).forEach((u) => { u.published = true; });
           S.restored = false; touch(); close(); render(); toast(t('pubDone'));
-        } catch (err) {
+          live(sha);
+        };
+        try { await go(false); }
+        catch (err) {
           btn.disabled = false; btn.textContent = t('pubNow'); prog.hidden = true;
           if (err.code === 401) { toast(t('signInFailed'), true); gate(); return; }
+          if (err.code === 'stale') {
+            close();
+            const what = err.paths.map((p) => label({ path: p })).join(', ');
+            const ok = await confirmBox(t('staleQ', { x: what }), t('getLatest'));
+            // the changes are kept: the ones made on an older version are set aside when the newest is loaded
+            if (ok) { await new Promise((r) => setTimeout(r, 450)); S.uploads = {}; S.restored = false; await start(); }
+            return;
+          }
           toast(t('pubFailed', { e: err.message }), true);
         }
       };
     } });
 }
 const clean = (o) => { if (o && typeof o === 'object') delete o._new; return o; };
+// after publishing, the top bar shows "Updating the site…" until melisragusin.com is built from it
+let liveRun = 0;
+async function live(sha) {
+  const run = ++liveRun; S.live = 'wait'; topbar();
+  const ok = await B.waitLive(sha);
+  if (run !== liveRun) return;
+  S.live = ok ? 'done' : ''; topbar();
+  if (ok) { toast(t('isLive')); setTimeout(() => { if (run === liveRun) { S.live = ''; topbar(); } }, 12000); }
+  else if (sha !== 'demo') toast(t('liveSlow'));
+}
 function resetDocs() { S.docs = {}; for (const [p, txt] of Object.entries(S.base)) S.docs[p] = JSON.parse(txt); }
 
 /* =========================================================
@@ -643,14 +729,20 @@ async function start() {
   const ld = $('#loading'); ld.classList.remove('done');
   try {
     const d = await B.loadAll();
-    S.user = d.user; S.base = {};
+    S.user = d.user; S.head = d.head; S.base = {};
     for (const [p, txt] of Object.entries(d.files)) { try { S.base[p] = ser(JSON.parse(txt)); } catch (e) {} }
     resetDocs();
     // unpublished changes from an earlier visit
     const saved = await B.draftLoad('state');
     if (saved && saved.docs) {
-      let any = false;
-      for (const [p, v] of Object.entries(saved.docs)) { S.docs[p] = v; any = true; }
+      let any = false, old = 0;
+      for (const [p, v] of Object.entries(saved.docs)) {
+        // a change made on a version that has since been replaced (published from another device or browser)
+        // is set aside, so it can never bring the older version back
+        if (saved.from && p in saved.from && (saved.from[p] == null ? null : saved.from[p]) !== (S.base[p] == null ? null : S.base[p])) { old++; continue; }
+        S.docs[p] = v; any = true;
+      }
+      if (old) setTimeout(() => toast(t('draftOld')), 900);
       for (const [p, u] of Object.entries(saved.uploads || {})) {
         (u.files || []).forEach((f) => { if (!S.uploads[f.path]) S.uploads[f.path] = { files: f.path === p ? u.files : [], url: URL.createObjectURL(f.blob) }; });
         if (S.uploads[p]) S.uploads[p].files = u.files;
@@ -687,7 +779,13 @@ document.addEventListener('click', async (e) => {
     setTimeout(() => document.addEventListener('click', function off(ev) { if (!m.contains(ev.target)) { m.remove(); document.removeEventListener('click', off); } }), 0);
   }
 });
-addEventListener('hashchange', () => { if (!document.body.classList.contains('gated')) render(); });
+// each page opens at its top; going back to a list returns to where it was left
+const scrolls = {}; let lastHash = location.hash;
+addEventListener('hashchange', () => {
+  scrolls[lastHash] = scrollY; lastHash = location.hash;
+  if (document.body.classList.contains('gated')) return;
+  render(); scrollTo(0, scrolls[location.hash] || 0);
+});
 addEventListener('beforeunload', (e) => { if (changes().length) { e.preventDefault(); e.returnValue = t('leave'); } });
 
 setLang(getLang());

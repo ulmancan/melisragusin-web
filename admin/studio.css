@@ -132,6 +132,9 @@ main{padding:clamp(28px,5vh,56px) var(--gx) 140px;max-width:1500px;margin:0 auto
 .drop svg{width:20px;height:20px}
 .hint{font-size:12.5px;color:var(--faint);line-height:1.7;margin-top:10px}
 .sortghost{opacity:.35}
+.sorting,.sorting *{-webkit-user-select:none;user-select:none;cursor:grabbing}
+.lift{transform:scale(.97);transition:transform .2s var(--ease)}
+.grid .card,.jl .jr,.card img,.jr img{-webkit-touch-callout:none;-webkit-user-drag:none;-webkit-user-select:none;user-select:none}
 .dragging{position:fixed!important;z-index:999;pointer-events:none;box-shadow:0 20px 50px -10px #000,0 0 0 1px var(--gold)!important;opacity:.95}
 
 /* form */
@@ -336,3 +339,11 @@ details.more>div{display:grid;gap:22px;padding:8px 0 4px}
 .gated .top{display:none}
 /* iPhone zooms the page into any field smaller than 16px: fields stay 16px on touch screens */
 @media (hover:none){.search input,.fact input,.in{font-size:16px}.fact input:first-child{font-size:16px;letter-spacing:.06em}}
+
+/* after publishing: the site is being updated / is live */
+.live{display:inline-flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);animation:livepulse 1.4s ease-in-out infinite}
+.live.on{color:var(--gold)}
+.live.on::before{animation:none;box-shadow:0 0 0 3px rgba(198,168,112,.18)}
+@keyframes livepulse{50%{opacity:.25}}
+@media (max-width:760px){.live span{display:none}}
