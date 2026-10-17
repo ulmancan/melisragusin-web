@@ -1,21 +1,21 @@
 {
-  "id": "red-2022",
-  "order": 50,
-  "title": "Red",
-  "year": "2022",
-  "cat": "Mixed-Media",
-  "medium": "Mixed media on canvas",
   "meta": [
     "Dimensions: 120 × 150 cm",
     "Edition: N/A",
     "Framing: Set in custom black wood frame"
   ],
-  "video": "",
+  "order": 50,
   "statement": "Red is a tactile exploration of tension, memory, and material transformation. A vivid red cloth—twisted, folded, and fossilized in epoxy and plaster—floats between two plexiglass layers, casting shadows onto a golden, shimmering MDF base.\n\nThe work's symmetrical square format invites balance, yet the chaotic energy of the fabric's form disrupts any sense of stillness. The use of reclaimed materials adds a layer of history and human presence, while the transparent casing preserves the raw expression like a contemporary relic. Bold yet vulnerable, Red speaks to beauty shaped under pressure.",
+  "medium": "Mixed media on canvas",
+  "cat": "Mixed-Media",
+  "seo_title": "Red - 2022 - Melis Ragusin Art",
+  "title": "Red TEST",
   "images": [
     "assets/wp/2025/05/red_2022.webp",
     "assets/wp/2025/05/red.webp"
   ],
-  "seo_title": "Red - 2022 - Melis Ragusin Art",
-  "seo_description": "Red is a tactile exploration of tension, memory, and material transformation. A vivid red cloth—twisted, folded, and fossilized in epoxy and plaster—floats"
+  "seo_description": "Red is a tactile exploration of tension, memory, and material transformation. A vivid red cloth—twisted, folded, and fossilized in epoxy and plaster—floats",
+  "video": "",
+  "id": "red-2022",
+  "year": "2022"
 }
