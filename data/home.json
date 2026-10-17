@@ -1,6 +1,10 @@
 {
   "series": [
     {
+      "work": "fragments-still-2026",
+      "name": "Fragments"
+    },
+    {
       "work": "illusion-series-2024",
       "name": "Illusion",
       "medium": "New-Media Works",
@@ -13,13 +17,6 @@
       "medium": "New-Media · Motion Art",
       "image": "assets/wp/2025/09/27528_sml.jpg",
       "text": "The emotional state of being in between — in motion, not fixed. Presence isn't still; it flickers, fades, returns."
-    },
-    {
-      "work": "find-yourself-series-2023",
-      "name": "Find Yourself",
-      "medium": "New-Media Works",
-      "image": "assets/wp/2025/04/FindYourself-39.webp",
-      "text": "A series centered on self-discovery and identity — a continuous journey marked by both challenges and quiet moments of reflection."
     },
     {
       "work": "hidden-tears-2025",
