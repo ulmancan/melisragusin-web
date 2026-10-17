@@ -232,6 +232,11 @@ details.more>div{display:grid;gap:22px;padding:8px 0 4px}
 .ser .hd svg{width:16px;height:16px}
 .ser .fl{display:grid;gap:12px}
 .ser .fl .row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.ser .in.tt{font-family:var(--serif);font-size:26px;line-height:1.2;padding-top:2px}
+.ser .wk{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--soft)}
+.ser .wk b{font-weight:400}
+.ser .wk .k + .link{margin-left:auto}
+.ser .wk .link + .link{margin-left:14px}
 
 /* ---------- journal ---------- */
 .jl{display:grid;border-top:1px solid var(--line)}
@@ -347,3 +352,15 @@ details.more>div{display:grid;gap:22px;padding:8px 0 4px}
 .live.on::before{animation:none;box-shadow:0 0 0 3px rgba(198,168,112,.18)}
 @keyframes livepulse{50%{opacity:.25}}
 @media (max-width:760px){.live span{display:none}}
+
+/* virtual gallery: works of the hall's category that are not in it yet; a size the site cannot read */
+.miss{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:22px 0 4px;padding:14px 16px;border:1px dashed var(--line);border-radius:3px}
+.miss .k{margin-right:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border:1px solid var(--line);border-radius:30px;font-size:12px;color:var(--soft);transition:border-color .3s,color .3s}
+.chip svg{width:11px;height:11px}
+@media (hover:hover){.chip:hover{border-color:var(--gold);color:var(--gold)}}
+.f .err{display:none;font-size:12px;color:#d98a7a}
+.f.bad .err{display:block}
+.f.bad .in{border-color:#d98a7a}
+.seg button:disabled{opacity:.3;cursor:not-allowed}
+.slot .nm .tag{display:inline-flex;margin:6px 0 0;letter-spacing:.2em}

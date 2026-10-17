@@ -140,9 +140,9 @@ const confirmBox = (text, yes, danger) => new Promise((res) => {
     foot: `<button class="btn sm" data-close>${t('cancel')}</button><button class="btn sm ${danger ? 'danger' : 'solid'}" data-yes>${esc(yes)}</button>`,
     onOpen: (v, close) => { v.querySelector('[data-yes]').onclick = () => { close(); res(true); }; v.addEventListener('click', (e) => { if (e.target.closest('[data-close]') || e.target === v) res(false); }); } });
 });
-function pickWork({ cat, exclude = [], title }) {
+function pickWork({ cat, exclude = [], only, title }) {
   return new Promise((res) => {
-    const list = projects().filter((w) => !w.removed && (!cat || w.cat === cat));
+    const list = only ? only.map(work).filter((w) => w && !w.removed) : projects().filter((w) => !w.removed && (!cat || w.cat === cat));
     dialog({ title: title || t('chooseWork'),
       body: `<div class="pick">${list.map((w) => `<button type="button" data-id="${esc(w.id)}" class="${exclude.includes(w.id) ? 'in-hall' : ''}"><div class="im">${cover(w) ? `<img src="${esc(img(cover(w), 480))}" alt="" loading="lazy">` : ''}</div><b>${esc(w.title)}</b><span>${esc(w.year)}${exclude.includes(w.id) ? ' · ' + t('inHall') : ''}</span></button>`).join('')}</div>`,
       onOpen: (v, close) => { v.querySelector('.pick').addEventListener('click', (e) => { const b = e.target.closest('[data-id]'); if (!b) return; close(); res(b.dataset.id); }); v.addEventListener('click', (e) => { if (e.target === v || e.target.closest('[data-close]')) res(null); }); } });
@@ -449,43 +449,52 @@ function viewGallery(hid) {
   const g = gallery(), H = HALLS.find((h) => h.id === hid) || HALLS[0], hall = g[H.id] || (g[H.id] = { works: [] });
   hall.works = hall.works || [];
   const items = hall.works.filter((x) => work(x.work));
-  const door = work(hall.door) || (items[0] && work(items[0].work));
+  // what the site shows: works that are not hidden; the door is one of them (else the first)
+  const shown = items.filter((x) => !work(x.work).removed);
+  const door = (shown.some((x) => x.work === hall.door) && work(hall.door)) || (shown[0] && work(shown[0].work));
+  const missing = projects().filter((w) => !w.removed && w.cat === H.cat && !items.some((x) => x.work === w.id));
   app.innerHTML = `
     <div class="head"><div><div class="k kl">${t('studio')}</div><h1>${t('gallery')}</h1><p>${t('galleryLead')}</p></div><a class="btn sm" href="${SITE}/#${H.id}" target="_blank" rel="noopener">${I.ext}${t('viewSite')}</a></div>
-    <div class="halls" role="group">${HALLS.map((h) => `<button type="button" class="hall" data-hall="${h.id}" aria-pressed="${h.id === H.id}" style="--c:${h.c}"><span class="gl"></span><i>${h.n}</i><b lang="en">${t(h.key)}</b><span>${t('worksIn', { n: ((g[h.id] && g[h.id].works) || []).filter((x) => work(x.work)).length })}</span></button>`).join('')}</div>
+    <div class="halls" role="group">${HALLS.map((h) => `<button type="button" class="hall" data-hall="${h.id}" aria-pressed="${h.id === H.id}" style="--c:${h.c}"><span class="gl"></span><i>${h.n}</i><b lang="en">${t(h.key)}</b><span>${t('worksIn', { n: ((g[h.id] && g[h.id].works) || []).filter((x) => work(x.work) && !work(x.work).removed).length })}</span></button>`).join('')}</div>
     <div class="door"><div class="pic">${door && cover(door) ? `<img src="${esc(img(cover(door), 480))}" alt="">` : ''}</div>
-      <div><div class="k">${t('door')}</div><div class="nm">${esc(door ? door.title : '—')}${!hall.door ? ` <span class="muted" style="font-size:14px;font-family:var(--sans)">· ${t('firstWork')}</span>` : ''}</div>
+      <div><div class="k">${t('door')}</div><div class="nm">${esc(door ? door.title : '—')}${!(door && door.id === hall.door) ? ` <span class="muted" style="font-size:14px;font-family:var(--sans)">· ${t('firstWork')}</span>` : ''}</div>
       <button class="btn sm" type="button" data-act="door">${t('change')}</button><p class="hint">${t('doorHelp')}</p></div></div>
     ${H.id === 'mixed' ? `<p class="hint" style="margin-top:18px">${t('soldNote')}</p>` : ''}
-    <div class="plan" id="plan">${items.map((x, k) => slot(H, x, k)).join('')}</div>
+    ${missing.length ? `<div class="miss"><span class="k">${t('notInHall')}</span>${missing.map((w) => `<button type="button" class="chip" data-addw="${esc(w.id)}">${I.plus}${esc(w.title)}</button>`).join('')}</div>` : ''}
+    <div class="plan" id="plan">${items.map((x, k) => slot(H, x, k, items)).join('')}</div>
     <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap"><button class="btn sm gold" type="button" data-act="add">${I.plus}${t('addToHall')}</button></div>
     <p class="hint">${t('wallHelp')}</p>`;
   $$('[data-hall]').forEach((b) => b.onclick = () => { location.hash = '#/gallery/' + b.dataset.hall; });
-  $('[data-act="door"]').onclick = async () => { const id = await pickWork({ cat: H.cat }); if (!id) return; hall.door = id; touch(); viewGallery(H.id); };
+  $('[data-act="door"]').onclick = async () => { const id = await pickWork({ only: shown.map((x) => x.work) }); if (!id) return; hall.door = id; touch(); viewGallery(H.id); };
+  const addTo = (id) => { const e = { work: id, wall: 'otomatik' }; if (H.id === 'motion') e.orientation = 'portrait'; hall.works.push(e); touch(); viewGallery(H.id); };
+  $$('[data-addw]').forEach((b) => b.onclick = () => addTo(b.dataset.addw));
   $('[data-act="add"]').onclick = async () => {
     const id = await pickWork({ cat: H.cat, exclude: items.map((x) => x.work) }); if (!id || items.some((x) => x.work === id)) return;
-    const e = { work: id, wall: 'otomatik' }; if (H.id === 'motion') e.orientation = 'portrait';
-    hall.works.push(e); touch(); viewGallery(H.id);
+    addTo(id);
   };
   const plan = $('#plan');
   plan.addEventListener('click', async (e) => {
     const s = e.target.closest('.slot'); if (!s) return; const x = items[+s.dataset.k];
     const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.wall) { x.wall = b.dataset.wall; touch(); viewGallery(H.id); }
+    if (b.dataset.wall) { if (b.disabled) return; x.wall = b.dataset.wall; touch(); viewGallery(H.id); }
     else if (b.dataset.or) { x.orientation = b.dataset.or; touch(); viewGallery(H.id); }
-    else if (b.dataset.act === 'rm') { hall.works.splice(hall.works.indexOf(x), 1); touch(); viewGallery(H.id); }
+    else if (b.dataset.act === 'rm') { hall.works.splice(hall.works.indexOf(x), 1); if (hall.door === x.work) delete hall.door; touch(); viewGallery(H.id); }
     else if (b.dataset.act === 'open') { const k = H.id + ':' + x.work; open.has(k) ? open.delete(k) : open.add(k); viewGallery(H.id); }
     else if (b.dataset.act === 'clip') { const [f] = await chooseFiles({ accept: 'video/mp4', multiple: false }); const p = await addVideo(f, x.work + '-gallery', 8); if (p) { x.video = p; touch(); viewGallery(H.id); } }
     else if (b.dataset.act === 'rmclip') { delete x.video; touch(); viewGallery(H.id); }
     else if (b.dataset.act === 'alt') { const files = await chooseFiles({ multiple: false }); const [p] = await addImages(files, x.work + '-gallery'); if (p) { x.image = p; touch(); viewGallery(H.id); } }
     else if (b.dataset.act === 'rmalt') { delete x.image; touch(); viewGallery(H.id); }
   });
-  plan.addEventListener('input', (e) => { const i = e.target.closest('[data-size]'); if (!i) return; const x = items[+i.closest('.slot').dataset.k]; if (i.value.trim()) x.size = i.value; else delete x.size; touch(); });
+  plan.addEventListener('input', (e) => { const i = e.target.closest('[data-size]'); if (!i) return; const x = items[+i.closest('.slot').dataset.k]; if (i.value.trim()) x.size = i.value; else delete x.size; i.closest('.f').classList.toggle('bad', !!i.value.trim() && !SIZE_RE.test(i.value)); touch(); });
   sortable(plan, '.slot', { handle: '.hd', onMove: (a, b) => { const A = hall.works.indexOf(items[a]), Bi = hall.works.indexOf(items[b]); moveIn(hall.works, A, Bi); touch(); viewGallery(H.id); } });
 }
 const dimsOf = (w) => { const m = ((w && w.meta) || []).find((x) => /^\s*dimensions?\s*:/i.test(x)); return m ? m.replace(/^[^:]*:\s*/, '').replace(/\s*cm\s*$/i, '') : ''; };
-function slot(H, x, k) {
+// the site reads a size as "width × height" (x, X, * also work); the end wall holds two (Motion) or three works
+const SIZE_RE = /(\d+(?:[.,]\d+)?)\s*[x×X*]\s*(\d+(?:[.,]\d+)?)/;
+const END_MAX = { motion: 2, new: 3, mixed: 3 };
+function slot(H, x, k, items = []) {
   const w = work(x.work), opened = open.has(H.id + ':' + x.work), wall = x.wall || 'otomatik';
+  const endFull = wall !== 'karşı' && items.filter((y) => y.wall === 'karşı' && work(y.work) && !work(y.work).removed).length >= END_MAX[H.id];
   const pic = x.image || cover(w);
   let extra = '';
   if (H.id === 'motion') extra = `
@@ -493,13 +502,13 @@ function slot(H, x, k) {
       <div class="f"><span class="lb">${t('clip')}</span>${x.video ? `<video src="${esc(S.uploads[x.video.replace(/^\/+/, '')] ? S.uploads[x.video.replace(/^\/+/, '')].url : '/' + x.video.replace(/^\/+/, ''))}" muted loop autoplay playsinline style="width:${(x.orientation || 'portrait') === 'portrait' ? 90 : 180}px;border-radius:2px"></video>` : ''}
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-act="clip">${I.up}${t('uploadVideo')}</button>${x.video ? `<button class="btn sm ghost danger" type="button" data-act="rmclip">${t('removeVideo')}</button>` : ''}</div><span class="help">${t('clipHelp')}</span></div>`;
   else extra = `
-      <div class="f"><label>${t('size')}</label><input class="in" data-size value="${esc(x.size)}" placeholder="${esc(dimsOf(w) || t('sizePh'))}"><span class="help">${t('sizeHelp')}</span></div>
+      <div class="f${x.size && !SIZE_RE.test(x.size) ? ' bad' : ''}"><label>${t('size')}</label><input class="in" data-size value="${esc(x.size)}" placeholder="${esc(dimsOf(w) || t('sizePh'))}"><span class="help">${t('sizeHelp')}</span><span class="err">${t('sizeBad')}</span></div>
       <div class="f"><span class="lb">${t('altImage')}</span><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-act="alt">${I.up}${t('choose')}</button>${x.image ? `<button class="btn sm ghost danger" type="button" data-act="rmalt">${t('remove')}</button>` : ''}</div><span class="help">${t('altImageHelp')}</span></div>`;
   return `<div class="slot${opened ? ' open' : ''}" data-k="${k}">
     <span class="hd" title="⇅">${I.grip}</span><span class="no">${k + 1}</span>
     <div class="pic">${pic ? `<img src="${esc(img(pic, 480))}" alt="">` : ''}</div>
-    <div class="nm"><b>${esc(w.title)}</b><span>${esc(w.year)}${x.size || dimsOf(w) ? ' · ' + esc(x.size || dimsOf(w)) + ' cm' : ''}${H.id === 'motion' ? ' · ' + t(x.orientation === 'landscape' ? 'landscape' : 'portrait') : ''}</span></div>
-    <div class="walls"><div class="seg">${WALLS.map(([v, l]) => `<button type="button" data-wall="${v}" aria-pressed="${wall === v}">${t(l)}</button>`).join('')}</div></div>
+    <div class="nm"><b>${esc(w.title)}</b>${w.removed ? ` <span class="tag dim">${t('hiddenNotShown')}</span>` : w.cat !== H.cat ? ` <span class="tag dim">${t('otherCat')}</span>` : ''}<span>${esc(w.year)}${x.size || dimsOf(w) ? ' · ' + esc(x.size || dimsOf(w)) + ' cm' : ''}${H.id === 'motion' ? ' · ' + t(x.orientation === 'landscape' ? 'landscape' : 'portrait') : ''}</span></div>
+    <div class="walls"><div class="seg">${WALLS.map(([v, l]) => `<button type="button" data-wall="${v}" aria-pressed="${wall === v}"${v === 'karşı' && endFull ? ` disabled title="${esc(t('endFull', { n: END_MAX[H.id] }))}"` : ''}>${t(l)}</button>`).join('')}</div></div>
     <div style="display:flex"><button class="icon" type="button" data-act="open" aria-label="…" aria-expanded="${opened}" style="transform:rotate(${opened ? 180 : 0}deg)">${I.more}</button></div>
     <div class="ex">${extra}<div><button class="btn sm ghost danger" type="button" data-act="rm">${I.x}${t('remove')}</button></div></div>
   </div>`;
@@ -535,15 +544,18 @@ function stripFrom(id) {
 }
 function viewHome() {
   const h = homeDoc(); h.series = h.series || [];
+  let filled = false;
+  h.series.forEach((s) => { const a = stripFrom(s.work); ['name', 'medium', 'text'].forEach((k) => { if (s[k] === undefined && a[k]) { s[k] = a[k]; filled = true; } }); });
+  if (filled) touch();
   app.innerHTML = `
     <div class="head"><div><div class="k kl">${t('studio')}</div><h1>${t('home')}</h1><p>${t('homeLead')}</p></div><a class="btn sm" href="${SITE}/home.html" target="_blank" rel="noopener">${I.ext}${t('viewSite')}</a></div>
     <div class="series" id="ser">${h.series.map((s, k) => { const w = work(s.work); const pic = s.image || cover(w); return `
       <div class="ser" data-k="${k}"><span class="hd">${I.grip}</span>
         <div class="pic">${pic ? `<img src="${esc(img(pic, 480))}" alt="">` : ''}<button type="button" data-act="img">${t('change')}</button></div>
         <div class="fl">
-          <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap"><b class="serif" style="font-size:24px;font-weight:400">${esc(w ? w.title : s.work)}</b><span class="k">${esc(w ? w.year : '')}</span><button class="link" type="button" data-act="work" style="margin-left:auto">${t('change')}</button></div>
-          <div class="row"><div class="f"><label>${t('shortName')}</label><input class="in" data-s="name" value="${esc(s.name)}" placeholder="${esc(w ? w.title : t('shortNamePh'))}"></div>
-          <div class="f"><label>${t('kind')}</label><input class="in" data-s="medium" value="${esc(s.medium)}" placeholder="${t('kindPh')}"></div></div>
+          <div class="f"><label>${t('titleOnHome')}</label><input class="in tt" data-s="name" value="${esc(s.name)}" placeholder="${esc(w ? w.title : t('shortNamePh'))}"></div>
+          <div class="wk"><span class="k">${t('linkedWork')}</span><b>${esc(w ? w.title : s.work)}</b><span class="k">${esc(w ? w.year : '')}</span>${w ? `<a class="link" href="#/work/${encodeURIComponent(w.id)}">${t('editWork')}</a>` : ''}<button class="link" type="button" data-act="work">${t('change')}</button></div>
+          <div class="f"><label>${t('kind')}</label><input class="in" data-s="medium" value="${esc(s.medium)}" placeholder="${t('kindPh')}"></div>
           <div class="f"><label>${t('text')}</label><textarea class="in" data-s="text" rows="2" style="min-height:70px">${esc(s.text)}</textarea></div>
           ${s.image && s.image !== cover(w) ? `<div><button class="link" type="button" data-act="rmimg">${t('useCover')}</button></div>` : ''}
         </div>
@@ -551,7 +563,11 @@ function viewHome() {
       </div>`; }).join('')}</div>
     <div style="margin-top:18px"><button class="btn sm gold" type="button" data-act="add">${I.plus}${t('addSeries')}</button></div>`;
   const box = $('#ser');
-  box.addEventListener('input', (e) => { const i = e.target.closest('[data-s]'); if (!i) return; const s = h.series[+i.closest('.ser').dataset.k]; if (i.value.trim()) s[i.dataset.s] = i.value; else delete s[i.dataset.s]; touch(); });
+  // the short text box grows with its text, so the whole text is always visible
+  const grow = (ta) => { ta.style.height = 'auto'; ta.style.height = Math.max(70, ta.scrollHeight + 2) + 'px'; };
+  $$('textarea[data-s]', box).forEach(grow);
+  box.addEventListener('input', (e) => { if (e.target.matches('textarea[data-s]')) grow(e.target); });
+  box.addEventListener('input', (e) => { const i = e.target.closest('[data-s]'); if (!i) return; const s = h.series[+i.closest('.ser').dataset.k]; s[i.dataset.s] = i.value.trim() ? i.value : ''; touch(); });
   box.addEventListener('click', async (e) => {
     const b = e.target.closest('button[data-act]'); if (!b) return; const s = h.series[+b.closest('.ser').dataset.k];
     if (b.dataset.act === 'rm') { h.series.splice(h.series.indexOf(s), 1); touch(); viewHome(); }
