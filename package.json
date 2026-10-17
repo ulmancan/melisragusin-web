@@ -1,0 +1,9 @@
+{
+  "name": "melisragusin-web",
+  "private": true,
+  "description": "melisragusin.com — static site. Netlify runs `node build.mjs`; sharp makes the light copies of the pictures.",
+  "dependencies": {
+    "netlify-plugin-cache": "1.0.3",
+    "sharp": "0.33.5"
+  }
+}

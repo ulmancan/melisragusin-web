@@ -119,8 +119,8 @@
   .bo-in{position:relative;height:auto;overflow:visible;display:grid}
   .bo-pic{position:relative;width:auto;height:78svh;transform:none!important}
   .bo-pic img{transform:none!important;object-position:58% 30%}
-  .bo-name{bottom:auto;top:calc(78svh - 210px);opacity:1!important;transform:none!important}
-  .bo-name .n1,.bo-name .n2{font-size:21vw}
+  .bo-name{bottom:auto;top:calc(78svh - min(33.6vw,240px) - 64px);opacity:1!important;transform:none!important}
+  .bo-name .n1,.bo-name .n2{font-size:min(21vw,150px)}
   .bo-text{position:relative;top:auto;width:auto;transform:none!important;opacity:1!important;padding-block:44px 20px}
   .bo-text .kick,.bo-h{display:none}
   .bo-cue{display:none}
@@ -130,7 +130,8 @@
   .bp-h{flex-direction:column;align-items:flex-start}
   .bp-h .kick{order:0}
   .bp-row{flex-direction:column;height:auto}
-  .bc{height:62svh;flex:none}
+  .bc{height:auto;min-height:62svh;flex:none;display:flex;align-items:flex-end}
+  .bc-t{position:relative;width:100%}
   .bc p,.bc .more{max-height:none;opacity:1;transform:none}
   .br,.br-two{grid-template-columns:1fr}
 }
@@ -139,6 +140,8 @@
   .bo-name .n1,.bo-name .n2{animation:none;opacity:1;transform:none}
 }
 
+@media (orientation:landscape) and (max-height:560px){.bo-name .n1,.bo-name .n2{font-size:min(15.5vw,23vh)}}
+@media (orientation:landscape) and (max-height:560px) and (max-width:899px){.bo-name{top:calc(78svh - 1.6 * min(15.5vw,23vh) - 64px)}}
 </style>
 </head>
 <body>

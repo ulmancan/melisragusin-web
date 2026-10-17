@@ -51,6 +51,7 @@
   .ac .m{font-size:9px;letter-spacing:.16em}
 }
 
+@media (hover:none){.ac .badge{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(0,0,0,.72)}}
 </style>
 </head>
 <body>
@@ -135,6 +136,7 @@
 </footer>
 <script src="assets/site.js"></script>
 <script src="data-projects.js"></script>
+<script src="data-img.js"></script>
 <script>
 (function () {
   'use strict';
@@ -160,11 +162,14 @@
     cats.innerHTML = CATS.map(function (c) { var n = count(c[0], fYear); return '<button type="button" data-c="' + c[0] + '" aria-pressed="' + (fCat === c[0]) + '"' + (n ? '' : ' disabled') + '>' + c[1] + '<sup>' + n + '</sup></button>'; }).join('');
     years.innerHTML = YEARS.map(function (y) { var n = count(fCat, y); return '<button type="button" data-y="' + y + '" aria-pressed="' + (fYear === y) + '"' + (n ? '' : ' disabled') + '>' + (y === 'all' ? 'All years' : y) + '<sup>' + n + '</sup></button>'; }).join('');
   }
+  function IA(u, s) { return window.mrImg ? window.mrImg.attrs(u, s) : ''; }
+  function FIT(u, w) { return window.mrImg ? window.mrImg.fit(u, w) : u; }
+  function AMB(u) { return (window.mrImg && window.mrImg.amb(u)) || ''; }
   function cover(p) { return /\.(mp4|webm)$/i.test(p.video || '') ? p.video.replace(/\.(mp4|webm)$/i, '.jpg') : (p.images[0] || ''); }
   function card(id, k) {
     var p = P[id], loop = /\.(mp4|webm)$/i.test(p.video || ''), film = !loop && !!p.video;
     return '<a class="ac rv" style="--vt:c' + k + ';transition-delay:' + Math.min(k % 8, 7) * 60 + 'ms" href="project.html?id=' + encodeURIComponent(id) + '"' + (loop ? ' data-v="' + esc(p.video.replace(/\.(mp4|webm)$/i, '')) + '"' : '') + '>'
-      + '<span class="im"><img src="' + esc(cover(p)) + '" alt="" loading="lazy" decoding="async">' + (p.status ? '<span class="badge">' + esc(p.status) + '</span>' : '') + '</span>'
+      + '<span class="im"><img src="' + esc(FIT(cover(p), 960)) + '"' + IA(cover(p), '(max-width:899px) 48vw, (max-width:1500px) 30vw, 420px') + ' alt="" loading="lazy" decoding="async">' + (p.status ? '<span class="badge">' + esc(p.status) + '</span>' : '') + '</span>'
       + '<span class="t">' + esc(p.title) + '<span class="ar" aria-hidden="true">&rarr;</span></span>'
       + '<span class="m"><b>' + esc(p.year) + '</b> · ' + esc(CATNAME[p.cat] || p.cat) + '</span></a>';
   }

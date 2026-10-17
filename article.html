@@ -18,6 +18,7 @@
 .at-hero{position:relative;min-height:100vh;min-height:100svh;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(30px,5vw,90px);align-items:center;padding-block:clamp(140px,19vh,190px) clamp(60px,9vh,100px);overflow:hidden;isolation:isolate}
 .at-amb{position:absolute;inset:-14%;z-index:-2;background-size:cover;background-position:center;filter:blur(90px) saturate(1.3) brightness(.55);opacity:0;transition:opacity 2.2s ease}
 .at-amb.on{opacity:.6}
+.at-amb.pre{filter:none}
 .at-hero::after{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 70% at 70% 50%,transparent,rgba(0,0,0,.4) 50%,#000 95%),linear-gradient(180deg,rgba(0,0,0,.6),transparent 25%,transparent 70%,#000)}
 .at-t{display:grid;gap:clamp(18px,3vh,26px);justify-items:start}
 .at-back{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);transition:color .4s}
@@ -163,6 +164,12 @@
 </footer>
 <script src="assets/site.js"></script>
 <script src="data-journal.js"></script>
+<script src="data-img.js"></script>
+<script>
+function IA(u, s) { return window.mrImg ? window.mrImg.attrs(u, s) : ''; }
+function FIT(u, w) { return window.mrImg ? window.mrImg.fit(u, w) : u; }
+function AMB(u) { return (window.mrImg && window.mrImg.amb(u)) || ''; }
+</script>
 <script>
 (function () {
   var J = window.JOURNAL || [], esc = mrEsc, d = document;
@@ -182,17 +189,17 @@
   var meta = [a.category, a.date, a.read].filter(Boolean).map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('');
   var link = function (b, k) { return '<a href="article.html?id=' + encodeURIComponent(b.id) + '"><span class="bg" style="background-image:url(\'' + esc(b.hero) + '\')"></span><span class="k">' + k + '</span><span class="tt">' + esc(b.title) + '</span></a>'; };
   d.getElementById('art').innerHTML =
-    '<section class="at-hero gx"><span class="at-amb" id="atAmb" style="background-image:url(\'' + esc(a.hero) + '\')"></span>' +
+    '<section class="at-hero gx"><span class="at-amb' + (AMB(a.hero) ? ' pre' : '') + '" id="atAmb" style="background-image:url(\'' + esc(AMB(a.hero) || FIT(a.hero, 480)) + '\')"></span>' +
       '<div class="at-t"><a class="at-back rv" href="journal.html"><span aria-hidden="true">&#8592;</span> Journal</a>' +
       '<span class="at-k rv">' + (isQA ? 'Interview' : 'Story') + '</span>' +
       '<h1 class="at-h" data-split>' + esc(a.title) + '</h1>' +
       (a.excerpt ? '<p class="at-x rv">' + esc(a.excerpt) + '</p>' : '') +
       '<div class="at-m rv">' + meta + '</div></div>' +
-      (a.hero ? '<figure class="at-pic" id="atPic"><img src="' + esc(a.hero) + '" alt="' + esc(a.title) + '"></figure>' : '') +
+      (a.hero ? '<figure class="at-pic" id="atPic"><img src="' + esc(FIT(a.hero, 1600)) + '"' + IA(a.hero, '(max-width:899px) 92vw, 48vw') + ' alt="' + esc(a.title) + '"></figure>' : '') +
     '</section>' +
     '<section class="at-body gx"><aside class="at-side"><span class="kick gold">Journal</span><span>' + esc(a.date) + (a.read ? '<br>' + esc(a.read) : '') + '</span></aside>' +
       '<article class="at-c">' + body + '</article></section>' +
-    (gal.length ? '<section class="at-gal gx"><div class="g">' + gal.map(function (u, k) { return '<button class="rv" type="button" data-k="' + (k + 1) + '" aria-label="Open image ' + (k + 2) + '"><img src="' + esc(u) + '" alt="' + esc(a.title) + '" loading="lazy"></button>'; }).join('') + '</div></section>' : '') +
+    (gal.length ? '<section class="at-gal gx"><div class="g">' + gal.map(function (u, k) { return '<button class="rv" type="button" data-k="' + (k + 1) + '" aria-label="Open image ' + (k + 2) + '"><img src="' + esc(FIT(u, 960)) + '"' + IA(u, '(max-width:899px) 60vw, 34vw') + ' alt="' + esc(a.title) + '" loading="lazy"></button>'; }).join('') + '</div></section>' : '') +
     (J.length > 1 ? '<nav class="at-pager" aria-label="More stories">' + link(prev, '&#8592; Previous') + link(next, 'Next &#8594;') + '</nav>' : '') +
     '<div class="at-all"><a class="more" href="journal.html">All stories <span aria-hidden="true">&#8594;</span></a></div>';
   var dc = [].slice.call(d.querySelectorAll('.at-c > p')).filter(function (p) { return /^[A-Za-zÀ-ž]/.test(p.textContent.trim()); })[0];
@@ -208,7 +215,7 @@
 
   // lightbox
   var lb = d.getElementById('lb'), im = d.getElementById('lbI'), cur = 0, last;
-  function show(k) { cur = (k + all.length) % all.length; im.src = all[cur]; im.alt = a.title; }
+  function show(k) { cur = (k + all.length) % all.length; im.src = window.mrImg ? window.mrImg.full(all[cur]) : all[cur]; im.alt = a.title; }
   function open(k) { last = d.activeElement; show(k); lb.hidden = false; requestAnimationFrame(function () { lb.classList.add('on'); }); d.body.style.overflow = 'hidden'; d.getElementById('lbX').focus(); }
   function close() { lb.classList.remove('on'); d.body.style.overflow = ''; setTimeout(function () { lb.hidden = true; }, 420); if (last) last.focus(); }
   d.getElementById('lbP').hidden = d.getElementById('lbN').hidden = all.length < 2;

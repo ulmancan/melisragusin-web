@@ -1,5 +1,5 @@
 # Netlify build & deploy ayarları
-# Panelden (Decap CMS) bir kayıt eklenip/düzenlenince Netlify bu komutu çalıştırır:
+# Panelden (Studio, /admin/) yayınlanınca Netlify bu komutu çalıştırır:
 # data/ klasöründeki dosyalardan data-*.js dosyaları yeniden üretilir, ardından
 # yayınlanacak site dist/ klasörüne hazırlanır (eski adresler, SEO, site haritası, yönlendirmeler: seo.mjs).
 
@@ -9,6 +9,13 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# the light copies of the pictures (assets/v/, made by build.mjs) are kept between deploys,
+# so only pictures that are new get made
+[[plugins]]
+  package = "netlify-plugin-cache"
+  [plugins.inputs]
+    paths = ["assets/v"]
 
 # Güvenlik ve önbellek başlıkları
 [[headers]]

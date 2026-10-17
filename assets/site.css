@@ -81,8 +81,8 @@ html.lenis,html.lenis body{height:auto}
 .nav-toggle.on i:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 @media(max-width:900px){
   .nav-toggle{display:flex;z-index:120}
-  .mainnav{position:fixed;inset:0;background:rgba(4,4,4,.98);flex-direction:column;justify-content:center;gap:22px;transform:translateY(-100%);transition:transform .6s var(--ease);z-index:110}
-  .mainnav.open{transform:none}
+  .mainnav{position:fixed;inset:0;background:#040404;flex-direction:column;justify-content:safe center;overflow-y:auto;overscroll-behavior:contain;padding:90px 20px 40px;gap:22px;transform:translateY(-100%);visibility:hidden;transition:transform .6s var(--ease),visibility 0s .6s;z-index:110}
+  .mainnav.open{transform:none;visibility:visible;transition:transform .6s var(--ease),visibility 0s}
   .mainnav a,.mainnav .navlink{font-size:19px}
   .dropdown{position:static;transform:none;opacity:1;visibility:visible;background:none;border:0;-webkit-backdrop-filter:none;backdrop-filter:none;margin-top:6px;padding:2px 0;min-width:0;align-items:center;gap:2px}
   .dropdown a{text-align:center;padding:6px;font-size:14px}
@@ -139,3 +139,7 @@ html.lenis,html.lenis body{height:auto}
   [data-split] .w{opacity:1;transform:none;transition:none}
   #mrload{transition:none}
 }
+
+/* phones and tablets: no live blur behind small labels and no full-screen grain layer (both cost every frame while scrolling) */
+@media (hover:none){.grain{display:none}.dropdown{-webkit-backdrop-filter:none;backdrop-filter:none}}
+@media(max-width:900px){.navitem .dropdown{width:100%;align-items:center}.navitem .dropdown a{display:block;text-align:center}}

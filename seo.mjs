@@ -21,7 +21,7 @@ const projects = readJSONDir('data/projects').filter((p) => p && p.id && !p.remo
 const journal = existsSync('data/journal') ? readJSONDir('data/journal') : [];
 
 /* ---------- 1. copy the site (without what only the offline preview or the workshop needs) ---------- */
-const SKIP = new Set(['dist', 'work', 'shots', 'data', '_to_delete', 'node_modules', '.git', '.github', 'concept-home.html', 'melis-miami-experience.html',
+const SKIP = new Set(['dist', 'tools', 'package.json', 'package-lock.json', 'work', 'shots', 'data', '_to_delete', 'node_modules', '.git', '.github', 'concept-home.html', 'melis-miami-experience.html',
   'build.mjs', 'build.mjs.bak', 'seo.mjs', 'netlify.toml', 'README.md', 'OKU.txt', 'package.json', 'package-lock.json']);
 const SKIP_PATH = ['assets/gallery/local', 'assets/hero/local'];
 rmSync(OUT, { recursive: true, force: true });
@@ -68,6 +68,8 @@ const LINKS = `<script>(function () { var d = document;
 const ANALYTICS_BODY = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`;
 
 // replace a page's head tags (title, description, canonical, social, structured data) and add analytics
+// which pictures have light copies: the list build.mjs has just written
+const LIGHT = (() => { try { const t = readFileSync('data-img.js', 'utf8'); return JSON.parse(t.slice(t.indexOf('=') + 1, t.indexOf(';\n'))); } catch (e) { return {}; } })();
 function dress(html, m) {
   html = html
     .replace(/<title>[\s\S]*?<\/title>\s*/i, '')
@@ -93,6 +95,13 @@ function dress(html, m) {
   ].filter(Boolean).join('\n');
   html = html.replace(/<head>/i, '<head>\n' + head);
   html = html.replace(/<body([^>]*)>/i, (b) => b + '\n' + ANALYTICS_BODY);
+  // pictures written straight into a page get their light copies too (see data-img.js)
+  html = html.replace(/<img\b([^>]*?)\ssrc="(assets\/[^"]+)"([^>]*)>/g, (tag, a, u, b) => {
+    if (/\ssrcset=/.test(a + b) || !LIGHT[u] || !LIGHT[u].w.length) return tag;
+    const e = LIGHT[u], v = (t) => 'assets/v/' + u.slice(7) + '.' + t + '.' + (e.x || 'webp');
+    const set = e.w.map((w) => `${v(w)} ${w}w`); if (e.o && e.w[e.w.length - 1] < e.o * 0.98) set.push(`${u} ${e.o}w`);
+    return `<img${a} src="${u}" srcset="${set.join(', ')}" sizes="(max-width:899px) 92vw, 50vw"${b}>`;
+  });
   return html;
 }
 const webpage = (m) => ({ '@type': 'WebPage', '@id': m.url + '#webpage', url: m.url, name: m.title, isPartOf: { '@id': SITE + '/#website' }, about: { '@id': SITE + '/#person' }, inLanguage: 'en-US', primaryImageOfPage: abs(m.image || DEFAULT_IMAGE) });

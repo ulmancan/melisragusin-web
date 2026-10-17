@@ -1,0 +1,355 @@
+# Giriş: GitHub hesabıyla ("Login with GitHub"). Site Netlify'da yayında olduğu için giriş Netlify üzerinden yapılır.
+# repo satırı: sitenin GitHub deposu (hesap-adı/depo-adı).
+backend:
+  name: github
+  repo: ulmancan/melisragusin-web
+  branch: main
+
+site_url: https://melisragusin.com
+display_url: https://melisragusin.com
+
+# Yeni yüklenen görsellerin gideceği klasör
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+locale: "tr"
+
+# Yayınlanmadan önce taslak olarak bekletmek isterseniz "editorial_workflow" yapın.
+publish_mode: simple
+
+collections:
+  # ============ PROJELER & ESERLER ============
+  - name: "projects"
+    label: "Projeler & Eserler"
+    label_singular: "Proje"
+    description: "Arşivde ve ana sayfada görünen tüm eserler ve seriler."
+    folder: "data/projects"
+    extension: "json"
+    format: "json"
+    identifier_field: "id"
+    slug: "{{fields.id}}"
+    create: true
+    delete: true
+    summary: "{{fields.title}} — {{fields.year}} · {{fields.cat}}"
+    sortable_fields: ["order", "year", "title"]
+    fields:
+      - label: "ID (adres için — küçük harf, boşluk yerine tire)"
+        name: "id"
+        widget: "string"
+        pattern: ['^[a-z0-9-]+$', "Sadece küçük harf, rakam ve tire kullanın"]
+        hint: "Örn: clouds-series-2025. Kaydettikten sonra değiştirmeyin."
+      - label: "Sıra"
+        name: "order"
+        widget: "number"
+        value_type: "int"
+        default: 999
+        hint: "Küçük numara arşivde daha önde gösterilir."
+      - { label: "Başlık", name: "title", widget: "string" }
+      - { label: "Yıl", name: "year", widget: "string" }
+      - label: "Kategori"
+        name: "cat"
+        widget: "select"
+        options: ["New-Media", "Motion", "Mixed-Media"]
+      - { label: "Medium etiketi", name: "medium", widget: "string", required: false }
+      - label: "Video (Vimeo player linki veya video dosyası)"
+        name: "video"
+        widget: "string"
+        required: false
+        hint: "Vimeo: https://player.vimeo.com/video/NUMARA — ya da sitedeki dosya: assets/hero/media/artwork-2.mp4. Değilse boş bırakın. (3D galeride hangi videonun oynayacağı 'Sanal Galeri' bölümünden seçilir.)"
+      - label: "Detaylar (her satır bir bilgi)"
+        name: "meta"
+        widget: "list"
+        required: false
+        field: { label: "Satır", name: "line", widget: "string" }
+      - { label: "Açıklama / Statement", name: "statement", widget: "text", required: false }
+      - label: "Görseller (ilk görsel kapak olur)"
+        name: "images"
+        widget: "list"
+        field: { label: "Görsel", name: "image", widget: "image" }
+      - label: "Platform linki (tutar YAZILMAZ)"
+        name: "buy"
+        widget: "object"
+        required: false
+        hint: "Örn: Buy on Blackdove / Buy on Sedition / View on Sedition. Sitede fiyat ya da tutar gösterilmez."
+        fields:
+          - { label: "Buton yazısı", name: "label", widget: "string", required: false }
+          - { label: "Link", name: "url", widget: "string", required: false }
+      - label: "Durum"
+        name: "status"
+        widget: "select"
+        required: false
+        options: ["", "Sold out"]
+        hint: "Sadece 'Sold out' gösterilebilir."
+      - label: "Arama motorları (Google) — isteğe bağlı"
+        name: "seo_title"
+        widget: "string"
+        required: false
+        hint: "Google'da görünen başlık. Boş bırakırsanız: Eser adı - Yıl - Melis Ragusin Art"
+      - label: "Google açıklaması — isteğe bağlı"
+        name: "seo_description"
+        widget: "text"
+        required: false
+        hint: "Google sonuçlarında başlığın altındaki 1–2 cümle (en fazla ~155 karakter). Boşsa açıklamanın başı kullanılır."
+      - label: "Sitede gizle"
+        name: "removed"
+        widget: "boolean"
+        required: false
+        default: false
+        hint: "Eser melisragusin.com'dan kaldırıldıysa açın: sitede, arşivde, ana sayfada ve 3D galeride görünmez. (Silmek yerine gizleyebilirsiniz.)"
+
+  # ============ SANAL GALERİ (3D) ============
+  - name: "gallery"
+    label: "Sanal Galeri (3D)"
+    description: "Sitenin açılışındaki 3D galeri: üç salondaki eserler, sıraları ve hangi duvarda durdukları."
+    delete: false
+    editor: { preview: false }
+    files:
+      - name: "halls"
+        label: "Salonlar ve eserlerin yerleri"
+        file: "data/gallery.json"
+        format: "json"
+        fields:
+          - label: "I — Motion Art salonu"
+            name: "motion"
+            widget: "object"
+            collapsed: false
+            fields:
+              - label: "Lobideki kapıda görünen eser"
+                name: "door"
+                widget: "relation"
+                collection: "projects"
+                value_field: "id"
+                search_fields: ["title", "year", "id"]
+                display_fields: ["title", "year"]
+                required: false
+                filters:
+                  - field: "cat"
+                    values: ["Motion"]
+                hint: "Lobide Motion Art kapısından görünen eser. Boş bırakırsanız salondaki ilk eser görünür."
+              - label: "Salondaki eserler"
+                name: "works"
+                widget: "list"
+                label_singular: "eser"
+                collapsed: true
+                summary: "{{fields.work}}  ·  {{fields.wall}}"
+                hint: "Listedeki sıra = salondaki sıra: en üstteki eser girişe en yakın olandır. Sırayı değiştirmek için eserleri tutup sürükleyin. Eser eklemek için listenin sağındaki ekle düğmesini, çıkarmak için eserin sağ üstündeki çarpıyı kullanın. Üstteki Yayınla → Şimdi yayımla'ya basınca birkaç dakika içinde sitede görünür."
+                fields:
+                  - label: "Eser"
+                    name: "work"
+                    widget: "relation"
+                    collection: "projects"
+                    value_field: "id"
+                    search_fields: ["title", "year", "id"]
+                    display_fields: ["title", "year"]
+                    filters:
+                      - field: "cat"
+                        values: ["Motion"]
+                  - label: "Duvar"
+                    name: "wall"
+                    widget: "select"
+                    default: "otomatik"
+                    options:
+                      - { label: "Otomatik — sırayla sol ve sağ duvar", value: "otomatik" }
+                      - { label: "Sol duvar", value: "sol" }
+                      - { label: "Sağ duvar", value: "sağ" }
+                      - { label: "Karşı duvar — salonun en sonu", value: "karşı" }
+                  - label: "Ekran yönü"
+                    name: "orientation"
+                    widget: "select"
+                    default: "portrait"
+                    options:
+                      - { label: "Dikey ekran (9:16)", value: "portrait" }
+                      - { label: "Yatay ekran (16:9)", value: "landscape" }
+                  - label: "Ekranda oynayan video"
+                    name: "video"
+                    widget: "file"
+                    required: false
+                    hint: "Kısa, sessiz bir mp4 döngüsü (ideal: 15–30 sn, en fazla ~5 MB). Boş bırakırsanız ekranda aşağıdaki görsel durur."
+                  - label: "Videosu yoksa ekranda duran görsel"
+                    name: "image"
+                    widget: "image"
+                    required: false
+                    hint: "Boş bırakın: eserin kapak görseli kullanılır."
+          - label: "II — New-Media salonu"
+            name: "new"
+            widget: "object"
+            collapsed: false
+            fields:
+              - label: "Lobideki kapıda görünen eser"
+                name: "door"
+                widget: "relation"
+                collection: "projects"
+                value_field: "id"
+                search_fields: ["title", "year", "id"]
+                display_fields: ["title", "year"]
+                required: false
+                filters:
+                  - field: "cat"
+                    values: ["New-Media"]
+                hint: "Lobide New-Media kapısından görünen eser. Boş bırakırsanız salondaki ilk eser görünür."
+              - label: "Salondaki eserler"
+                name: "works"
+                widget: "list"
+                label_singular: "eser"
+                collapsed: true
+                summary: "{{fields.work}}  ·  {{fields.wall}}"
+                hint: "Listedeki sıra = salondaki sıra: en üstteki eser girişe en yakın olandır. Sırayı değiştirmek için eserleri tutup sürükleyin. Eser eklemek için listenin sağındaki ekle düğmesini, çıkarmak için eserin sağ üstündeki çarpıyı kullanın. Üstteki Yayınla → Şimdi yayımla'ya basınca birkaç dakika içinde sitede görünür."
+                fields:
+                  - label: "Eser"
+                    name: "work"
+                    widget: "relation"
+                    collection: "projects"
+                    value_field: "id"
+                    search_fields: ["title", "year", "id"]
+                    display_fields: ["title", "year"]
+                    filters:
+                      - field: "cat"
+                        values: ["New-Media"]
+                  - label: "Duvar"
+                    name: "wall"
+                    widget: "select"
+                    default: "otomatik"
+                    options:
+                      - { label: "Otomatik — sırayla sol ve sağ duvar", value: "otomatik" }
+                      - { label: "Sol duvar", value: "sol" }
+                      - { label: "Sağ duvar", value: "sağ" }
+                      - { label: "Karşı duvar — salonun en sonu", value: "karşı" }
+                  - label: "Galeri görseli"
+                    name: "image"
+                    widget: "image"
+                    required: false
+                    hint: "Boş bırakın: hazırlanmış görsel ya da eserin kapak görseli kullanılır. Yalnızca farklı bir görsel asmak isterseniz yükleyin."
+                  - label: "Gerçek boyut, cm"
+                    name: "size"
+                    widget: "string"
+                    required: false
+                    hint: "Örn: 100 × 180  (genişlik × yükseklik). Boş bırakın: eserin Dimensions bilgisi kullanılır."
+          - label: "III — Mixed-Media salonu"
+            name: "mixed"
+            widget: "object"
+            collapsed: false
+            fields:
+              - label: "Lobideki kapıda görünen eser"
+                name: "door"
+                widget: "relation"
+                collection: "projects"
+                value_field: "id"
+                search_fields: ["title", "year", "id"]
+                display_fields: ["title", "year"]
+                required: false
+                filters:
+                  - field: "cat"
+                    values: ["Mixed-Media"]
+                hint: "Lobide Mixed-Media kapısından görünen eser. Boş bırakırsanız salondaki ilk eser görünür."
+              - label: "Salondaki eserler"
+                name: "works"
+                widget: "list"
+                label_singular: "eser"
+                collapsed: true
+                summary: "{{fields.work}}  ·  {{fields.wall}}"
+                hint: "Listedeki sıra = salondaki sıra: en üstteki eser girişe en yakın olandır. Sırayı değiştirmek için eserleri tutup sürükleyin. Eser eklemek için listenin sağındaki ekle düğmesini, çıkarmak için eserin sağ üstündeki çarpıyı kullanın. Üstteki Yayınla → Şimdi yayımla'ya basınca birkaç dakika içinde sitede görünür."
+                fields:
+                  - label: "Eser"
+                    name: "work"
+                    widget: "relation"
+                    collection: "projects"
+                    value_field: "id"
+                    search_fields: ["title", "year", "id"]
+                    display_fields: ["title", "year"]
+                    filters:
+                      - field: "cat"
+                        values: ["Mixed-Media"]
+                  - label: "Duvar"
+                    name: "wall"
+                    widget: "select"
+                    default: "otomatik"
+                    options:
+                      - { label: "Otomatik — sırayla sol ve sağ duvar", value: "otomatik" }
+                      - { label: "Sol duvar", value: "sol" }
+                      - { label: "Sağ duvar", value: "sağ" }
+                      - { label: "Karşı duvar — salonun en sonu", value: "karşı" }
+                  - label: "Galeri görseli"
+                    name: "image"
+                    widget: "image"
+                    required: false
+                    hint: "Boş bırakın: hazırlanmış görsel ya da eserin kapak görseli kullanılır. Yalnızca farklı bir görsel asmak isterseniz yükleyin."
+                  - label: "Gerçek boyut, cm"
+                    name: "size"
+                    widget: "string"
+                    required: false
+                    hint: "Örn: 100 × 180  (genişlik × yükseklik). Boş bırakın: eserin Dimensions bilgisi kullanılır."
+  # ============ ANA SAYFA ============
+  - name: "home"
+    label: "Ana Sayfa"
+    description: "Ana sayfadaki 'Selected Series' şeritleri."
+    delete: false
+    editor: { preview: false }
+    files:
+      - name: "home"
+        label: "Ana sayfa — Selected Series"
+        file: "data/home.json"
+        format: "json"
+        fields:
+          - label: "Seçili seriler (şeritler)"
+            name: "series"
+            widget: "list"
+            label_singular: "seri"
+            collapsed: true
+            summary: "{{fields.name}}"
+            hint: "Ana sayfada yan yana açılan şeritler. Sıra = soldan sağa. Sürükleyerek sırayı değiştirin."
+            fields:
+              - label: "Eser / seri"
+                name: "work"
+                widget: "relation"
+                collection: "projects"
+                value_field: "id"
+                search_fields: ["title", "year", "id"]
+                display_fields: ["title", "year"]
+              - { label: "Şeritte görünen kısa ad", name: "name", widget: "string", required: false, hint: "Boş bırakırsanız eserin başlığı yazılır." }
+              - { label: "Tür etiketi", name: "medium", widget: "string", required: false, hint: "Örn: New-Media Works. Boş bırakırsanız eserin bilgisi kullanılır." }
+              - { label: "Görsel", name: "image", widget: "image", required: false, hint: "Boş bırakırsanız eserin kapak görseli kullanılır." }
+              - { label: "Kısa açıklama", name: "text", widget: "text", required: false }
+
+  # ============ JOURNAL (YAZILAR) ============
+  - name: "journal"
+    label: "Journal (Yazılar)"
+    label_singular: "Yazı"
+    description: "Journal sayfasındaki yazılar."
+    folder: "data/journal"
+    extension: "json"
+    format: "json"
+    identifier_field: "id"
+    slug: "{{fields.id}}"
+    create: true
+    delete: true
+    summary: "{{fields.title}} — {{fields.date}}"
+    sortable_fields: ["order", "date", "title"]
+    fields:
+      - label: "ID (adres için — küçük harf, tire)"
+        name: "id"
+        widget: "string"
+        pattern: ['^[a-z0-9-]+$', "Sadece küçük harf, rakam ve tire kullanın"]
+      - { label: "Sıra", name: "order", widget: "number", value_type: "int", default: 999 }
+      - { label: "Başlık", name: "title", widget: "string" }
+      - { label: "Kategori", name: "category", widget: "string", required: false }
+      - { label: "Tarih", name: "date", widget: "string", hint: "Örn: May 9, 2025" }
+      - { label: "Okuma süresi", name: "read", widget: "string", required: false, hint: "Örn: 2 min read" }
+      - { label: "Kapak görseli", name: "hero", widget: "image", required: false }
+      - label: "Görseller (galeri)"
+        name: "images"
+        widget: "list"
+        required: false
+        field: { label: "Görsel", name: "image", widget: "image" }
+      - { label: "Özet", name: "excerpt", widget: "text", required: false }
+      - label: "İçerik (bölüm bölüm ekleyin)"
+        name: "body"
+        widget: "list"
+        fields:
+          - label: "Tür"
+            name: "t"
+            widget: "select"
+            options:
+              - { label: "Paragraf", value: "p" }
+              - { label: "Başlık", value: "h" }
+            default: "p"
+          - { label: "Metin", name: "x", widget: "text" }
