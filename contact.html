@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Contact — Melis Ragusin</title>
+<meta name="description" content="Exhibitions, commissions, interviews or collaborations: get in touch with Melis Ragusin.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Melis Ragusin"><meta property="og:title" content="Contact — Melis Ragusin"><meta property="og:description" content="Exhibitions, commissions, interviews or collaborations: get in touch with Melis Ragusin.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.ct{position:relative;min-height:100vh;min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,7vw,130px);align-items:center;padding-block:clamp(130px,17vh,170px) clamp(60px,9vh,100px);isolation:isolate}
+.ct::before{content:'';position:absolute;z-index:-1;left:-10%;top:0;width:70%;height:90%;pointer-events:none;background:radial-gradient(50% 50% at 40% 40%,rgba(198,168,112,.07),transparent 70%)}
+.ct-l{display:grid;gap:clamp(20px,3.2vh,32px);align-content:center;justify-items:start}
+.ct-h{font-size:clamp(56px,6.6vw,120px);max-width:9ch}
+.ct-sub{max-width:34ch;font-family:var(--serif);font-weight:300;font-size:clamp(20px,1.6vw,25px);line-height:1.5;color:#ddd7ce}
+.ct-direct{display:grid;justify-items:start;gap:8px;margin-top:clamp(6px,2vh,20px);padding-top:clamp(22px,3.4vh,34px);border-top:1px solid var(--line);width:min(100%,460px)}
+.ct-k{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.ct-k2{margin-top:18px}
+.ct-mail{font-family:var(--serif);font-weight:300;font-size:clamp(26px,2.3vw,38px);line-height:1.15;background:linear-gradient(var(--ink),var(--ink)) 0 100%/0 1px no-repeat;transition:background-size .8s var(--ease);padding-bottom:4px}
+.ct-mail:hover{background-size:100% 1px}
+.ct-soc{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:#cfc9c0}
+.ct-soc a{transition:color .4s}
+.ct-soc a:hover{color:var(--ink)}
+.ct-r{position:relative;align-self:center;padding:clamp(24px,2.6vw,40px);border:1px solid var(--line);border-radius:3px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));scroll-margin-top:90px}
+.cf{display:grid;gap:clamp(14px,2.2vh,22px)}
+.topics{border:0;display:flex;flex-wrap:wrap;gap:10px}
+.topics legend{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.topics label{cursor:pointer}
+.topics input{position:absolute;opacity:0;pointer-events:none}
+.topics span{display:inline-block;padding:8px 15px;border:1px solid var(--line);border-radius:999px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#bdb7ae;transition:all .45s var(--ease)}
+.topics label:hover span{border-color:rgba(244,242,238,.4);color:var(--ink)}
+.topics input:checked+span{background:var(--ink);color:#000;border-color:var(--ink)}
+.topics input:focus-visible+span{outline:1px solid var(--accent);outline-offset:3px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,40px)}
+.f{position:relative;display:block}
+.f input,.f textarea{width:100%;background:none;border:0;border-bottom:1px solid rgba(244,242,238,.2);color:var(--ink);font:300 clamp(18px,1.3vw,21px)/1.35 var(--serif);padding:22px 0 9px;outline:none;transition:border-color .5s;resize:vertical;border-radius:0}
+.f textarea{min-height:84px}
+.f span{position:absolute;left:0;top:24px;font-size:14px;color:var(--muted);pointer-events:none;transform-origin:left top;transition:transform .45s var(--ease),color .45s,top .45s var(--ease)}
+.f span b{color:var(--gold);font-weight:400}
+.f input:focus~span,.f input:not(:placeholder-shown)~span,.f textarea:focus~span,.f textarea:not(:placeholder-shown)~span{top:0;transform:scale(.82);color:var(--gold);letter-spacing:.04em}
+.f::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
+.f:focus-within::after{transform:scaleX(1)}
+.f.bad input,.f.bad textarea{border-bottom-color:#d9584f}
+.file{display:flex;align-items:center;gap:18px;cursor:pointer}
+.file input{position:absolute;opacity:0;width:1px;height:1px}
+.fb{padding:11px 20px;border:1px dashed rgba(244,242,238,.3);border-radius:999px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;transition:border-color .4s}
+.file:hover .fb,.file:focus-within .fb{border-color:var(--ink)}
+.fn{font-size:13px;color:var(--faint)}
+.fn.has{color:var(--ink)}
+.consent{display:flex;gap:14px;align-items:flex-start;font-size:13px;line-height:1.7;color:var(--muted);cursor:pointer}
+.consent input{appearance:none;-webkit-appearance:none;flex:none;width:18px;height:18px;border:1px solid rgba(244,242,238,.35);border-radius:3px;margin-top:3px;display:grid;place-items:center;cursor:pointer}
+.consent input:checked{background:var(--ink);border-color:var(--ink)}
+.consent input:checked::after{content:'';width:9px;height:5px;border:solid #000;border-width:0 0 1.5px 1.5px;transform:rotate(-45deg) translate(1px,-1px)}
+.consent a{color:var(--ink);border-bottom:1px solid var(--line)}
+.consent.bad input{border-color:#d9584f}
+.send-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px 28px;margin-top:6px}
+.send{background:none;color:var(--ink);cursor:pointer;font:inherit;font-size:11px}
+.send[disabled]{opacity:.5;cursor:wait}
+.c-note{font-size:14px;line-height:1.6;color:var(--muted);opacity:0;transform:translateY(6px);transition:all .5s var(--ease);max-width:44ch}
+.c-note.show{opacity:1;transform:none}
+.c-note.err{color:#e07a72}
+.c-note.ok{color:var(--accent)}
+.cf.sent .f,.cf.sent .topics,.cf.sent .file,.cf.sent .consent,.cf.sent .r2{opacity:.35;pointer-events:none;transition:opacity 1s}
+@media (max-width:899px){
+  .ct{grid-template-columns:1fr;align-items:start;padding-top:120px;gap:44px}
+  .ct-h{font-size:clamp(48px,13vw,80px)}
+  .ct-r{padding:22px 18px}
+  .r2{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body>
+<div id="mrload" aria-hidden="true"><img src="assets/logo-mr.png" alt=""></div>
+<script>try{if(sessionStorage.getItem('mrT')){document.getElementById('mrload').classList.add('cont');sessionStorage.removeItem('mrT')}}catch(e){}</script>
+<div class="grain" aria-hidden="true"></div>
+<header class="tb" id="tb">
+  <a class="tb-logo" href="home.html" aria-label="Melis Ragusin — home"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mainnav"><i></i><i></i><i></i></button>
+  <nav class="mainnav" id="mainnav">
+        <a href="home.html">Home</a>
+        <a href="index.html">Virtual Gallery</a>
+        <div class="navitem">
+          <a class="navlink" href="archive.html" aria-haspopup="true">Projects <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="archive.html">All Projects</a>
+            <a href="archive.html?cat=Mixed-Media">Mixed-Media Works</a>
+            <a href="archive.html?cat=New-Media">New-Media Works</a>
+            <a href="archive.html?cat=Motion">Motion Art</a>
+            <div class="sep"></div>
+            <a href="archive.html?year=2026">2026 Works</a>
+            <a href="archive.html?year=2025">2025 Works</a>
+            <a href="archive.html?year=2024">2024 Works</a>
+            <a href="archive.html?year=2023">2023 Works</a>
+            <a href="archive.html?year=2022">2022 Works</a>
+          </div>
+        </div>
+        <a href="journal.html">Journal</a>
+        <div class="navitem">
+          <a class="navlink" href="artist-bio.html" aria-haspopup="true">About <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="artist-bio.html">Artist Bio</a>
+            <a href="exhibitions-interview.html">Exhibitions &amp; Interview</a>
+          </div>
+        </div>
+        <a href="contact.html">Contact <span class="ext">&#8599;</span></a>
+      </nav>
+</header>
+
+<main id="main">
+<section class="ct gx">
+  <div class="ct-l">
+    <div class="kick rv">Contact</div>
+    <h1 class="display ct-h" data-split>Let's start <em>a conversation.</em></h1>
+    <p class="ct-sub rv">Whether it's an exhibition, commission, interview or collaboration, I'd love to hear from you.</p>
+    <div class="ct-direct rv">
+      <span class="ct-k">Email</span>
+      <a class="ct-mail" href="mailto:melis@melisragusin.com">melis@melisragusin.com</a>
+      <span class="ct-k ct-k2">Elsewhere</span>
+      <div class="ct-soc"><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a><a href="https://vimeo.com/melisragusin" target="_blank" rel="noopener">Vimeo</a><a href="https://www.linkedin.com/in/melis-rimer-ragusin-2614bb7/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+  </div>
+  <div class="ct-r rv" id="write">
+    <form class="cf" id="cform" name="contact" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+    <input type="hidden" name="form-name" value="contact"><p hidden><label>Leave empty <input name="bot-field"></label></p>
+    <fieldset class="topics"><legend>What is it about?</legend>
+      <label><input type="radio" name="topic" value="Exhibition"><span>Exhibition</span></label>
+      <label><input type="radio" name="topic" value="Commission"><span>Commission</span></label>
+      <label><input type="radio" name="topic" value="Interview"><span>Interview</span></label>
+      <label><input type="radio" name="topic" value="Collaboration"><span>Collaboration</span></label>
+      <label><input type="radio" name="topic" value="Other"><span>Something else</span></label>
+    </fieldset>
+    <div class="r2">
+      <label class="f"><input type="text" name="firstname" placeholder=" " required autocomplete="given-name"><span>First name <b>•</b></span></label>
+      <label class="f"><input type="text" name="lastname" placeholder=" " required autocomplete="family-name"><span>Last name <b>•</b></span></label>
+    </div>
+    <div class="r2">
+      <label class="f"><input type="email" name="email" placeholder=" " required autocomplete="email"><span>Email <b>•</b></span></label>
+      <label class="f"><input type="tel" name="phone" placeholder=" " autocomplete="tel"><span>Mobile phone</span></label>
+    </div>
+    <label class="f"><input type="text" name="company" placeholder=" " autocomplete="organization"><span>Company or gallery</span></label>
+    <label class="f fa"><textarea name="message" rows="3" placeholder=" " required></textarea><span>Your message <b>•</b></span></label>
+    <label class="file"><input type="file" name="file" accept=".jpg,.jpeg,.png,.gif,.pdf"><span class="fb">Attach a file</span><span class="fn" id="fileName">No file selected</span></label>
+    <label class="consent"><input type="checkbox" name="consent" required><span>I have read and accept the <a href="privacy-policy.html">Privacy Policy</a>.</span></label>
+    <div class="send-row"><button type="submit" class="btn-line send">Send message <span aria-hidden="true">&#8594;</span></button><div class="c-note" id="cnote" role="status"></div></div>
+  </form>
+  </div>
+</section>
+
+</main>
+
+<section class="newsletter" aria-label="Newsletter">
+  <div class="nl-in">
+    <div class="nl-l"><div class="nl-k">Newsletter</div><h3>Subscribe My Newsletter</h3></div>
+    <form class="nl-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return mrSubscribe(event,this)">
+      <input type="hidden" name="form-name" value="newsletter"><input type="hidden" name="bot-field">
+      <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+      <button type="submit">Subscribe <span aria-hidden="true">&#8594;</span></button>
+    </form>
+    <div class="nl-note" role="status"></div>
+  </div>
+</section>
+<footer class="sitefoot">
+  <div class="sf-top">
+    <div class="sf-brand">
+      <div class="sf-mark"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></div>
+      <div class="sf-tag">New Media &amp; Mixed Media Artist</div>
+      <a class="sf-email" href="mailto:melis@melisragusin.com">melis@melisragusin.com</a>
+    </div>
+    <div class="sf-cols">
+      <div class="sf-col"><div class="sf-h">Explore</div><a href="home.html">Home</a><a href="index.html">Virtual Gallery</a><a href="archive.html">All Projects</a><a href="journal.html">Journal</a></div>
+      <div class="sf-col"><div class="sf-h">About</div><a href="artist-bio.html">Artist Bio</a><a href="exhibitions-interview.html">Exhibitions &amp; Interview</a><a href="contact.html">Contact</a></div>
+      <div class="sf-col"><div class="sf-h">Connect</div><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a><a href="https://vimeo.com/melisragusin" target="_blank" rel="noopener">Vimeo</a><a href="https://www.behance.net/melisrimerr" target="_blank" rel="noopener">Behance</a><a href="https://www.linkedin.com/in/melis-rimer-ragusin-2614bb7/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+  </div>
+  <div class="sf-bottom">
+    <div>&copy; 2026 Melis Ragusin. All rights reserved.</div>
+    <div class="sf-plat"><a href="privacy-policy.html">Privacy</a><a href="https://www.seditionart.com/melis-ragusin" target="_blank" rel="noopener">Sedition</a><a href="https://blackdove.com/e25bb57d-cef1-46b9-9ff1-cc29c46284b6" target="_blank" rel="noopener">Blackdove</a><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a></div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  var d = document, form = d.getElementById('cform'), note = d.getElementById('cnote'), fileName = d.getElementById('fileName');
+  function say(t, cls) { note.textContent = t; note.className = 'c-note show ' + (cls || ''); }
+  form.file.addEventListener('change', function () {
+    var f = form.file.files[0];
+    if (!f) { fileName.textContent = 'No file selected'; fileName.classList.remove('has'); return; }
+    if (f.size > 5 * 1024 * 1024) { say('That file is larger than 5 MB.', 'err'); form.file.value = ''; fileName.textContent = 'No file selected'; fileName.classList.remove('has'); return; }
+    note.classList.remove('show'); fileName.textContent = f.name; fileName.classList.add('has');
+  });
+  form.addEventListener('input', function (e) { var l = e.target.closest('.f,.consent'); if (l) l.classList.remove('bad'); });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var need = ['firstname', 'lastname', 'email', 'message'], miss = false;
+    need.forEach(function (n) { var el = form[n], bad = !el.value.trim() || (n === 'email' && !/^\S+@\S+\.\S+$/.test(el.value.trim())); el.closest('.f').classList.toggle('bad', bad); if (bad) miss = true; });
+    if (miss) { say('Please add your first name, last name, a valid email and your message.', 'err'); return; }
+    if (!form.consent.checked) { form.consent.closest('.consent').classList.add('bad'); say('Please accept the Privacy Policy to continue.', 'err'); return; }
+    if (location.protocol === 'file:') { say('Preview copy: messages are sent from the live site.', 'ok'); return; }
+    var b = form.querySelector('.send'); b.disabled = true; say('Sending…');
+    fetch('/', { method: 'POST', body: new FormData(form) })
+      .then(function (r) { if (!r.ok) throw 0; form.classList.add('sent'); say('Thank you, ' + form.firstname.value.trim() + ' — your message is on its way to Melis.', 'ok'); })
+      .catch(function () { say('Your message could not be sent just now. Please write to melis@melisragusin.com.', 'err'); b.disabled = false; });
+  });
+})();
+
+</script>
+</body>
+</html>

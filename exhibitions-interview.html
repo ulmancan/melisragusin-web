@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Exhibitions & Interview — Melis Ragusin</title>
+<meta name="description" content="Fairs, galleries, press features and the platforms where the work lives.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Melis Ragusin"><meta property="og:title" content="Exhibitions & Interview — Melis Ragusin"><meta property="og:description" content="Fairs, galleries, press features and the platforms where the work lives.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* hero: a dim memory of Venice behind a typographic statement */
+.ex-hero{position:relative;min-height:100vh;min-height:100svh;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(220px,.5fr);align-items:end;gap:40px;padding-block:clamp(150px,22vh,220px) clamp(56px,9vh,96px);overflow:hidden;isolation:isolate}
+.ex-bg{position:absolute;inset:0;z-index:-1}
+.ex-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:saturate(.9) brightness(.42);transform:scale(1.12);animation:exkb 18s var(--ease) forwards}
+.ex-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#000 0%,rgba(0,0,0,.72) 38%,rgba(0,0,0,.2) 100%),linear-gradient(0deg,#000 0%,transparent 45%),linear-gradient(180deg,rgba(0,0,0,.6),transparent 30%)}
+@keyframes exkb{to{transform:scale(1)}}
+.ex-ht{display:grid;gap:clamp(20px,3vh,30px)}
+.ex-ht .display{font-size:clamp(56px,8.6vw,150px);max-width:11ch}
+.ex-lead{max-width:40ch;font-family:var(--serif);font-weight:300;font-size:clamp(20px,1.7vw,26px);line-height:1.45;color:#e2ddd4}
+.ex-stats{display:flex;gap:clamp(28px,4vw,64px);margin-top:10px}
+.ex-stats dt{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ex-stats dd{font-variant-numeric:lining-nums;font-family:var(--serif);font-weight:300;font-size:clamp(40px,4vw,64px);line-height:1;color:var(--ink)}
+.ex-stats div+div{padding-left:clamp(28px,4vw,64px);border-left:1px solid var(--line)}
+.ex-idx{display:grid;align-self:end;border-top:1px solid var(--line)}
+.ex-idx a{display:flex;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);transition:color .4s,padding-left .5s var(--ease)}
+.ex-idx a i{font-style:italic;font-family:var(--serif);font-size:17px;letter-spacing:0;color:var(--gold)}
+.ex-idx a:hover{color:var(--ink);padding-left:6px}
+
+/* sections */
+.ex-sec{padding-block:clamp(90px,14vh,160px) clamp(40px,6vh,70px);border-top:1px solid var(--line);scroll-margin-top:60px}
+.ex-head{display:flex;align-items:baseline;gap:clamp(18px,2.4vw,34px);margin-bottom:clamp(50px,8vh,90px)}
+.ex-head .n{font-family:var(--serif);font-style:italic;font-size:clamp(20px,1.6vw,26px);color:var(--gold)}
+
+/* timeline: a light runs down as you read */
+.tl{position:relative;display:grid;gap:clamp(60px,9vh,110px);padding-left:clamp(26px,3vw,48px)}
+.tl-rail{position:absolute;left:0;top:8px;bottom:8px;width:1px;background:var(--line)}
+.tl-rail i{position:absolute;left:0;top:0;width:1px;height:100%;background:linear-gradient(180deg,var(--gold),#f1e6cf);transform-origin:top;transform:scaleY(var(--p,0));box-shadow:0 0 14px rgba(198,168,112,.7)}
+.tl-rail b{position:absolute;left:-3px;top:calc(var(--p,0) * 100% - 3px);width:7px;height:7px;border-radius:50%;background:#f6ecd6;box-shadow:0 0 18px 4px rgba(198,168,112,.65)}
+.yr{display:grid;grid-template-columns:minmax(150px,.62fr) minmax(0,1.6fr);gap:clamp(24px,5vw,90px)}
+.yr-n{position:relative}
+.yr-n span{font-variant-numeric:lining-nums;position:sticky;top:110px;display:block;font-family:var(--serif);font-weight:300;font-size:clamp(70px,9vw,150px);line-height:.8;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1px rgba(244,242,238,.28);transition:color 1s var(--ease),-webkit-text-stroke-color 1s}
+.yr.on .yr-n span{color:var(--ink);-webkit-text-stroke-color:transparent}
+.yr-l{list-style:none;border-top:1px solid var(--line)}
+.ev{position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:8px 30px;align-items:baseline;padding:clamp(20px,2.6vh,28px) 0;border-bottom:1px solid var(--line)}
+.ev-t{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.2vw,36px);line-height:1.12;transition:transform .7s var(--ease),color .5s}
+.ev-p{font-size:13.5px;line-height:1.7;color:var(--muted);letter-spacing:.02em}
+.ev:hover .ev-t{transform:translateX(8px);color:#fff}
+.ev-img{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.ev-pic{grid-column:1/-1;margin-top:14px;max-width:420px;aspect-ratio:1;overflow:hidden;border-radius:2px;box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
+.ev-pic img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 1.6s var(--ease)}
+.ev-img:hover .ev-pic img{transform:scale(1)}
+
+/* the Oksijen page as a printed object */
+.feat{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(30px,6vw,110px);align-items:center;margin-bottom:clamp(60px,10vh,110px);perspective:1600px}
+.feat-pg{justify-self:center;width:min(100%,430px);aspect-ratio:1196/2048;max-height:78vh}
+.feat-pg img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:1px;transform:rotateY(14deg) rotateX(4deg) rotateZ(-2deg);transform-origin:70% 50%;box-shadow:-30px 50px 90px -30px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.06);filter:brightness(.9) contrast(1.02);transition:transform 1.4s var(--ease),filter .8s}
+.feat:hover .feat-pg img{transform:rotateY(4deg) rotateX(1deg) rotateZ(-.5deg);filter:none}
+.feat-t{display:grid;gap:22px;justify-items:start}
+.feat-logo{height:clamp(26px,2.4vw,36px);width:auto}
+.feat-m{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.feat-q{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(30px,3.4vw,56px);line-height:1.12;max-width:20ch;text-wrap:balance}
+.feat:hover .more{gap:18px;border-color:var(--ink)}
+
+.pr{list-style:none;border-top:1px solid var(--line)}
+.pr a{display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.4fr) auto auto;gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid var(--line);transition:padding .6s var(--ease),background .6s}
+.pr a:hover{padding-left:12px;padding-right:12px;background:linear-gradient(90deg,rgba(255,255,255,.035),transparent)}
+.pr-lg img{height:22px;width:auto;opacity:.92}
+.pr-lg b{font-family:var(--serif);font-weight:400;font-size:clamp(20px,1.6vw,25px)}
+.pr-t{font-size:15px;color:#c9c3ba}
+.pr-m{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.pr-a{font-size:11px;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;min-width:84px;text-align:right}
+.pr-a i{font-style:normal;display:inline-block;transition:transform .5s var(--ease)}
+.pr a:hover .pr-a i{transform:translate(3px,-3px)}
+
+/* platforms: two lit screens */
+.plats{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2vw,28px)}
+.plat{position:relative;overflow:hidden;display:grid;gap:18px;align-content:end;justify-items:start;min-height:clamp(320px,42vh,440px);padding:clamp(28px,3.4vw,52px);border:1px solid var(--line);border-radius:3px;background:linear-gradient(160deg,#0d0d0d,#030303);isolation:isolate;transition:border-color .6s}
+.plat-glow{position:absolute;inset:-30%;z-index:-1;background:radial-gradient(40% 40% at var(--mx,70%) var(--my,20%),rgba(143,216,207,.16),transparent 70%);opacity:.6;transition:opacity .6s}
+.plat:nth-child(2) .plat-glow{background:radial-gradient(40% 40% at var(--mx,70%) var(--my,20%),rgba(198,168,112,.18),transparent 70%)}
+.plat:hover{border-color:rgba(244,242,238,.26)}
+.plat:hover .plat-glow{opacity:1}
+.plat-lg{height:clamp(30px,2.8vw,44px);width:auto;margin-bottom:auto;align-self:start}
+.plat-k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-top:clamp(70px,12vh,140px)}
+.plat-d{font-family:var(--serif);font-weight:300;font-size:clamp(22px,1.9vw,30px);line-height:1.3;max-width:24ch}
+
+.on{list-style:none;border-top:1px solid var(--line)}
+.on a{display:grid;grid-template-columns:minmax(0,1fr) auto 40px;gap:24px;align-items:baseline;padding:clamp(18px,2.4vh,26px) 0;border-bottom:1px solid var(--line)}
+.on-n{font-family:var(--serif);font-weight:300;font-size:clamp(36px,4.4vw,72px);line-height:1;transition:transform .7s var(--ease),font-style .3s}
+.on-h{font-size:13px;letter-spacing:.06em;color:var(--muted)}
+.on i{font-style:normal;justify-self:end;transition:transform .5s var(--ease)}
+.on a:hover .on-n{transform:translateX(12px);font-style:italic}
+.on a:hover i{transform:translate(4px,-4px)}
+
+.ex-end{padding-block:clamp(110px,18vh,200px);border-top:1px solid var(--line);display:grid;gap:30px;justify-items:start}
+.ex-end .h2{max-width:22ch;font-size:clamp(34px,4.4vw,72px)}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:18px 30px}
+
+@media (max-width:899px){
+  .ex-hero{grid-template-columns:1fr;align-items:end}
+  .ex-idx{display:none}
+  .ex-stats dd{font-size:40px}
+  .tl{padding-left:22px}
+  .yr{grid-template-columns:1fr;gap:18px}
+  .yr-n span{position:static;font-size:76px}
+  .ev,.ev-img{grid-template-columns:1fr}
+  .feat{grid-template-columns:1fr;perspective:none}
+  .feat-pg{width:min(76%,330px)}
+  .feat-pg img{transform:rotateZ(-2deg)}
+  .pr a{grid-template-columns:1fr auto;gap:8px 16px}
+  .pr-t{grid-column:1/-1;grid-row:2}
+  .pr-m{grid-column:1;grid-row:3}
+  .pr-a{grid-column:2;grid-row:1}
+  .pr-t:empty{display:none}
+  .plats{grid-template-columns:1fr}
+  .on a{grid-template-columns:1fr 30px}
+  .on-h{grid-column:1;grid-row:2}
+  .on i{grid-row:1/3;align-self:center}
+}
+@media (prefers-reduced-motion:reduce){.ex-bg img{animation:none;transform:none}}
+
+</style>
+</head>
+<body>
+<div id="mrload" aria-hidden="true"><img src="assets/logo-mr.png" alt=""></div>
+<script>try{if(sessionStorage.getItem('mrT')){document.getElementById('mrload').classList.add('cont');sessionStorage.removeItem('mrT')}}catch(e){}</script>
+<div class="grain" aria-hidden="true"></div>
+<header class="tb" id="tb">
+  <a class="tb-logo" href="home.html" aria-label="Melis Ragusin — home"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mainnav"><i></i><i></i><i></i></button>
+  <nav class="mainnav" id="mainnav">
+        <a href="home.html">Home</a>
+        <a href="index.html">Virtual Gallery</a>
+        <div class="navitem">
+          <a class="navlink" href="archive.html" aria-haspopup="true">Projects <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="archive.html">All Projects</a>
+            <a href="archive.html?cat=Mixed-Media">Mixed-Media Works</a>
+            <a href="archive.html?cat=New-Media">New-Media Works</a>
+            <a href="archive.html?cat=Motion">Motion Art</a>
+            <div class="sep"></div>
+            <a href="archive.html?year=2026">2026 Works</a>
+            <a href="archive.html?year=2025">2025 Works</a>
+            <a href="archive.html?year=2024">2024 Works</a>
+            <a href="archive.html?year=2023">2023 Works</a>
+            <a href="archive.html?year=2022">2022 Works</a>
+          </div>
+        </div>
+        <a href="journal.html">Journal</a>
+        <div class="navitem">
+          <a class="navlink" href="artist-bio.html" aria-haspopup="true">About <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="artist-bio.html">Artist Bio</a>
+            <a href="exhibitions-interview.html">Exhibitions &amp; Interview</a>
+          </div>
+        </div>
+        <a href="contact.html">Contact <span class="ext">&#8599;</span></a>
+      </nav>
+</header>
+
+<main id="main">
+<section class="ex-hero gx">
+  <figure class="ex-bg" aria-hidden="true"><img src="assets/press/venice-01.webp" alt=""></figure>
+  <div class="ex-ht">
+    <div class="kick rv">Exhibitions &amp; Interview</div>
+    <h1 class="display" data-split>Where the work <em>has been.</em></h1>
+    <p class="ex-lead rv">Fairs, galleries, press features and the platforms where the work lives.</p>
+    <dl class="ex-stats rv">
+      <div><dt>Exhibitions</dt><dd>11</dd></div>
+      <div><dt>Cities</dt><dd>6</dd></div>
+      <div><dt>Since</dt><dd>2022</dd></div>
+    </dl>
+  </div>
+  <nav class="ex-idx rv" aria-label="On this page">
+    <a href="#exhibitions"><i>01</i>Selected Exhibitions</a>
+    <a href="#press"><i>02</i>Press &amp; Media</a>
+    <a href="#platforms"><i>03</i>Platforms</a>
+    <a href="#online"><i>04</i>Online Presence</a>
+  </nav>
+</section>
+
+<section class="ex-sec gx" id="exhibitions">
+  <header class="ex-head">
+    <span class="n">01</span>
+    <h2 class="h2" data-split>Selected <em>Exhibitions</em></h2>
+  </header>
+  <div class="tl" id="tl">
+    <div class="tl-rail" aria-hidden="true"><i></i><b></b></div>
+
+    <div class="yr">
+      <div class="yr-n"><span>2025</span></div>
+      <ol class="yr-l">
+        <li class="ev rv"><div class="ev-t">Aqua Art Miami</div><div class="ev-p">Miami, USA</div></li>
+        <li class="ev rv"><div class="ev-t">Red Dot Miami</div><div class="ev-p">Miami, USA</div></li>
+        <li class="ev rv"><div class="ev-t">Context Art Miami</div><div class="ev-p">Miami, USA</div></li>
+        <li class="ev rv"><div class="ev-t">Art Weeks Istanbul XI</div><div class="ev-p">Istanbul, Turkey</div></li>
+        <li class="ev rv"><div class="ev-t">Cannes Yachting Festival</div><div class="ev-p">Digital artworks exhibited aboard the X90 Fast in collaboration with Palumbo Superyachts.</div></li>
+      </ol>
+    </div>
+
+    <div class="yr">
+      <div class="yr-n"><span>2024</span></div>
+      <ol class="yr-l">
+        <li class="ev ev-img rv">
+          <div class="ev-t">20th Venice International Art Fair</div><div class="ev-p">Palazzo Albrizzi Capello · Venice, Italy</div>
+          <figure class="ev-pic"><img src="assets/press/venice-04.webp" alt="Work by Melis Ragusin shown at the 20th Venice International Art Fair" loading="lazy"></figure>
+        </li>
+        <li class="ev rv"><div class="ev-t">Art Weeks Istanbul IX</div><div class="ev-p">Istanbul, Turkey</div></li>
+      </ol>
+    </div>
+
+    <div class="yr">
+      <div class="yr-n"><span>2023</span></div>
+      <ol class="yr-l">
+        <li class="ev rv"><div class="ev-t">Enchanted Rhythms</div><div class="ev-p">Art-Z Gallery · Çeşme, Turkey</div></li>
+        <li class="ev rv"><div class="ev-t">Art With Me with Gallery Selvin</div><div class="ev-p">Çeşme, Turkey</div></li>
+        <li class="ev rv"><div class="ev-t">Art Venue Izmir</div><div class="ev-p">Izmir, Turkey</div></li>
+      </ol>
+    </div>
+
+    <div class="yr">
+      <div class="yr-n"><span>2022</span></div>
+      <ol class="yr-l">
+        <li class="ev rv"><div class="ev-t">Dream</div><div class="ev-p">Galerie d'Art La Vision · Istanbul, Turkey</div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="ex-sec gx" id="press">
+  <header class="ex-head">
+    <span class="n">02</span>
+    <h2 class="h2" data-split>Press &amp; <em>Media Features</em></h2>
+  </header>
+
+  <a class="feat" href="oksijen-interview.html">
+    <div class="feat-pg rv"><img src="assets/press/melo-1196x2048.webp" alt="The Oksijen newspaper page with the interview with Melis Ragusin" loading="lazy"></div>
+    <div class="feat-t rv">
+      <img class="feat-logo" src="assets/logos/oksijen.png" alt="Oksijen">
+      <div class="feat-m">Interview · 20 January 2026</div>
+      <p class="feat-q" lang="tr">&ldquo;Bir sanat eserinin arkasında düşünme, seçim yapma ve bilinçli bir kurgu varsa, orada hâlâ insan vardır.&rdquo;</p>
+      <span class="more">Read the interview <span aria-hidden="true">&#8594;</span></span>
+    </div>
+  </a>
+
+  <ul class="pr">
+    <li class="rv"><a href="https://www.itsliquid.com/call-venice-experimental-2025.html" target="_blank" rel="noopener">
+      <span class="pr-lg"><img src="assets/logos/itsliquid.png" alt="ITSLIQUID"></span>
+      <span class="pr-t">20th Venice Experimental Art Fair</span><span class="pr-m">Feature · 2025</span><span class="pr-a">Visit <i>&#8599;</i></span></a></li>
+    <li class="rv"><a href="https://www.instagram.com/reel/CuT2y_ZoJOa" target="_blank" rel="noopener">
+      <span class="pr-lg"><b>ArtTV</b></span>
+      <span class="pr-t">Art With Me · Gallery Selvin · Before Sunset Beach</span><span class="pr-m">Feature · 2023</span><span class="pr-a">Watch <i>&#8599;</i></span></a></li>
+    <li class="rv"><a href="https://www.oncevatan.com.tr/dream-sergisi-galerie-dart-la-visione" target="_blank" rel="noopener">
+      <span class="pr-lg"><b>Sanat Tasarım Gazetesi</b></span>
+      <span class="pr-t">Dream · Galerie d'Art La Vision</span><span class="pr-m">Press · 2023</span><span class="pr-a">Visit <i>&#8599;</i></span></a></li>
+    <li class="rv"><a href="https://oggusto.com/" target="_blank" rel="noopener">
+      <span class="pr-lg"><b>Oggusto.com</b></span>
+      <span class="pr-t"></span><span class="pr-m">Press · 2022</span><span class="pr-a">Visit <i>&#8599;</i></span></a></li>
+  </ul>
+</section>
+
+<section class="ex-sec gx" id="platforms">
+  <header class="ex-head">
+    <span class="n">03</span>
+    <h2 class="h2" data-split>Digital &amp; Institutional <em>Platforms</em></h2>
+  </header>
+  <div class="plats">
+    <a class="plat rv" href="https://blackdove.com/e25bb57d-cef1-46b9-9ff1-cc29c46284b6" target="_blank" rel="noopener">
+      <span class="plat-glow" aria-hidden="true"></span>
+      <img class="plat-lg" src="assets/logos/blackdove.png" alt="Blackdove">
+      <span class="plat-k">Curated Artist</span>
+      <span class="plat-d">Featured as a curated artist on BlackDove's digital art platform.</span>
+      <span class="more">Open on Blackdove <span aria-hidden="true">&#8599;</span></span>
+    </a>
+    <a class="plat rv" href="https://www.seditionart.com/melis-ragusin" target="_blank" rel="noopener">
+      <span class="plat-glow" aria-hidden="true"></span>
+      <img class="plat-lg" src="assets/logos/sedition.png" alt="Sedition">
+      <span class="plat-k">Curated Digital Editions</span>
+      <span class="plat-d">Selected works released as curated digital editions on Sedition.</span>
+      <span class="more">Open on Sedition <span aria-hidden="true">&#8599;</span></span>
+    </a>
+  </div>
+</section>
+
+<section class="ex-sec gx" id="online">
+  <header class="ex-head">
+    <span class="n">04</span>
+    <h2 class="h2" data-split>Online <em>Presence</em></h2>
+  </header>
+  <ul class="on">
+    <li class="rv"><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener"><span class="on-n">Instagram</span><span class="on-h">@melisragusin</span><i>&#8599;</i></a></li>
+    <li class="rv"><a href="https://vimeo.com/melisragusin" target="_blank" rel="noopener"><span class="on-n">Vimeo</span><span class="on-h">vimeo.com/melisragusin</span><i>&#8599;</i></a></li>
+    <li class="rv"><a href="https://www.linkedin.com/in/melis-rimer-ragusin-2614bb7/" target="_blank" rel="noopener"><span class="on-n">LinkedIn</span><span class="on-h">Melis Rimer Ragusin</span><i>&#8599;</i></a></li>
+    <li class="rv"><a href="https://www.behance.net/melisrimerr" target="_blank" rel="noopener"><span class="on-n">Behance</span><span class="on-h">behance.net/melisrimerr</span><i>&#8599;</i></a></li>
+  </ul>
+</section>
+
+<section class="ex-end gx">
+  <div class="kick gold rv">Exhibitions · Commissions · Interviews</div>
+  <p class="h2 rv">For exhibitions, commissions, interviews or collaborations, <em>get in touch.</em></p>
+  <div class="acts rv"><a class="btn-line" href="contact.html">Contact <span aria-hidden="true">&#8594;</span></a><a class="more" href="artist-bio.html">Artist Bio <span aria-hidden="true">&#8594;</span></a></div>
+</section>
+
+</main>
+
+<section class="newsletter" aria-label="Newsletter">
+  <div class="nl-in">
+    <div class="nl-l"><div class="nl-k">Newsletter</div><h3>Subscribe My Newsletter</h3></div>
+    <form class="nl-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return mrSubscribe(event,this)">
+      <input type="hidden" name="form-name" value="newsletter"><input type="hidden" name="bot-field">
+      <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+      <button type="submit">Subscribe <span aria-hidden="true">&#8594;</span></button>
+    </form>
+    <div class="nl-note" role="status"></div>
+  </div>
+</section>
+<footer class="sitefoot">
+  <div class="sf-top">
+    <div class="sf-brand">
+      <div class="sf-mark"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></div>
+      <div class="sf-tag">New Media &amp; Mixed Media Artist</div>
+      <a class="sf-email" href="mailto:melis@melisragusin.com">melis@melisragusin.com</a>
+    </div>
+    <div class="sf-cols">
+      <div class="sf-col"><div class="sf-h">Explore</div><a href="home.html">Home</a><a href="index.html">Virtual Gallery</a><a href="archive.html">All Projects</a><a href="journal.html">Journal</a></div>
+      <div class="sf-col"><div class="sf-h">About</div><a href="artist-bio.html">Artist Bio</a><a href="exhibitions-interview.html">Exhibitions &amp; Interview</a><a href="contact.html">Contact</a></div>
+      <div class="sf-col"><div class="sf-h">Connect</div><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a><a href="https://vimeo.com/melisragusin" target="_blank" rel="noopener">Vimeo</a><a href="https://www.behance.net/melisrimerr" target="_blank" rel="noopener">Behance</a><a href="https://www.linkedin.com/in/melis-rimer-ragusin-2614bb7/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+  </div>
+  <div class="sf-bottom">
+    <div>&copy; 2026 Melis Ragusin. All rights reserved.</div>
+    <div class="sf-plat"><a href="privacy-policy.html">Privacy</a><a href="https://www.seditionart.com/melis-ragusin" target="_blank" rel="noopener">Sedition</a><a href="https://blackdove.com/e25bb57d-cef1-46b9-9ff1-cc29c46284b6" target="_blank" rel="noopener">Blackdove</a><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a></div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  // the light runs down the timeline; a year lights up when you reach it
+  var tl = document.getElementById('tl'); if (!tl) return;
+  var years = tl.querySelectorAll('.yr'), tick = false;
+  function upd() {
+    tick = false;
+    var r = tl.getBoundingClientRect(), mid = innerHeight * 0.55;
+    var p = Math.max(0, Math.min(1, (mid - r.top) / r.height));
+    tl.style.setProperty('--p', p.toFixed(4));
+    years.forEach(function (y) { var b = y.getBoundingClientRect(); y.classList.toggle('on', b.top < mid); });
+  }
+  addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+  addEventListener('resize', upd); upd();
+
+  // platform cards: the glow follows the pointer
+  document.querySelectorAll('.plat').forEach(function (c) {
+    c.addEventListener('pointermove', function (e) { var b = c.getBoundingClientRect(); c.style.setProperty('--mx', ((e.clientX - b.left) / b.width * 100) + '%'); c.style.setProperty('--my', ((e.clientY - b.top) / b.height * 100) + '%'); });
+  });
+})();
+
+</script>
+</body>
+</html>

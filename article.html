@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Journal — Melis Ragusin</title>
+<meta name="description" content="From the journal of Melis Ragusin.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Melis Ragusin"><meta property="og:title" content="Journal — Melis Ragusin"><meta property="og:description" content="From the journal of Melis Ragusin.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.ok-prog{position:fixed;left:0;right:0;top:0;height:2px;z-index:60;pointer-events:none}
+.ok-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#f3e7cc);transform-origin:left;transform:scaleX(var(--p,0));box-shadow:0 0 12px rgba(198,168,112,.6)}
+
+.at-hero{position:relative;min-height:100vh;min-height:100svh;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(30px,5vw,90px);align-items:center;padding-block:clamp(140px,19vh,190px) clamp(60px,9vh,100px);overflow:hidden;isolation:isolate}
+.at-amb{position:absolute;inset:-14%;z-index:-2;background-size:cover;background-position:center;filter:blur(90px) saturate(1.3) brightness(.55);opacity:0;transition:opacity 2.2s ease}
+.at-amb.on{opacity:.6}
+.at-hero::after{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 70% at 70% 50%,transparent,rgba(0,0,0,.4) 50%,#000 95%),linear-gradient(180deg,rgba(0,0,0,.6),transparent 25%,transparent 70%,#000)}
+.at-t{display:grid;gap:clamp(18px,3vh,26px);justify-items:start}
+.at-back{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);transition:color .4s}
+.at-back:hover{color:var(--ink)}
+.at-k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-top:clamp(6px,2vh,20px)}
+.at-h{font-family:var(--serif);font-weight:300;font-size:clamp(46px,5.8vw,104px);line-height:.95;letter-spacing:-.015em;text-wrap:balance}
+.at-x{font-family:var(--serif);font-weight:300;font-size:clamp(19px,1.5vw,24px);line-height:1.5;color:#e2ddd4;max-width:42ch}
+.at-m{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.at-m span+span::before{content:'·';margin-right:24px;color:var(--faint)}
+.at-pic{justify-self:center;width:100%;max-height:74vh;display:flex;justify-content:center;opacity:0;transform:translateY(24px) scale(.985);transition:opacity 1.6s var(--ease) .3s,transform 1.8s var(--ease) .3s}
+.at-pic.in{opacity:1;transform:none}
+.at-pic img{max-width:100%;max-height:74vh;width:auto;height:auto;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.07),0 50px 120px -30px rgba(0,0,0,.95),0 0 140px -30px rgba(255,255,255,.14);-webkit-box-reflect:below 14px linear-gradient(transparent 78%,rgba(255,255,255,.08))}
+
+.at-body{display:grid;grid-template-columns:minmax(0,.5fr) minmax(0,1.6fr) minmax(0,.4fr);gap:clamp(24px,4vw,70px);padding-block:clamp(70px,11vh,130px);border-top:1px solid var(--line)}
+.at-side{position:sticky;top:120px;align-self:start;display:grid;gap:12px;justify-items:end;text-align:right}
+.at-side .kick{flex-direction:row-reverse}
+.at-side .kick::before{display:none}
+.at-side span{font-size:12px;color:var(--muted);line-height:1.7}
+.at-c{max-width:70ch;font-size:clamp(16px,1.12vw,18px);line-height:1.95;color:#cdc7be}
+.at-c p+p{margin-top:1.15em}
+.at-c p.dc::first-letter{float:left;font-family:var(--serif);font-weight:300;font-size:5.2em;line-height:.8;padding:.08em .12em 0 0;color:var(--gold)}
+.at-c h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.3vw,38px);line-height:1.2;color:var(--ink);margin:2.2em 0 .8em;text-wrap:balance}
+.at-c h2.q{font-style:italic;font-size:clamp(23px,2vw,32px);line-height:1.32;position:relative;padding-top:1.6em;border-top:1px solid var(--line)}
+.at-c h2.q b{position:absolute;top:.5em;left:0;font-family:var(--sans);font-style:normal;font-weight:400;font-size:11px;letter-spacing:.28em;color:var(--gold)}
+.at-c h2:first-child{margin-top:0}
+
+.at-gal{padding-bottom:clamp(80px,12vh,140px)}
+.at-gal .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(12px,1.4vw,22px)}
+.at-gal button{border:0;padding:0;background:#080808;cursor:zoom-in;overflow:hidden;border-radius:2px;aspect-ratio:1}
+.at-gal img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease),filter .6s;filter:brightness(.9)}
+.at-gal button:hover img{transform:scale(1.04);filter:none}
+
+.at-pager{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.at-pager a{position:relative;overflow:hidden;min-height:clamp(260px,40vh,420px);display:grid;align-content:end;gap:14px;padding:clamp(28px,4vw,64px);isolation:isolate}
+.at-pager a+a{border-left:1px solid var(--line);text-align:right;justify-items:end}
+.at-pager .bg{position:absolute;inset:0;z-index:-1;background-size:cover;background-position:center;filter:brightness(.3) saturate(.8);transform:scale(1.06);transition:transform 1.6s var(--ease),filter .8s}
+.at-pager a:hover .bg{transform:scale(1);filter:brightness(.48) saturate(1)}
+.at-pager .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.at-pager .tt{font-family:var(--serif);font-weight:300;font-size:clamp(28px,3vw,50px);line-height:1.02;max-width:16ch;text-wrap:balance}
+.at-all{display:flex;justify-content:center;padding:28px;border-top:1px solid var(--line)}
+
+.lbx{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.95);display:grid;grid-template-columns:70px 1fr 70px;align-items:center;opacity:0;transition:opacity .45s}
+.lbx.on{opacity:1}
+.lbx figure{display:flex;justify-content:center;align-items:center;height:100vh;padding:4vh 0}
+.lbx img{max-width:100%;max-height:92vh;object-fit:contain}
+.lbx-x{position:fixed;top:18px;right:22px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.5);color:#fff;font-size:26px;line-height:1;cursor:pointer;z-index:2}
+.lbx-n{justify-self:center;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:none;color:#fff;font-size:18px;cursor:pointer}
+.lbx .lbx-n[hidden]{display:block!important;visibility:hidden}
+
+@media (max-width:1100px){.at-body{grid-template-columns:minmax(0,.45fr) minmax(0,1.6fr)}}
+@media (max-width:899px){
+  .at-hero{grid-template-columns:1fr;padding-top:120px;align-items:start}
+  .at-pic{order:-1}
+  .at-pic img{max-height:46vh}
+  .at-body{grid-template-columns:1fr;gap:20px}
+  .at-side{position:static;justify-items:start;text-align:left}
+  .at-side .kick{flex-direction:row}
+  .at-pager{grid-template-columns:1fr}
+  .at-pager a+a{border-left:0;border-top:1px solid var(--line)}
+  .lbx{grid-template-columns:44px 1fr 44px}
+  .lbx-n{width:38px;height:38px}
+}
+
+</style>
+</head>
+<body>
+<div id="mrload" aria-hidden="true"><img src="assets/logo-mr.png" alt=""></div>
+<script>try{if(sessionStorage.getItem('mrT')){document.getElementById('mrload').classList.add('cont');sessionStorage.removeItem('mrT')}}catch(e){}</script>
+<div class="grain" aria-hidden="true"></div>
+<header class="tb" id="tb">
+  <a class="tb-logo" href="home.html" aria-label="Melis Ragusin — home"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mainnav"><i></i><i></i><i></i></button>
+  <nav class="mainnav" id="mainnav">
+        <a href="home.html">Home</a>
+        <a href="index.html">Virtual Gallery</a>
+        <div class="navitem">
+          <a class="navlink" href="archive.html" aria-haspopup="true">Projects <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="archive.html">All Projects</a>
+            <a href="archive.html?cat=Mixed-Media">Mixed-Media Works</a>
+            <a href="archive.html?cat=New-Media">New-Media Works</a>
+            <a href="archive.html?cat=Motion">Motion Art</a>
+            <div class="sep"></div>
+            <a href="archive.html?year=2026">2026 Works</a>
+            <a href="archive.html?year=2025">2025 Works</a>
+            <a href="archive.html?year=2024">2024 Works</a>
+            <a href="archive.html?year=2023">2023 Works</a>
+            <a href="archive.html?year=2022">2022 Works</a>
+          </div>
+        </div>
+        <a href="journal.html">Journal</a>
+        <div class="navitem">
+          <a class="navlink" href="artist-bio.html" aria-haspopup="true">About <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="artist-bio.html">Artist Bio</a>
+            <a href="exhibitions-interview.html">Exhibitions &amp; Interview</a>
+          </div>
+        </div>
+        <a href="contact.html">Contact <span class="ext">&#8599;</span></a>
+      </nav>
+</header>
+
+<main id="main">
+<div class="ok-prog" aria-hidden="true"><i id="arProg"></i></div>
+<div id="art"></div>
+<div class="lbx" id="lb" role="dialog" aria-modal="true" aria-label="Image" hidden>
+  <button class="lbx-x" type="button" id="lbX" aria-label="Close">&times;</button>
+  <button class="lbx-n prev" type="button" id="lbP" aria-label="Previous image">&#8592;</button>
+  <figure><img id="lbI" alt=""></figure>
+  <button class="lbx-n next" type="button" id="lbN" aria-label="Next image">&#8594;</button>
+</div>
+
+</main>
+
+<section class="newsletter" aria-label="Newsletter">
+  <div class="nl-in">
+    <div class="nl-l"><div class="nl-k">Newsletter</div><h3>Subscribe My Newsletter</h3></div>
+    <form class="nl-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return mrSubscribe(event,this)">
+      <input type="hidden" name="form-name" value="newsletter"><input type="hidden" name="bot-field">
+      <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+      <button type="submit">Subscribe <span aria-hidden="true">&#8594;</span></button>
+    </form>
+    <div class="nl-note" role="status"></div>
+  </div>
+</section>
+<footer class="sitefoot">
+  <div class="sf-top">
+    <div class="sf-brand">
+      <div class="sf-mark"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></div>
+      <div class="sf-tag">New Media &amp; Mixed Media Artist</div>
+      <a class="sf-email" href="mailto:melis@melisragusin.com">melis@melisragusin.com</a>
+    </div>
+    <div class="sf-cols">
+      <div class="sf-col"><div class="sf-h">Explore</div><a href="home.html">Home</a><a href="index.html">Virtual Gallery</a><a href="archive.html">All Projects</a><a href="journal.html">Journal</a></div>
+      <div class="sf-col"><div class="sf-h">About</div><a href="artist-bio.html">Artist Bio</a><a href="exhibitions-interview.html">Exhibitions &amp; Interview</a><a href="contact.html">Contact</a></div>
+      <div class="sf-col"><div class="sf-h">Connect</div><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a><a href="https://vimeo.com/melisragusin" target="_blank" rel="noopener">Vimeo</a><a href="https://www.behance.net/melisrimerr" target="_blank" rel="noopener">Behance</a><a href="https://www.linkedin.com/in/melis-rimer-ragusin-2614bb7/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+  </div>
+  <div class="sf-bottom">
+    <div>&copy; 2026 Melis Ragusin. All rights reserved.</div>
+    <div class="sf-plat"><a href="privacy-policy.html">Privacy</a><a href="https://www.seditionart.com/melis-ragusin" target="_blank" rel="noopener">Sedition</a><a href="https://blackdove.com/e25bb57d-cef1-46b9-9ff1-cc29c46284b6" target="_blank" rel="noopener">Blackdove</a><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a></div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+<script src="data-journal.js"></script>
+<script>
+(function () {
+  var J = window.JOURNAL || [], esc = mrEsc, d = document;
+  var id = window.PAGE_ID || new URLSearchParams(location.search).get('id'), i = 0;
+  J.forEach(function (a, k) { if (a.id === id) i = k; });
+  var a = J[i]; if (!a) return;
+  var prev = J[(i - 1 + J.length) % J.length], next = J[(i + 1) % J.length];
+  var qn = 0, isQA = a.body.filter(function (b) { return b.t === 'h' && /\?\s*$/.test(b.x); }).length >= 2;
+  var body = a.body.map(function (b) {
+    if (b.t === 'h') { if (isQA && /\?\s*$/.test(b.x)) { qn++; return '<h2 class="q"><b>' + String(qn).padStart(2, '0') + '</b>' + esc(b.x) + '</h2>'; } return '<h2>' + esc(b.x) + '</h2>'; }
+    return '<p>' + esc(b.x) + '</p>';
+  }).join('');
+  var gal = (a.images || []).filter(function (u) { return u && u !== a.hero; });
+  var all = [a.hero].concat(gal).filter(Boolean);
+  if (!window.PAGE_ID) document.title = a.title + ' — Journal — Melis Ragusin';
+  var md = d.querySelector('meta[name="description"]'); if (md && a.excerpt) md.setAttribute('content', a.excerpt);
+  var meta = [a.category, a.date, a.read].filter(Boolean).map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('');
+  var link = function (b, k) { return '<a href="article.html?id=' + encodeURIComponent(b.id) + '"><span class="bg" style="background-image:url(\'' + esc(b.hero) + '\')"></span><span class="k">' + k + '</span><span class="tt">' + esc(b.title) + '</span></a>'; };
+  d.getElementById('art').innerHTML =
+    '<section class="at-hero gx"><span class="at-amb" id="atAmb" style="background-image:url(\'' + esc(a.hero) + '\')"></span>' +
+      '<div class="at-t"><a class="at-back rv" href="journal.html"><span aria-hidden="true">&#8592;</span> Journal</a>' +
+      '<span class="at-k rv">' + (isQA ? 'Interview' : 'Story') + '</span>' +
+      '<h1 class="at-h" data-split>' + esc(a.title) + '</h1>' +
+      (a.excerpt ? '<p class="at-x rv">' + esc(a.excerpt) + '</p>' : '') +
+      '<div class="at-m rv">' + meta + '</div></div>' +
+      (a.hero ? '<figure class="at-pic" id="atPic"><img src="' + esc(a.hero) + '" alt="' + esc(a.title) + '"></figure>' : '') +
+    '</section>' +
+    '<section class="at-body gx"><aside class="at-side"><span class="kick gold">Journal</span><span>' + esc(a.date) + (a.read ? '<br>' + esc(a.read) : '') + '</span></aside>' +
+      '<article class="at-c">' + body + '</article></section>' +
+    (gal.length ? '<section class="at-gal gx"><div class="g">' + gal.map(function (u, k) { return '<button class="rv" type="button" data-k="' + (k + 1) + '" aria-label="Open image ' + (k + 2) + '"><img src="' + esc(u) + '" alt="' + esc(a.title) + '" loading="lazy"></button>'; }).join('') + '</div></section>' : '') +
+    (J.length > 1 ? '<nav class="at-pager" aria-label="More stories">' + link(prev, '&#8592; Previous') + link(next, 'Next &#8594;') + '</nav>' : '') +
+    '<div class="at-all"><a class="more" href="journal.html">All stories <span aria-hidden="true">&#8594;</span></a></div>';
+  var dc = [].slice.call(d.querySelectorAll('.at-c > p')).filter(function (p) { return /^[A-Za-zÀ-ž]/.test(p.textContent.trim()); })[0];
+  if (dc && dc === d.querySelector('.at-c > *:first-child')) dc.classList.add('dc');
+  else if (dc && dc.textContent.length > 160) dc.classList.add('dc');
+  mrReveal(d.getElementById('art'));
+  setTimeout(function () { var p = d.getElementById('atPic'); p && p.classList.add('in'); var m = d.getElementById('atAmb'); m && m.classList.add('on'); }, 80);
+
+  // reading progress
+  var prog = d.querySelector('.ok-prog'), bd = d.querySelector('.at-body'), tick = false;
+  function upd() { tick = false; var r = bd.getBoundingClientRect(); prog.style.setProperty('--p', Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight))).toFixed(4)); }
+  addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true }); upd();
+
+  // lightbox
+  var lb = d.getElementById('lb'), im = d.getElementById('lbI'), cur = 0, last;
+  function show(k) { cur = (k + all.length) % all.length; im.src = all[cur]; im.alt = a.title; }
+  function open(k) { last = d.activeElement; show(k); lb.hidden = false; requestAnimationFrame(function () { lb.classList.add('on'); }); d.body.style.overflow = 'hidden'; d.getElementById('lbX').focus(); }
+  function close() { lb.classList.remove('on'); d.body.style.overflow = ''; setTimeout(function () { lb.hidden = true; }, 420); if (last) last.focus(); }
+  d.getElementById('lbP').hidden = d.getElementById('lbN').hidden = all.length < 2;
+  d.querySelectorAll('.at-gal button').forEach(function (b) { b.addEventListener('click', function () { open(+b.dataset.k); }); });
+  var hp = d.getElementById('atPic'); if (hp) { hp.style.cursor = 'zoom-in'; hp.addEventListener('click', function () { open(0); }); }
+  d.getElementById('lbX').addEventListener('click', close);
+  d.getElementById('lbP').addEventListener('click', function () { show(cur - 1); });
+  d.getElementById('lbN').addEventListener('click', function () { show(cur + 1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb || e.target.tagName === 'FIGURE') close(); });
+  addEventListener('keydown', function (e) { if (lb.hidden) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+})();
+
+</script>
+</body>
+</html>

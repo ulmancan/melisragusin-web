@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Journal — Melis Ragusin</title>
+<meta name="description" content="Stories, interviews and notes from Melis Ragusin.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Melis Ragusin"><meta property="og:title" content="Journal — Melis Ragusin"><meta property="og:description" content="Stories, interviews and notes from Melis Ragusin.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.jo-hero{padding-block:clamp(150px,22vh,230px) clamp(40px,7vh,70px);display:grid;gap:clamp(20px,3vh,30px)}
+.jo-hero .display{max-width:12ch}
+.jo-sub{max-width:40ch;font-family:var(--serif);font-weight:300;font-size:clamp(20px,1.7vw,26px);line-height:1.45;color:#e2ddd4}
+
+/* the newest story, lit like a screen in a dark room */
+.jo-feat{padding-block:clamp(30px,5vh,60px) clamp(90px,14vh,150px)}
+.jf{position:relative;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(30px,5vw,90px);align-items:center;isolation:isolate}
+.jf-amb{position:absolute;inset:-10% 0;z-index:-1;background-size:cover;background-position:center;filter:blur(80px) saturate(1.3) brightness(.5);opacity:.55;pointer-events:none}
+.jf-pic{position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.06),0 50px 120px -40px rgba(0,0,0,.95)}
+.jf-pic img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 2s var(--ease)}
+.jf:hover .jf-pic img{transform:scale(1)}
+.jf-t{display:grid;gap:22px;justify-items:start}
+.jf-k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.jf-h{font-family:var(--serif);font-weight:300;font-size:clamp(40px,4.6vw,80px);line-height:.98;letter-spacing:-.01em;text-wrap:balance}
+.jf-x{font-size:clamp(15px,1.05vw,17px);line-height:1.85;color:#c9c3ba;max-width:46ch}
+.jf-m{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.jf:hover .more{gap:18px;border-color:var(--ink)}
+
+/* index of stories; on desktop the picture follows the pointer */
+.jo-list{padding-bottom:clamp(90px,14vh,160px)}
+.jo-lh{padding-bottom:22px}
+.jo-rows{list-style:none;border-top:1px solid var(--line)}
+.jr a{display:grid;grid-template-columns:70px minmax(0,1fr) minmax(170px,.32fr) 40px;gap:24px;align-items:center;padding:clamp(24px,3.4vh,38px) 0;border-bottom:1px solid var(--line);position:relative}
+.jr .n{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold);font-variant-numeric:lining-nums}
+.jr .t{font-family:var(--serif);font-weight:300;font-size:clamp(28px,3.4vw,56px);line-height:1.04;transition:transform .8s var(--ease),color .5s;text-wrap:balance}
+.jr .m{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);line-height:1.9}
+.jr .m b{display:block;font-weight:400;color:#bdb7ae}
+.jr i{font-style:normal;justify-self:end;transition:transform .5s var(--ease)}
+.jr .th{display:none}
+.jo-rows:hover .jr .t{color:#6d6861}
+.jo-rows .jr a:hover .t{color:var(--ink);transform:translateX(14px);font-style:italic}
+.jr a:hover i{transform:translate(4px,-4px)}
+.jo-float{position:fixed;left:0;top:0;z-index:40;width:clamp(240px,22vw,340px);aspect-ratio:4/5;pointer-events:none;border-radius:2px;overflow:hidden;opacity:0;transform:translate3d(var(--x,0),var(--y,0),0) scale(.9) rotate(var(--r,0deg));transition:opacity .45s,transform .7s var(--ease);box-shadow:0 40px 100px -30px rgba(0,0,0,.9)}
+.jo-float.on{opacity:1;transform:translate3d(var(--x,0),var(--y,0),0) scale(1) rotate(var(--r,0deg))}
+.jo-float img{width:100%;height:100%;object-fit:cover}
+@media (hover:none),(max-width:899px){.jo-float{display:none}}
+@media (max-width:899px){
+  .jf{grid-template-columns:1fr}
+  .jr a{grid-template-columns:96px minmax(0,1fr);gap:8px 18px;align-items:start}
+  .jr .th{display:block;grid-row:1/4;aspect-ratio:4/5;overflow:hidden;border-radius:2px}
+  .jr .th img{width:100%;height:100%;object-fit:cover}
+  .jr .n{display:none}
+  .jr .t{font-size:26px}
+  .jr i{display:none}
+  .jo-rows:hover .jr .t{color:var(--ink)}
+}
+
+</style>
+</head>
+<body>
+<div id="mrload" aria-hidden="true"><img src="assets/logo-mr.png" alt=""></div>
+<script>try{if(sessionStorage.getItem('mrT')){document.getElementById('mrload').classList.add('cont');sessionStorage.removeItem('mrT')}}catch(e){}</script>
+<div class="grain" aria-hidden="true"></div>
+<header class="tb" id="tb">
+  <a class="tb-logo" href="home.html" aria-label="Melis Ragusin — home"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mainnav"><i></i><i></i><i></i></button>
+  <nav class="mainnav" id="mainnav">
+        <a href="home.html">Home</a>
+        <a href="index.html">Virtual Gallery</a>
+        <div class="navitem">
+          <a class="navlink" href="archive.html" aria-haspopup="true">Projects <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="archive.html">All Projects</a>
+            <a href="archive.html?cat=Mixed-Media">Mixed-Media Works</a>
+            <a href="archive.html?cat=New-Media">New-Media Works</a>
+            <a href="archive.html?cat=Motion">Motion Art</a>
+            <div class="sep"></div>
+            <a href="archive.html?year=2026">2026 Works</a>
+            <a href="archive.html?year=2025">2025 Works</a>
+            <a href="archive.html?year=2024">2024 Works</a>
+            <a href="archive.html?year=2023">2023 Works</a>
+            <a href="archive.html?year=2022">2022 Works</a>
+          </div>
+        </div>
+        <a href="journal.html">Journal</a>
+        <div class="navitem">
+          <a class="navlink" href="artist-bio.html" aria-haspopup="true">About <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="artist-bio.html">Artist Bio</a>
+            <a href="exhibitions-interview.html">Exhibitions &amp; Interview</a>
+          </div>
+        </div>
+        <a href="contact.html">Contact <span class="ext">&#8599;</span></a>
+      </nav>
+</header>
+
+<main id="main">
+<section class="jo-hero gx">
+  <div class="kick rv">Journal · <b id="joCount">—</b></div>
+  <h1 class="display" data-split>Stories from <em>the studio.</em></h1>
+  <p class="jo-sub rv">Conversations, reflections and stories from behind the work.</p>
+</section>
+<section class="jo-feat gx" id="joFeat"></section>
+<section class="jo-list gx" aria-label="All stories">
+  <div class="jo-lh"><span class="kick">All stories</span></div>
+  <ol class="jo-rows" id="joRows"></ol>
+</section>
+<div class="jo-float" id="joFloat" aria-hidden="true"><img alt=""></div>
+
+</main>
+
+<section class="newsletter" aria-label="Newsletter">
+  <div class="nl-in">
+    <div class="nl-l"><div class="nl-k">Newsletter</div><h3>Subscribe My Newsletter</h3></div>
+    <form class="nl-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return mrSubscribe(event,this)">
+      <input type="hidden" name="form-name" value="newsletter"><input type="hidden" name="bot-field">
+      <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+      <button type="submit">Subscribe <span aria-hidden="true">&#8594;</span></button>
+    </form>
+    <div class="nl-note" role="status"></div>
+  </div>
+</section>
+<footer class="sitefoot">
+  <div class="sf-top">
+    <div class="sf-brand">
+      <div class="sf-mark"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></div>
+      <div class="sf-tag">New Media &amp; Mixed Media Artist</div>
+      <a class="sf-email" href="mailto:melis@melisragusin.com">melis@melisragusin.com</a>
+    </div>
+    <div class="sf-cols">
+      <div class="sf-col"><div class="sf-h">Explore</div><a href="home.html">Home</a><a href="index.html">Virtual Gallery</a><a href="archive.html">All Projects</a><a href="journal.html">Journal</a></div>
+      <div class="sf-col"><div class="sf-h">About</div><a href="artist-bio.html">Artist Bio</a><a href="exhibitions-interview.html">Exhibitions &amp; Interview</a><a href="contact.html">Contact</a></div>
+      <div class="sf-col"><div class="sf-h">Connect</div><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a><a href="https://vimeo.com/melisragusin" target="_blank" rel="noopener">Vimeo</a><a href="https://www.behance.net/melisrimerr" target="_blank" rel="noopener">Behance</a><a href="https://www.linkedin.com/in/melis-rimer-ragusin-2614bb7/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+  </div>
+  <div class="sf-bottom">
+    <div>&copy; 2026 Melis Ragusin. All rights reserved.</div>
+    <div class="sf-plat"><a href="privacy-policy.html">Privacy</a><a href="https://www.seditionart.com/melis-ragusin" target="_blank" rel="noopener">Sedition</a><a href="https://blackdove.com/e25bb57d-cef1-46b9-9ff1-cc29c46284b6" target="_blank" rel="noopener">Blackdove</a><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a></div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+<script src="data-journal.js"></script>
+<script>
+(function () {
+  var J = window.JOURNAL || [], esc = mrEsc, d = document;
+  d.getElementById('joCount').textContent = J.length + (J.length === 1 ? ' story' : ' stories');
+  var meta = function (a) { return [a.category, a.date, a.read].filter(Boolean).map(esc).join(' · '); };
+  var f = J[0];
+  if (f) {
+    d.getElementById('joFeat').innerHTML =
+      '<a class="jf" href="article.html?id=' + encodeURIComponent(f.id) + '">' +
+      '<span class="jf-amb" style="background-image:url(\'' + esc(f.hero) + '\')"></span>' +
+      '<figure class="jf-pic rv"><img src="' + esc(f.hero) + '" alt="' + esc(f.title) + '"></figure>' +
+      '<div class="jf-t rv"><span class="jf-k">Latest story</span><h2 class="jf-h">' + esc(f.title) + '</h2>' +
+      (f.excerpt ? '<p class="jf-x">' + esc(f.excerpt) + '</p>' : '') +
+      '<span class="jf-m">' + meta(f) + '</span><span class="more">Read the story <span aria-hidden="true">&#8594;</span></span></div></a>';
+  }
+  d.getElementById('joRows').innerHTML = J.map(function (a, i) {
+    return '<li class="jr rv"><a href="article.html?id=' + encodeURIComponent(a.id) + '" data-img="' + esc(a.hero) + '">' +
+      '<span class="th"><img src="' + esc(a.hero) + '" alt="" loading="lazy"></span>' +
+      '<span class="n">' + String(i + 1).padStart(2, '0') + '</span><span class="t">' + esc(a.title) + '</span>' +
+      '<span class="m"><b>' + esc(a.date) + '</b>' + esc([a.category, a.read].filter(Boolean).join(' · ')) + '</span><i aria-hidden="true">&#8599;</i></a></li>';
+  }).join('');
+  mrReveal(d.getElementById('main'));
+
+  // the picture follows the pointer
+  var fl = d.getElementById('joFloat'), im = fl.querySelector('img');
+  if (!matchMedia('(hover:hover)').matches) return;
+  var tx = 0, ty = 0, x = 0, y = 0, raf = 0;
+  function loop() { x += (tx - x) * .14; y += (ty - y) * .14; fl.style.setProperty('--x', x.toFixed(1) + 'px'); fl.style.setProperty('--y', y.toFixed(1) + 'px'); fl.style.setProperty('--r', ((tx - x) * .02).toFixed(2) + 'deg'); raf = Math.abs(tx - x) + Math.abs(ty - y) > .5 ? requestAnimationFrame(loop) : 0; }
+  d.querySelectorAll('.jr a').forEach(function (a) {
+    a.addEventListener('pointerenter', function () { if (im.getAttribute('src') !== a.dataset.img) im.src = a.dataset.img; fl.classList.add('on'); });
+    a.addEventListener('pointerleave', function () { fl.classList.remove('on'); });
+    a.addEventListener('pointermove', function (e) { tx = e.clientX + 30; ty = e.clientY - fl.offsetHeight / 2; if (tx + fl.offsetWidth > innerWidth - 20) tx = e.clientX - fl.offsetWidth - 30; if (!raf) raf = requestAnimationFrame(loop); });
+  });
+})();
+
+</script>
+</body>
+</html>

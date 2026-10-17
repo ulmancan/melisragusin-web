@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Oksijen Interview — Melis Ragusin</title>
+<meta name="description" content="Melis Ragusin in conversation with Oksijen, January 2026.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Melis Ragusin"><meta property="og:title" content="Oksijen Interview — Melis Ragusin"><meta property="og:description" content="Melis Ragusin in conversation with Oksijen, January 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.ok-prog{position:fixed;left:0;right:0;top:0;height:2px;z-index:60;pointer-events:none}
+.ok-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#f3e7cc);transform-origin:left;transform:scaleX(var(--p,0));box-shadow:0 0 12px rgba(198,168,112,.6)}
+
+/* hero: the printed page lies on a dark table, lit from above */
+.ok-hero{position:relative;min-height:100vh;min-height:100svh;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(30px,5vw,90px);align-items:center;padding-block:clamp(140px,19vh,200px) clamp(60px,9vh,100px);overflow:hidden;isolation:isolate}
+.ok-hero::before{content:'';position:absolute;z-index:-1;right:-10%;top:-10%;width:70%;height:120%;background:radial-gradient(50% 50% at 60% 45%,rgba(240,226,196,.11),transparent 70%)}
+.ok-ht{display:grid;gap:clamp(18px,3vh,28px);justify-items:start}
+.ok-back{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);transition:color .4s}
+.ok-back:hover{color:var(--ink)}
+.ok-src{display:flex;align-items:center;gap:18px;margin-top:clamp(10px,3vh,30px)}
+.ok-src img{height:26px;width:auto}
+.ok-src span{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);padding-left:18px;border-left:1px solid var(--line)}
+.ok-ht .display{font-size:clamp(54px,7.4vw,128px);max-width:12ch}
+.ok-lead{max-width:44ch;font-family:var(--serif);font-weight:300;font-size:clamp(20px,1.6vw,25px);line-height:1.5;color:#e2ddd4}
+.ok-meta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 26px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.ok-meta span+span::before{content:'·';margin-right:26px;color:var(--faint)}
+.ok-meta .more{background:none;border-left:0;border-right:0;border-top:0;color:var(--ink);cursor:pointer}
+.ok-paper{justify-self:center;border:0;padding:0;background:none;cursor:zoom-in;perspective:1800px;width:min(100%,420px)}
+.ok-paper img{width:100%;aspect-ratio:1196/2048;max-height:70vh;object-fit:cover;object-position:top;border-radius:1px;
+  transform:rotateX(18deg) rotateY(-16deg) rotateZ(4deg) translateY(30px);opacity:0;
+  box-shadow:40px 60px 100px -30px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.05);filter:brightness(.92) sepia(.08);
+  transition:transform 1.9s var(--ease) .35s,opacity 1.4s ease .35s,filter .8s}
+.ok-paper.in img{transform:rotateX(8deg) rotateY(-10deg) rotateZ(2.5deg);opacity:1}
+.ok-paper:hover img{transform:rotateX(2deg) rotateY(-3deg) rotateZ(.8deg) scale(1.02);filter:none}
+
+/* the conversation */
+.ok-art{position:relative;padding-bottom:clamp(40px,8vh,80px)}
+.ok-idx{position:fixed;left:calc(var(--gx) - 4px);top:50%;transform:translateY(-50%);display:grid;gap:4px;z-index:5;opacity:0;transition:opacity .6s}
+.ok-idx.show{opacity:1}
+.ok-idx a{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--faint);padding:4px 0 4px 18px;position:relative;transition:color .4s}
+.ok-idx a::before{content:'';position:absolute;left:0;top:50%;width:10px;height:1px;background:currentColor;transition:width .5s var(--ease)}
+.ok-idx a.on{color:var(--gold)}
+.ok-idx a.on::before{width:14px}
+.qa{display:grid;grid-template-columns:minmax(120px,.5fr) minmax(0,1.6fr) minmax(0,.4fr);gap:clamp(24px,4vw,70px);padding-block:clamp(70px,11vh,130px);border-top:1px solid var(--line);scroll-margin-top:80px}
+.qa-l{display:grid;gap:8px;align-self:start;position:sticky;top:120px;justify-items:end;text-align:right}
+.qn{font-family:var(--serif);font-weight:300;font-size:clamp(54px,5vw,84px);line-height:.85;color:transparent;-webkit-text-stroke:1px rgba(198,168,112,.65);font-variant-numeric:lining-nums}
+.qw{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+.qa-c{max-width:70ch}
+.q{font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(25px,2.2vw,36px);line-height:1.3;color:var(--ink);margin-bottom:clamp(28px,4vh,44px);text-wrap:pretty}
+.a{font-size:clamp(16px,1.12vw,18px);line-height:1.95;color:#cdc7be}
+.a p+p{margin-top:1.15em}
+#q1 .a p:first-child::first-letter{float:left;font-family:var(--serif);font-weight:300;font-size:5.4em;line-height:.8;padding:.08em .12em 0 0;color:var(--gold)}
+
+.ok-port{position:relative;margin-inline:calc(-1 * var(--gx));height:clamp(420px,90vh,900px);overflow:hidden}
+.ok-port img{width:100%;height:118%;object-fit:cover;object-position:50% 30%;filter:grayscale(1) contrast(1.05) brightness(.9);transform:translateY(var(--py,0px))}
+.ok-port::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#000 0%,transparent 22%,transparent 70%,#000 100%)}
+
+.ok-pull{padding-block:clamp(90px,15vh,170px);border-top:1px solid var(--line);display:grid;gap:30px;justify-items:center;text-align:center}
+.ok-pull p{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(36px,5vw,84px);line-height:1.06;max-width:18ch;text-wrap:balance}
+.ok-pull cite{font-style:normal}
+.ok-pull cite::before{display:none}
+
+.ok-end{padding-block:clamp(100px,16vh,180px);border-top:1px solid var(--line);display:grid;gap:28px;justify-items:start}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:18px 30px}
+
+.ok-lb{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.94);display:grid;place-items:center;opacity:0;transition:opacity .5s}
+.ok-lb.on{opacity:1}
+.ok-lb-in{height:100%;width:100%;overflow:auto;display:flex;justify-content:center;padding:clamp(20px,5vh,60px) 16px}
+.ok-lb-in img{width:min(100%,900px);height:auto;align-self:flex-start}
+.ok-x{position:fixed;top:18px;right:22px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.5);color:#fff;font-size:26px;line-height:1;cursor:pointer;z-index:2}
+
+@media (max-width:1100px){.ok-idx{display:none}.qa{grid-template-columns:minmax(90px,.4fr) minmax(0,1.6fr)}}
+@media (max-width:899px){
+  .ok-hero{grid-template-columns:1fr;padding-top:120px}
+  .ok-paper{width:min(70%,300px);order:-1;margin-top:10px}
+  .qa{grid-template-columns:1fr;gap:18px}
+  .qa-l{position:static;display:flex;align-items:baseline;gap:14px;justify-items:start;text-align:left}
+  .qn{font-size:52px}
+  .ok-port{height:70vh}
+}
+@media (prefers-reduced-motion:reduce){.ok-paper img{transition:none;opacity:1}}
+
+</style>
+</head>
+<body>
+<div id="mrload" aria-hidden="true"><img src="assets/logo-mr.png" alt=""></div>
+<script>try{if(sessionStorage.getItem('mrT')){document.getElementById('mrload').classList.add('cont');sessionStorage.removeItem('mrT')}}catch(e){}</script>
+<div class="grain" aria-hidden="true"></div>
+<header class="tb" id="tb">
+  <a class="tb-logo" href="home.html" aria-label="Melis Ragusin — home"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mainnav"><i></i><i></i><i></i></button>
+  <nav class="mainnav" id="mainnav">
+        <a href="home.html">Home</a>
+        <a href="index.html">Virtual Gallery</a>
+        <div class="navitem">
+          <a class="navlink" href="archive.html" aria-haspopup="true">Projects <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="archive.html">All Projects</a>
+            <a href="archive.html?cat=Mixed-Media">Mixed-Media Works</a>
+            <a href="archive.html?cat=New-Media">New-Media Works</a>
+            <a href="archive.html?cat=Motion">Motion Art</a>
+            <div class="sep"></div>
+            <a href="archive.html?year=2026">2026 Works</a>
+            <a href="archive.html?year=2025">2025 Works</a>
+            <a href="archive.html?year=2024">2024 Works</a>
+            <a href="archive.html?year=2023">2023 Works</a>
+            <a href="archive.html?year=2022">2022 Works</a>
+          </div>
+        </div>
+        <a href="journal.html">Journal</a>
+        <div class="navitem">
+          <a class="navlink" href="artist-bio.html" aria-haspopup="true">About <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="artist-bio.html">Artist Bio</a>
+            <a href="exhibitions-interview.html">Exhibitions &amp; Interview</a>
+          </div>
+        </div>
+        <a href="contact.html">Contact <span class="ext">&#8599;</span></a>
+      </nav>
+</header>
+
+<main id="main">
+<div class="ok-prog" aria-hidden="true"><i id="okProg"></i></div>
+<section class="ok-hero gx">
+  <div class="ok-ht">
+    <a class="ok-back rv" href="exhibitions-interview.html"><span aria-hidden="true">&#8592;</span> Exhibitions &amp; Interview</a>
+    <div class="ok-src rv"><img src="assets/logos/oksijen.png" alt="Oksijen"><span>Interview · 20 January 2026</span></div>
+    <h1 class="display" lang="tr" data-split>Yapay zeka ile <em>hareketli sanat</em></h1>
+    <p class="ok-lead rv">Melis Ragusin in conversation with Oksijen: how she came to art, how she works with AI, and why change sits at the centre of her practice.</p>
+    <div class="ok-meta rv"><span>Five questions</span><span>In Turkish</span><button class="more" type="button" id="okOpen">View the printed page <span aria-hidden="true">&#8599;</span></button></div>
+  </div>
+  <button class="ok-paper" type="button" id="okPaper" aria-label="View the printed Oksijen page">
+    <img src="assets/press/melo-1196x2048.webp" alt="The Oksijen newspaper page with the interview">
+  </button>
+</section>
+
+<article class="ok-art gx" lang="tr">
+  <nav class="ok-idx" aria-label="Questions"><a href="#q01">01</a><a href="#q02">02</a><a href="#q03">03</a><a href="#q04">04</a><a href="#q05">05</a></nav>
+  <section class="qa" id="q01">
+    <div class="qa-l"><span class="qn">01</span><span class="qw">Oksijen</span></div>
+    <div class="qa-c">
+      <h2 class="q rv">Melis Hanım, sitenizde biyografinizi okudum ama siz de okurlarımız için kısaca kendinizi tanıtır mısınız, kendi cümlelerinizle…</h2>
+      <div class="a rv">
+      <p>Ben, yapay zekâ destekli sinematik, hareketli sanat eserleri, fine art baskılar ve fiziksel üretimler yapan bir karma medya ve yeni medya sanatçısıyım. İzmir'de doğdum; ortaokul ve lise eğitimimi Saint Joseph İzmir'de tamamladım.</p>
+      <p>Daha sonra Amerika Birleşik Devletleri'nde Towson University'de Uluslararası İlişkiler ve Ekonomi eğitimi aldım. Yakın dönemde ise UC Berkeley Executive Education bünyesinde verilen yapay zekâ programını tamamladım.</p>
+      </div>
+    </div>
+  </section>
+  <section class="qa" id="q02">
+    <div class="qa-l"><span class="qn">02</span><span class="qw">Oksijen</span></div>
+    <div class="qa-c">
+      <h2 class="q rv">Eğitiminize baktığımızda çok yönlü biri olduğunuzu görüyoruz. Sanata ilginiz ne zaman, nasıl başladı? Akademik bilginizle sanatçı kişiliğiniz nasıl buluştu?</h2>
+      <div class="a rv">
+      <p>Sanata fiziksel işler üreterek başladım. Yüzeyle, katmanlarla ve derinlikle çalışmak benim için başından beri önemli oldu. Zamanla, bir izleyicinin bir sanat eseriyle ilk karşılaşmasının ve bu anın yarattığı hissin ne kadar önemli olduğunu fark ettim.</p>
+      <p>2021 yılında aldığım online bir kurs sayesinde, resim yaparken farklı malzemeler ve teknikler kullanarak derinlik vermeyi öğrendim. Bu süreç çok hoşuma gitti ve beni fiziksel, katmanlı işler üretmeye yönlendirdi. Bunun yanında, teknolojiye her zaman ilgim vardı. Zaten adım adım düşünen, süreci önemseyen bir yapım var. Yapay zekânın sanat üretiminde kullanılmaya başladığını gördüğümde, bu alanla daha bilinçli bir şekilde çalışmak istedim ve bu da beni UC Berkeley Executive Education bünyesinde verilen yapay zekâ programına yönlendirdi.</p>
+      <p>Zamanla, fiziksel işlerimde ele aldığım duyguların hareket içinde nasıl var olabileceği ilgimi çekmeye başladı. Dijital araçlar ve yapay zekâ destekli süreçler, duyguların tek bir anda sabitlenmesi yerine, zaman içinde değişerek ortaya çıkmasına imkân verdi. Bugün yaptığım işler, sezgiyle ilerleyen ama aynı zamanda planlanan ve kurgulanan bir üretim sürecinin sonucu.</p>
+      </div>
+    </div>
+  </section>
+  <figure class="ok-port" aria-label="Melis Ragusin">
+    <img src="assets/press/interview_melisragusin_016.jpg" alt="Melis Ragusin, black and white portrait" loading="lazy">
+  </figure>
+  <section class="qa" id="q03">
+    <div class="qa-l"><span class="qn">03</span><span class="qw">Oksijen</span></div>
+    <div class="qa-c">
+      <h2 class="q rv">Yapay zeka bugün artık her yerde ve çok tartışılıyor. Siz sanatınızı spesifik olarak yapay zeka üzerine kurgulamışsınız. Bunun geleneksel anlamda sanattan nasıl farkı var sizce? Siz yaptığınız sanatı nasıl tanımlıyorsunuz? Ne tür eleştiriler alıyorsunuz mesela? Bu eleştirileri nasıl yanıtlıyorsunuz?</h2>
+      <div class="a rv">
+      <p>Yapay zekâ bugün çok konuşuluyor ve çoğu zaman tek başına üreten bir araç gibi algılanıyor. Benim için ise yapay zekâ, üretim sürecinde kullandığım araçlardan biri. Ne üretileceğine, hangi görüntülerin seçileceğine ve işin nasıl ilerleyeceğine her zaman ben karar veriyorum.</p>
+      <p>Bu görüntülerin ortaya çıkması tek bir denemeyle olmuyor; doğru duyguyu yakalayabilmek için saatler süren prompting yapıyor, yönlendirmeleri değiştiriyor ve en doğru görüntüleri seçiyorum. Bu sürecin önemli bir kısmı, "anchor" görüntüleri yaratmakla başlıyor; bu görüntüler daha sonra birbirinden farklı kısa video parçalarına dönüşüyor ve ritim ile akış bu parçalar üzerinden kuruluyor.</p>
+      <p>Ortaya çıkan eser, bu parçaların seçilmesi, kurgulanması, sıralanması ve sesle birlikte bir araya getirilmesiyle şekilleniyor. Ritim, zamanlama ve atmosfer bu aşamada bilinçli olarak kuruluyor. Aynı zamanda bazı eserlerim, bu hareketli üretim sürecinden alınan tek bir anın dondurulmasıyla oluşan sabit eserler — örneğin Diasec baskılar.</p>
+      <p>Aldığım eleştirilerin çoğu, yapay zekânın insan emeğini geri plana ittiği yönünde oluyor. Bu bakış açısını anlıyorum; çünkü sanat tarihinde her yeni araç benzer soruları beraberinde getirdi. Bir sanat eserinin arkasında düşünme, seçim yapma ve bilinçli bir kurgu varsa, orada hâlâ insan vardır. İzleyicide bir his uyandıran, durup baktıran ya da düşündüren bir eser, hangi araçla üretilmiş olursa olsun sanatın alanına girer.</p>
+      </div>
+    </div>
+  </section>
+  <blockquote class="ok-pull">
+    <p data-split>&ldquo;Herkes aynı esere baksa bile, hissettiği duygular farklı oluyor.&rdquo;</p>
+    <cite class="kick gold rv">Melis Ragusin</cite>
+  </blockquote>
+  <section class="qa" id="q04">
+    <div class="qa-l"><span class="qn">04</span><span class="qw">Oksijen</span></div>
+    <div class="qa-c">
+      <h2 class="q rv">Değişim, dönüşüm kavramları eserlerinizde özellikle öne çıkıyor sanki. Bu konuda neler söylersiniz?</h2>
+      <div class="a rv">
+      <p>Değişim ve geçicilik, işlerime sonradan eklediğim kavramlar değil; üretirken doğal olarak içinde bulunduğum hâller. Duyguların, anların ve içsel durumların sabit olmadığını düşünüyorum. Bu yüzden işlerim de tek bir noktada durmak yerine, zaman içinde değişen bir yapı taşıyor.</p>
+      <p>Benim için geçicilik, bir şeyin kaybolmasıyla ilgili değil. Daha çok, içinde bulunduğumuz anı fark etmekle ilgili. Bir duygu, bir bakış ya da bir hâl uzun süre aynı kalmıyor; ama tam da bu yüzden anlamlı oluyor. İşlerimde anlatılmak istenen net bir hikâye ya da başı sonu olan bir anlatı yok.</p>
+      <p>İzleyicinin, bir eserin karşısında durup kendi duygusuyla temas edebilmesini önemsiyorum. Bazen bu temas çok sakin bir şekilde olur, bazen daha yoğun hissedilir. Ama her durumda, beni asıl ilgilendiren o geçiş — bir hâlin başka bir hâle dönüşmesi. İzleyicinin eserlerle kurduğu bu kişisel ilişki, benim için üretimin en önemli parçası. Çünkü herkes aynı esere baksa bile, hissettiği duygular farklı oluyor.</p>
+      </div>
+    </div>
+  </section>
+  <section class="qa" id="q05">
+    <div class="qa-l"><span class="qn">05</span><span class="qw">Oksijen</span></div>
+    <div class="qa-c">
+      <h2 class="q rv">Birlikte çalıştığınız uluslararası kurumlardan ve bu çalışmalardan biraz söz eder misiniz? Yeni planlarınız, projeleriniz var mı? İzleyici eserlerinizi en kısa sürede nerede, ne zaman görebilir?</h2>
+      <div class="a rv">
+      <p>Video eserlerim, kürasyonlu bir dijital sanat platformu olan Sedition Art'ta yer alıyor. Sedition, sınırlı edisyonlu dijital ve zamana dayalı sanat eserlerinin ekranlar üzerinden deneyimlenmek üzere sunulduğu uluslararası bir platform. Bu yapı, sinematik ve zamana dayalı üretimlerimin farklı mekânlarda ve evlerde izleyiciyle buluşabilmesi açısından benim için önemli.</p>
+      <p>Aynı zamanda, Blackdove üzerinden — hem abonelik tabanlı bir dijital yayın hizmeti olarak hem de galeri ve koleksiyon programları aracılığıyla — eserlerim geniş bir dijital izleyici kitlesiyle buluşuyor. Bu sayede, klasik sergi formatlarının dışında da farklı bağlamlarda yer alabiliyorum.</p>
+      <p>Miami Art Week kapsamında Aqua Art Miami, Red Dot Miami ve Context Art Miami gibi uluslararası sanat fuarlarında yer aldım. Bu süreçte, Red Dot Miami'de sergilenen eserlerim aracılığıyla, ABC'de yayınlanan Shark Tank programıyla tanınan yatırımcı ve girişimci Daymond John ile yollarımız kesişti. Daymond John, aynı zamanda küresel moda markası FUBU (For Us, By Us)'nun kurucusu ve Shark Art platformunun da kurucusu. Bu karşılaşmanın ardından, Shark Art aracılığıyla desteklenen sanatçılar arasında yer aldım.</p>
+      <p>Şu sıralar, sinematik hareketli eserler, bu eserlerden türeyen sabit çalışmalar ve fiziksel üretimler üzerinde yeni projeler geliştirmeye devam ediyorum. Aynı duygunun, farklı formatlarda ve farklı ölçeklerde nasıl deneyimlendiğiyle ilgileniyorum. Üretim sürecim hâlâ devam ediyor ve eserlerim, hem dijital platformlarda hem de fiziksel bağlamlarda izleyiciyle buluşmayı sürdürüyor.</p>
+      </div>
+    </div>
+  </section>
+</article>
+
+<section class="ok-end gx">
+  <div class="kick rv">Source</div>
+  <p class="h2 rv">Published in <em>Oksijen</em>, 20 January 2026.</p>
+  <div class="acts rv"><a class="btn-line" href="exhibitions-interview.html">Exhibitions &amp; Interview <span aria-hidden="true">&#8594;</span></a><a class="more" href="journal.html">Journal <span aria-hidden="true">&#8594;</span></a></div>
+</section>
+
+<div class="ok-lb" id="okLb" role="dialog" aria-modal="true" aria-label="The printed Oksijen page" hidden>
+  <button class="ok-x" type="button" id="okX" aria-label="Close">&times;</button>
+  <div class="ok-lb-in"><img src="assets/press/melo-1196x2048.webp" alt="The Oksijen newspaper page with the interview"></div>
+</div>
+
+</main>
+
+<section class="newsletter" aria-label="Newsletter">
+  <div class="nl-in">
+    <div class="nl-l"><div class="nl-k">Newsletter</div><h3>Subscribe My Newsletter</h3></div>
+    <form class="nl-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return mrSubscribe(event,this)">
+      <input type="hidden" name="form-name" value="newsletter"><input type="hidden" name="bot-field">
+      <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+      <button type="submit">Subscribe <span aria-hidden="true">&#8594;</span></button>
+    </form>
+    <div class="nl-note" role="status"></div>
+  </div>
+</section>
+<footer class="sitefoot">
+  <div class="sf-top">
+    <div class="sf-brand">
+      <div class="sf-mark"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></div>
+      <div class="sf-tag">New Media &amp; Mixed Media Artist</div>
+      <a class="sf-email" href="mailto:melis@melisragusin.com">melis@melisragusin.com</a>
+    </div>
+    <div class="sf-cols">
+      <div class="sf-col"><div class="sf-h">Explore</div><a href="home.html">Home</a><a href="index.html">Virtual Gallery</a><a href="archive.html">All Projects</a><a href="journal.html">Journal</a></div>
+      <div class="sf-col"><div class="sf-h">About</div><a href="artist-bio.html">Artist Bio</a><a href="exhibitions-interview.html">Exhibitions &amp; Interview</a><a href="contact.html">Contact</a></div>
+      <div class="sf-col"><div class="sf-h">Connect</div><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a><a href="https://vimeo.com/melisragusin" target="_blank" rel="noopener">Vimeo</a><a href="https://www.behance.net/melisrimerr" target="_blank" rel="noopener">Behance</a><a href="https://www.linkedin.com/in/melis-rimer-ragusin-2614bb7/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+  </div>
+  <div class="sf-bottom">
+    <div>&copy; 2026 Melis Ragusin. All rights reserved.</div>
+    <div class="sf-plat"><a href="privacy-policy.html">Privacy</a><a href="https://www.seditionart.com/melis-ragusin" target="_blank" rel="noopener">Sedition</a><a href="https://blackdove.com/e25bb57d-cef1-46b9-9ff1-cc29c46284b6" target="_blank" rel="noopener">Blackdove</a><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a></div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  var d = document, prog = d.querySelector('.ok-prog'), art = d.querySelector('.ok-art'), idx = d.querySelector('.ok-idx');
+  var links = idx ? idx.querySelectorAll('a') : [], qs = d.querySelectorAll('.qa'), port = d.querySelector('.ok-port img'), tick = false;
+  var paper = d.getElementById('okPaper');
+  requestAnimationFrame(function () { setTimeout(function () { paper && paper.classList.add('in'); }, 60); });
+  function upd() {
+    tick = false;
+    var r = art.getBoundingClientRect(), p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height - innerHeight)));
+    prog.style.setProperty('--p', p.toFixed(4));
+    if (idx) idx.classList.toggle('show', r.top < innerHeight * .4 && r.bottom > innerHeight * .6);
+    var cur = 0; qs.forEach(function (q, i) { if (q.getBoundingClientRect().top < innerHeight * .5) cur = i; });
+    links.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
+    if (port) { var b = port.parentNode.getBoundingClientRect(); if (b.bottom > 0 && b.top < innerHeight) port.style.setProperty('--py', (-(1 - (b.top + b.height) / (innerHeight + b.height)) * b.height * .15).toFixed(1) + 'px'); }
+  }
+  addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+  addEventListener('resize', upd); upd();
+
+  // the printed page, full size
+  var lb = d.getElementById('okLb'), last;
+  function open() { last = d.activeElement; lb.hidden = false; requestAnimationFrame(function () { lb.classList.add('on'); }); d.getElementById('okX').focus(); d.body.style.overflow = 'hidden'; }
+  function close() { lb.classList.remove('on'); d.body.style.overflow = ''; setTimeout(function () { lb.hidden = true; }, 450); if (last) last.focus(); }
+  [paper, d.getElementById('okOpen')].forEach(function (b) { b && b.addEventListener('click', open); });
+  d.getElementById('okX').addEventListener('click', close);
+  lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('ok-lb-in')) close(); });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) close(); });
+})();
+
+</script>
+</body>
+</html>

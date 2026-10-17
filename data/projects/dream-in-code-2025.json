@@ -1,0 +1,21 @@
+{
+  "id": "dream-in-code-2025",
+  "order": 31,
+  "title": "Dreams in Code",
+  "year": "2025",
+  "cat": "Motion",
+  "medium": "Motion Art — Generative Video",
+  "meta": [
+    "Format: Short Experimental Series",
+    "Edition: Ongoing experimental series",
+    "Display: Exhibition, installation, and research presentation",
+    "Duration: 55 seconds"
+  ],
+  "video": "https://player.vimeo.com/video/1065636503",
+  "statement": "Dreams in Code is a short-form experimental series exploring how machines might dream, think, or express themselves when prompted by human emotion. Each episode unfolds as a surreal, stylized conversation between human-like forms and machine logic — blending narrative, visuals, and subtle humor.",
+  "images": [
+    "https://melisragusin.com/wp-content/uploads/2025/04/dream_in_code_cover.jpeg",
+    "https://melisragusin.com/wp-content/uploads/2025/04/dreams-in-code-_episode-3.jpg"
+  ],
+  "removed": true
+}

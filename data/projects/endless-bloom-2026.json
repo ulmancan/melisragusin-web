@@ -1,0 +1,27 @@
+{
+  "id": "endless-bloom-2026",
+  "order": 11,
+  "title": "Endless Bloom",
+  "year": "2026",
+  "cat": "Motion",
+  "medium": "New-Media · Motion Art",
+  "meta": [
+    "Duration: 2:00",
+    "Resolution: 2160 × 3840 px",
+    "Frame Rate: 60 fps",
+    "Orientation: Portrait",
+    "Edition: 5 + 2 AP",
+    "Platform: Blackdove"
+  ],
+  "video": "assets/hero/media/artwork0.mp4",
+  "statement": "Endless Bloom unfolds as a continuous field of shifting color and motion. Soft waves of luminous pigment expand, dissolve, and reform in a steady rhythm, creating an atmosphere of suspended transformation.\n\nThe work originates from a custom generative system built in TouchDesigner, where motion and color evolve through real-time computational processes. In its extended studio configuration, licensed audio is integrated through TouchDesigner’s audio analysis workflow, allowing sound frequency and amplitude to influence visual behavior.",
+  "images": [
+    "assets/wp/2026/08/Screenshot-2026-08-25-at-12.54.36-pm.png"
+  ],
+  "buy": {
+    "label": "Buy on Blackdove",
+    "url": "https://blackdove.com/artwork/c3b81e55-e137-4d55-9e5a-768303683e73"
+  },
+  "seo_title": "Endless bloom - 2026 - Melis Ragusin Art",
+  "seo_description": "Endless Bloom unfolds as a continuous field of shifting color and motion. Soft waves of luminous pigment expand, dissolve, and reform in a steady rhythm,"
+}

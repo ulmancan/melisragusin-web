@@ -1,0 +1,88 @@
+window.HOME = {
+ "series": [
+  {
+   "work": "find-yourself-series-2023",
+   "name": "Find Yourself",
+   "medium": "New-Media Works",
+   "image": "assets/wp/2025/04/FindYourself-39.webp",
+   "text": "A series centered on self-discovery and identity — a continuous journey marked by both challenges and quiet moments of reflection."
+  },
+  {
+   "work": "illusion-series-2024",
+   "name": "Illusion",
+   "medium": "New-Media Works",
+   "image": "assets/wp/2025/04/Copy-of-ILLUSION_2024melisarthouse_surreal_art_that_represents_the_phrase_eyes_are_b6af98c9-415f-4586-87d4-780566985ca5_3-topaz-upscale-2x.webp",
+   "text": "A meditation on the eye — an emotional reservoir, a silent mirror of all that is felt yet rarely expressed."
+  },
+  {
+   "work": "faces-in-flux-sedition-2025",
+   "name": "Faces in Flux",
+   "medium": "New-Media · Motion Art",
+   "image": "assets/wp/2025/09/27528_sml.jpg",
+   "text": "The emotional state of being in between — in motion, not fixed. Presence isn't still; it flickers, fades, returns."
+  },
+  {
+   "work": "hidden-tears-2025",
+   "name": "Hidden Tears",
+   "medium": "New-Media Works",
+   "image": "assets/wp/2025/10/Hidden_Tears-569x1024.png",
+   "text": "Her eyes are closed, but the feeling is loud. In this fractured stillness, tears fall inward — the quiet wars we fight inside."
+  },
+  {
+   "work": "silenced-2025",
+   "name": "Silenced",
+   "medium": "New-Media Works",
+   "image": "assets/wp/2025/10/Silenced-569x1024.png",
+   "text": "A quiet gesture — 'shhh' — yet the silence speaks louder than words. It questions the cost of being silenced."
+  },
+  {
+   "work": "moments-of-impermanence-2025",
+   "name": "Moments of Impermanence",
+   "medium": "Motion Art",
+   "image": "assets/wp/2025/12/moments_of_-impermanence_2025.jpg",
+   "text": "A study of impermanence — millions of dots gather, thin out, and scatter in continuous change. Nothing stays; everything moves."
+  },
+  {
+   "work": "wawes-2025",
+   "name": "Wawes",
+   "medium": "Motion Art",
+   "image": "assets/wp/2025/09/wawes_2025.jpg",
+   "text": "Where water becomes sculpture, and time slows into breath — a cinematic meditation on flow, light, and presence."
+  },
+  {
+   "work": "jellyfish-2025",
+   "name": "Jellyfish",
+   "medium": "Motion Art",
+   "image": "assets/wp/2025/09/jellyfish_2025.jpg",
+   "text": "Like sculpture in motion — a meditative drift through fluid presence and emotional stillness, where time feels suspended."
+  },
+  {
+   "work": "gaze-capsule-2025",
+   "name": "Gaze Capsule",
+   "medium": "New-Media · Motion Art",
+   "image": "assets/wp/2025/09/gaze_capsule_2025_sedition_4k_ve.jpg",
+   "text": "An eye suspended in a floating bubble — a visual metaphor for how presence transforms reality."
+  },
+  {
+   "work": "unconscious-mind-2025",
+   "name": "Unconscious Mind",
+   "medium": "Motion Art",
+   "image": "assets/wp/2025/10/UNCONSCIOUS-MIND-576x1024.png",
+   "text": "A breathing, shifting field of emotion — expressions unfold and dissolve. A meditation on the impermanence of feeling."
+  },
+  {
+   "work": "red-2022",
+   "name": "Red",
+   "medium": "Mixed-Media",
+   "image": "assets/wp/2025/05/red_2022.webp",
+   "text": "A tactile exploration of tension, memory, and material transformation — beauty shaped under pressure."
+  },
+  {
+   "work": "black-series-2024",
+   "name": "Black Series",
+   "medium": "Mixed-Media",
+   "image": "assets/wp/2024/01/BLACK-SERIES-05-768x775.webp",
+   "text": "A dense and immersive black surface formed from sculpted fabric and plaster, sealed in glossy epoxy."
+  }
+ ]
+};

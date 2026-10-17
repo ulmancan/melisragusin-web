@@ -1,0 +1,188 @@
+{
+  "site": "https://melisragusin.com",
+  "pages": [
+    {
+      "path": "/",
+      "file": "index.html",
+      "title": "Home - Melis Ragusin Art",
+      "description": "My work dives into the absurd beauty of change — chosen or imposed. Through generative visuals and shifting illusions, I explore identity, rupture, and the",
+      "type": "website"
+    },
+    {
+      "path": "/projects/",
+      "file": "archive.html",
+      "title": "Projects - Melis Ragusin Art",
+      "description": "Discover cutting-edge AI-enhanced motion art projects that blend artificial intelligence with dynamic visuals to create immersive, interactive, and visually",
+      "type": "website",
+      "cat": "all"
+    },
+    {
+      "path": "/new-media-works/",
+      "file": "archive.html",
+      "title": "New-Media Works - Melis Ragusin Art",
+      "description": "New media works are created with digital and AI-driven processes. These include AI-generated still images, refined through digital manipulation and",
+      "type": "website",
+      "cat": "New-Media"
+    },
+    {
+      "path": "/mixed-media-works/",
+      "file": "archive.html",
+      "title": "Mixed-Media Works - Melis Ragusin Art",
+      "description": "Mixed media art combines physical materials on surfaces like MDF panels or canvas. I use elements such as epoxy resin, broken glass, chipboard, and cloth to",
+      "type": "website",
+      "cat": "Mixed-Media"
+    },
+    {
+      "path": "/motion-art/",
+      "file": "archive.html",
+      "title": "Motion Art - Melis Ragusin Art",
+      "description": "Motion art is where my visuals come alive through movement. These are video-based works — loops, short films, or cinematic sequences — often built from",
+      "type": "website",
+      "cat": "Motion"
+    },
+    {
+      "path": "/artist-bio/",
+      "file": "artist-bio.html",
+      "title": "Artist Bio - Melis Ragusin Art",
+      "description": "Melis Ragusin is a new media and mixed media artist working with AI-generated motion, video and sculptural wall-based works.",
+      "type": "website"
+    },
+    {
+      "path": "/exhibitions-interview/",
+      "file": "exhibitions-interview.html",
+      "title": "Exhibitions & Interview - Melis Ragusin Art",
+      "description": "Exhibitions, Press & Digital Platforms Selected Exhibitions  2025 Aqua Art Miami, Miami, USA (upcoming) Red Dot Miami, Miami, USA (upcoming) Context",
+      "type": "website"
+    },
+    {
+      "path": "/oksijen-interview/",
+      "file": "oksijen-interview.html",
+      "title": "Oksijen Interview - Melis Ragusin Art",
+      "description": "Melis Ragusin in conversation with Oksijen, January 2026.",
+      "type": "article"
+    },
+    {
+      "path": "/privacy-policy/",
+      "file": "privacy-policy.html",
+      "title": "Privacy Policy - Melis Ragusin Art",
+      "description": "Privacy policy for melisragusin.com.",
+      "type": "website"
+    },
+    {
+      "path": "/contact/",
+      "file": "contact.html",
+      "title": "Contact - Melis Ragusin Art",
+      "description": "Exhibitions, commissions, interviews or collaborations: get in touch with Melis Ragusin.",
+      "type": "website"
+    },
+    {
+      "path": "/blog/",
+      "file": "journal.html",
+      "title": "Blog - Melis Ragusin Art",
+      "description": "Stories, interviews and notes from Melis Ragusin.",
+      "type": "website"
+    },
+    {
+      "path": "/tell-me-who-you-really-are/",
+      "file": "article.html",
+      "id": "tell-me-who-you-really-are",
+      "title": "Tell Me Who You Really Are - Melis Ragusin Art",
+      "description": " (A Collection of Four Artworks- Tell Me Who You Really Are _01, Tell Me Who You Really Are_02, Tell Me Who You Really Are_03, Tell Me Who You Really",
+      "type": "article"
+    },
+    {
+      "path": "/its-liquid-group-interview-january-2025/",
+      "file": "article.html",
+      "id": "its-liquid-group-interview-january-2025",
+      "title": "It's Liquid Group - Interview January 2025 - Melis Ragusin Art",
+      "description": "I’ve always been curious about technology and its ability to enhance our lives. Artificial Intelligence, in particular, captivates me with its capacity to",
+      "type": "article"
+    },
+    {
+      "path": "/within5149-melis-ragusin-interview-april-2025/",
+      "file": "article.html",
+      "id": "within5149-melis-ragusin-interview-april-2025",
+      "title": "Within51:49 Melis Ragusin Interview April 2025 - Melis Ragusin Art",
+      "description": "I’ve always been really drawn to technology—it fascinates me how it keeps evolving and shaping how we live and create. So when AI, especially generative",
+      "type": "article"
+    },
+    {
+      "path": "/the-journey-of-an-ai-artist/",
+      "file": "article.html",
+      "id": "the-journey-of-an-ai-artist",
+      "title": "The Journey of an AI Artist - Melis Ragusin Art",
+      "description": "Traditionally, an artist is defined as a human engaged in creating art, demonstrating creativity, and expressing emotional power. However, in the digital age,",
+      "type": "article"
+    },
+    {
+      "path": "/find-yourself/",
+      "file": "article.html",
+      "id": "find-yourself",
+      "title": "Find Yourself - Melis Ragusin Art",
+      "description": "Welcome to “Find Yourself,” an extraordinary art collection that delves into the depths of self-discovery and personal identity. This unique series of",
+      "type": "article"
+    }
+  ],
+  "redirects": [
+    [
+      "/collaborations/",
+      "/exhibitions-interview/"
+    ],
+    [
+      "/coming-soon/",
+      "/"
+    ],
+    [
+      "/general/",
+      "/blog/"
+    ],
+    [
+      "/new-media/",
+      "/new-media-works/"
+    ],
+    [
+      "/commercial/",
+      "/projects/"
+    ],
+    [
+      "/2022/",
+      "/projects/"
+    ],
+    [
+      "/2023/",
+      "/projects/"
+    ],
+    [
+      "/2024/",
+      "/projects/"
+    ],
+    [
+      "/2025/",
+      "/projects/"
+    ],
+    [
+      "/2026/",
+      "/projects/"
+    ],
+    [
+      "/projects/illusion-series-2025/",
+      "/projects/illusion-series-2024/"
+    ],
+    [
+      "/projects/clouds-series-2025/",
+      "/projects/clouds-series-2024/"
+    ],
+    [
+      "/projects/flow-of-life-2024/",
+      "/projects/"
+    ],
+    [
+      "/projects/if-not-now-than-what-2024/",
+      "/projects/"
+    ],
+    [
+      "/projects/dream-in-code-2025/",
+      "/projects/"
+    ]
+  ]
+}

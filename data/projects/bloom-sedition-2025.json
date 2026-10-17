@@ -1,0 +1,27 @@
+{
+  "id": "bloom-sedition-2025",
+  "order": 26,
+  "title": "Bloom",
+  "year": "2025",
+  "cat": "Motion",
+  "medium": "New-Media · Mixed-Media · Motion Art",
+  "meta": [
+    "Duration: 3:13",
+    "Format: 1:1, 16:9, 9:16, Round/Irregular",
+    "Output: 4K/HD digital video (MP4/MOV)",
+    "Edition: 5 + 2 AP",
+    "Platform: Sedition"
+  ],
+  "video": "assets/gallery/media/bloom-sedition-2025.mp4",
+  "statement": "Bloom A jellyfish-inspired audiovisual motion sculpture by Melis Ragusin, shaped by the philosophy of impermanence and the fluid escape paths of Deleuze’s ligne de fuite. Bloom is a sculptural video loop that captures the quiet intelligence of jellyfish — their soft unfolding, slow breath-like rhythm, and constant transformation. Drifting through soft wine hues and pastel tones, the central form opens and closes in motion that never fixes — only becomes. Inspired by the Deleuzian idea of the line of flight, this work meditates on emotional presence through fluidity, letting softness become a form of escape and renewal.\n\nArtwork Details: • Title: Bloom • Medium: Video Art • Format: MP4 (H.264, AAC audio) • Resolution: 2160 × 3840 (Vertical HD) • Duration: 3:13 min • Audio: Stereo • Color Profile: HD (1-1-1) • File Size: 1.15 GB • Year: 2025 • Soundtrack: Blue Dream by Onyx Music — Licensed via Artlist.io\n\nTools & Workflow: • Concept & Prompts: ChatGPT • Visual Design: MidJourney • Motion Animation: Google Flow, Runway, Pika Labs • Final Polish: Premiere Pro, Media Encoder, Topaz Video AI",
+  "images": [
+    "assets/wp/2025/09/Screenshot-2026-08-31-at-1.18.57-pm.png",
+    "assets/wp/2025/09/23705.jpg"
+  ],
+  "buy": {
+    "label": "Buy on Sedition",
+    "url": "https://seditionart.com/artworks/214087"
+  },
+  "seo_title": "Bloom Sedition - 2025 - Melis Ragusin Art",
+  "seo_description": "Bloom A jellyfish-inspired audiovisual motion sculpture by Melis Ragusin, shaped by the philosophy of impermanence and the fluid escape paths of Deleuze’s"
+}

@@ -1,0 +1,17 @@
+# Sadece bilgisayarda (dosyadan açarak) önizleme için gereken dosyalar — siteye yüklenmez
+assets/gallery/local/
+assets/hero/local/
+# Netlify her yayında kendisi üretir
+dist/
+# Çalışma dosyaları
+work/
+shots/
+_to_delete/
+node_modules/
+*.bak
+.DS_Store
+._*
+concept-home.html
+melis-miami-experience.html
+# Kullanılmayan (tavan ekranı denemesi)
+assets/gallery/media/ceiling-rising-light.*

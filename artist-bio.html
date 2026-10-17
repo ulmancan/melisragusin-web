@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Artist Bio — Melis Ragusin</title>
+<meta name="description" content="Melis Ragusin is a new media and mixed media artist working with AI-generated motion, video and sculptural wall-based works.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Melis Ragusin"><meta property="og:title" content="Artist Bio — Melis Ragusin"><meta property="og:description" content="Melis Ragusin is a new media and mixed media artist working with AI-generated motion, video and sculptural wall-based works.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* 1 · opening: full-screen portrait that steps back into a frame */
+.bo{position:relative;height:250vh}
+.bo-in{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate}
+.bo-pic{position:absolute;left:0;top:0;width:100vw;height:100vh;z-index:-1;margin:0;overflow:hidden;transform-origin:0 0;will-change:transform;backface-visibility:hidden}
+.bo-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 32%;transform-origin:50% 42%;will-change:transform;backface-visibility:hidden}
+.bo-pic::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.25) 42%,transparent 62%),linear-gradient(90deg,rgba(0,0,0,.55),transparent 55%);opacity:var(--sh,1)}
+.bo-name{position:absolute;left:0;right:0;bottom:clamp(30px,6vh,70px);display:grid;pointer-events:none;will-change:transform,opacity}
+.bo-name .k{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:#d8d2c8;margin-bottom:clamp(10px,2vh,22px);display:flex;gap:14px;align-items:center}
+.bo-name .k::before{content:'';width:34px;height:1px;background:currentColor}
+.bo-name .n1,.bo-name .n2{font-family:var(--serif);font-weight:300;font-size:clamp(90px,15.5vw,290px);line-height:.8;letter-spacing:-.035em;color:#f6f3ee;
+  opacity:0;transform:translateY(40px);animation:boName 1.6s var(--ease) forwards}
+.bo-name .n2{font-style:italic;padding-left:.42em;animation-delay:.18s}
+@keyframes boName{to{opacity:1;transform:none}}
+.bo-text{position:absolute;left:0;top:50%;width:min(50vw,720px);margin-top:-1px;opacity:0;will-change:transform,opacity;display:grid;gap:clamp(16px,2.6vh,26px);justify-items:start}
+.bo-h{font-family:var(--serif);font-weight:300;font-size:clamp(56px,7.6vw,132px);line-height:.88;letter-spacing:-.02em}
+.bo-h em{font-style:italic}
+.bo-role{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.bo-role span{color:var(--faint);margin:0 8px}
+.bo-intro{max-width:42ch;font-family:var(--serif);font-weight:300;font-size:clamp(19px,1.5vw,24px);line-height:1.55;color:#e4dfd6}
+.bo-cue{position:absolute;right:0;bottom:30px;display:flex;align-items:center;gap:12px;font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:#cfc9c0}
+.bo-cue i{width:1px;height:40px;background:linear-gradient(var(--ink),transparent);animation:cue 2.4s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* 2 · the statement, lit word by word */
+.bm{padding-block:clamp(120px,22vh,240px);display:grid;gap:clamp(30px,5vh,50px);justify-items:center;text-align:center;border-top:1px solid var(--line)}
+.bm-q{font-family:var(--serif);font-weight:300;font-size:clamp(38px,5.6vw,98px);line-height:1.06;letter-spacing:-.012em;max-width:17ch;text-wrap:balance}
+.bm-q .w{opacity:.13;transition:opacity .5s ease,color .5s;display:inline}
+.bm-q .w.on{opacity:1}
+.bm-q .w.it{font-style:italic}
+
+/* 3 · the story beside a second portrait */
+.bs{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,7vw,130px);padding-block:clamp(60px,10vh,120px) clamp(90px,14vh,160px);border-top:1px solid var(--line)}
+.bs-side{position:relative}
+.bs-pic{position:sticky;top:12vh;height:76vh;overflow:hidden;border-radius:3px;margin:0;box-shadow:0 0 0 1px rgba(255,255,255,.06),0 60px 120px -50px #000}
+.bs-pic img{position:absolute;left:0;top:-8%;width:100%;height:116%;object-fit:cover;object-position:50% 30%;transform:translate3d(0,var(--py,0px),0) scale(1.02);will-change:transform}
+.bs-pic::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.35),transparent 30%)}
+.bs-main{display:grid;gap:0}
+.bs-ch{padding-block:clamp(50px,9vh,100px);border-bottom:1px solid var(--line);display:grid;gap:clamp(20px,3vh,30px)}
+.bs-ch:first-child{padding-top:clamp(20px,4vh,40px)}
+.bs-ch:last-child{border-bottom:0}
+.bs-l{display:flex;align-items:baseline;gap:16px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink)}
+.bs-l span{font-family:var(--serif);font-style:italic;font-size:22px;letter-spacing:0;color:var(--gold)}
+.bs-lead{font-family:var(--serif);font-weight:300;font-size:clamp(25px,2.3vw,38px);line-height:1.32;color:#efeae2;text-wrap:pretty;max-width:30ch}
+.bs .body-t{max-width:60ch}
+.dc p:first-child::first-letter{float:left;font-family:var(--serif);font-weight:300;font-size:5.2em;line-height:.8;padding:.08em .12em 0 0;color:var(--gold)}
+
+/* 4 · practice: three lit panels */
+.bp{padding-block:clamp(90px,14vh,160px);border-top:1px solid var(--line)}
+.bp-h{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:clamp(40px,6vh,70px)}
+.bp-h .kick{margin-bottom:0;order:2}
+.bp-row{display:flex;gap:clamp(12px,1.2vw,18px);height:clamp(480px,74vh,760px)}
+.bc{position:relative;flex:1 1 0;min-width:0;overflow:hidden;border-radius:3px;isolation:isolate;transition:flex-grow 1s var(--ease);box-shadow:0 0 0 1px rgba(255,255,255,.06)}
+.bp-row:hover .bc{flex-grow:.8}
+.bp-row .bc:hover{flex-grow:1.7}
+.bc figure{position:absolute;inset:0;z-index:-1;margin:0}
+.bc img,.bc video{width:100%;height:100%;object-fit:cover;filter:brightness(.62) saturate(.9);transform:scale(1.06);transition:transform 2s var(--ease),filter 1s}
+.bc:hover img,.bc:hover video{transform:scale(1);filter:brightness(.82) saturate(1.05)}
+.bc figure::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.45) 38%,transparent 66%)}
+.bc-t{position:absolute;left:0;right:0;bottom:0;padding:clamp(22px,2.4vw,38px);display:grid;gap:12px;justify-items:start}
+.bc-n{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold)}
+.bc h3{font-family:var(--serif);font-weight:300;font-size:clamp(32px,3vw,52px);line-height:1;white-space:nowrap}
+.bc p{font-size:14px;line-height:1.75;color:#d9d3ca;max-width:44ch;max-height:0;opacity:0;overflow:hidden;transition:max-height 1s var(--ease),opacity .7s ease .1s}
+.bc .more{opacity:0;transform:translateY(8px);transition:opacity .6s ease .2s,transform .6s var(--ease) .2s}
+.bc:hover p,.bc:focus-visible p{max-height:220px;opacity:1}
+.bc:hover .more,.bc:focus-visible .more{opacity:1;transform:none}
+
+/* 5 · the record */
+.br{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,7vw,130px);padding-block:clamp(90px,14vh,160px);border-top:1px solid var(--line)}
+.br-h{display:flex;align-items:baseline;gap:16px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:clamp(26px,4vh,40px)}
+.br-h span{font-family:var(--serif);font-style:italic;font-size:22px;letter-spacing:0;color:var(--gold)}
+.br-two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3vw,50px);margin-bottom:32px}
+.sub{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);padding-bottom:14px;border-bottom:1px solid var(--line)}
+.ln{list-style:none}
+.ln li{border-bottom:1px solid var(--line);font-family:var(--serif);font-size:clamp(21px,1.7vw,27px);padding:14px 0}
+.ln li a{display:flex;justify-content:space-between;transition:padding-left .5s var(--ease)}
+.ln li a span{font-family:var(--sans);font-size:13px;color:var(--muted)}
+.ln li a:hover{padding-left:6px}
+.edu{display:grid;grid-template-columns:80px minmax(0,1fr);gap:20px;padding:18px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.6;color:#bdb8b0}
+.br-h+.edu{border-top:1px solid var(--line)}
+.edu .y{font-family:var(--serif);font-size:22px;color:var(--gold);line-height:1.2;font-variant-numeric:lining-nums}
+.edu b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(21px,1.6vw,26px);color:var(--ink);margin-bottom:2px}
+.cert{display:grid;gap:16px;justify-items:start;border:0;background:none;padding:0;color:inherit;cursor:zoom-in;perspective:1200px;width:min(100%,560px);text-align:left}
+.cert-c{position:relative;display:block;width:100%;border-radius:3px;overflow:hidden;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .9s var(--ease),box-shadow .9s;box-shadow:0 50px 100px -40px #000,0 0 0 1px rgba(255,255,255,.08)}
+.cert-c img{display:block;width:100%;height:auto}
+.cert-g{position:absolute;inset:0;background:linear-gradient(var(--ga,115deg),transparent 30%,rgba(255,255,255,.28) 47%,transparent 60%);mix-blend-mode:soft-light;opacity:0;transition:opacity .6s}
+.cert:hover .cert-g{opacity:1}
+.cert-l{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.cert-l i{font-style:normal}
+.cert-lb{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.94);display:grid;place-items:center;padding:4vh 4vw;opacity:0;transition:opacity .45s}
+.cert-lb.on{opacity:1}
+.cert-lb img{max-width:100%;max-height:92vh;object-fit:contain;box-shadow:0 40px 120px -30px #000}
+.cert-x{position:fixed;top:18px;right:22px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.5);color:#fff;font-size:26px;line-height:1;cursor:pointer}
+
+/* 6 · close on movement */
+.be{position:relative;min-height:92vh;display:flex;align-items:flex-end;overflow:hidden;border-top:1px solid var(--line);isolation:isolate}
+.be-v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:brightness(.42) saturate(1.05);transform:scale(1.04)}
+.be::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#000 0%,rgba(0,0,0,.65) 40%,rgba(0,0,0,.15) 80%),linear-gradient(0deg,#000,transparent 45%),linear-gradient(180deg,#000,transparent 25%)}
+.be-t{padding-block:clamp(70px,12vh,140px);display:grid;gap:34px}
+.be-q{font-family:var(--serif);font-weight:300;font-size:clamp(44px,6vw,104px);line-height:.98;max-width:13ch}
+.be-q em{font-style:italic;color:#ebe5db}
+.acts{display:flex;flex-wrap:wrap;align-items:center;gap:18px 30px}
+
+@media (max-width:899px){
+  .bo{height:auto}
+  .bo-in{position:relative;height:auto;overflow:visible;display:grid}
+  .bo-pic{position:relative;width:auto;height:78svh;transform:none!important}
+  .bo-pic img{transform:none!important;object-position:58% 30%}
+  .bo-name{bottom:auto;top:calc(78svh - 210px);opacity:1!important;transform:none!important}
+  .bo-name .n1,.bo-name .n2{font-size:21vw}
+  .bo-text{position:relative;top:auto;width:auto;transform:none!important;opacity:1!important;padding-block:44px 20px}
+  .bo-text .kick,.bo-h{display:none}
+  .bo-cue{display:none}
+  .bs{grid-template-columns:1fr}
+  .bs-pic{position:relative;top:auto;height:auto;aspect-ratio:4/5}
+  .bs-pic img{top:0;height:100%;transform:none}
+  .bp-h{flex-direction:column;align-items:flex-start}
+  .bp-h .kick{order:0}
+  .bp-row{flex-direction:column;height:auto}
+  .bc{height:62svh;flex:none}
+  .bc p,.bc .more{max-height:none;opacity:1;transform:none}
+  .br,.br-two{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .bo{height:100vh}
+  .bo-name .n1,.bo-name .n2{animation:none;opacity:1;transform:none}
+}
+
+</style>
+</head>
+<body>
+<div id="mrload" aria-hidden="true"><img src="assets/logo-mr.png" alt=""></div>
+<script>try{if(sessionStorage.getItem('mrT')){document.getElementById('mrload').classList.add('cont');sessionStorage.removeItem('mrT')}}catch(e){}</script>
+<div class="grain" aria-hidden="true"></div>
+<header class="tb" id="tb">
+  <a class="tb-logo" href="home.html" aria-label="Melis Ragusin — home"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="mainnav"><i></i><i></i><i></i></button>
+  <nav class="mainnav" id="mainnav">
+        <a href="home.html">Home</a>
+        <a href="index.html">Virtual Gallery</a>
+        <div class="navitem">
+          <a class="navlink" href="archive.html" aria-haspopup="true">Projects <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="archive.html">All Projects</a>
+            <a href="archive.html?cat=Mixed-Media">Mixed-Media Works</a>
+            <a href="archive.html?cat=New-Media">New-Media Works</a>
+            <a href="archive.html?cat=Motion">Motion Art</a>
+            <div class="sep"></div>
+            <a href="archive.html?year=2026">2026 Works</a>
+            <a href="archive.html?year=2025">2025 Works</a>
+            <a href="archive.html?year=2024">2024 Works</a>
+            <a href="archive.html?year=2023">2023 Works</a>
+            <a href="archive.html?year=2022">2022 Works</a>
+          </div>
+        </div>
+        <a href="journal.html">Journal</a>
+        <div class="navitem">
+          <a class="navlink" href="artist-bio.html" aria-haspopup="true">About <span class="car" aria-hidden="true">&#9662;</span></a>
+          <div class="dropdown">
+            <a href="artist-bio.html">Artist Bio</a>
+            <a href="exhibitions-interview.html">Exhibitions &amp; Interview</a>
+          </div>
+        </div>
+        <a href="contact.html">Contact <span class="ext">&#8599;</span></a>
+      </nav>
+</header>
+
+<main id="main">
+<!-- 1 · the portrait opens full screen, then steps back into a frame as the story begins -->
+<section class="bo" id="bo">
+  <div class="bo-in">
+    <figure class="bo-pic" aria-label="Melis Ragusin"><img src="assets/bio/portrait-sofa.jpg" alt="Melis Ragusin, black and white portrait" fetchpriority="high"></figure>
+    <div class="bo-name gx" aria-hidden="true"><span class="k">Artist Bio</span><span class="n1">Melis</span><span class="n2">Ragusin</span></div>
+    <div class="bo-text gx">
+      <div class="kick">Artist Bio</div>
+      <h1 class="bo-h">Melis <em>Ragusin</em></h1>
+      <p class="bo-role">New Media Artist <span>·</span> Mixed Media Artist</p>
+      <p class="bo-intro">Melis Ragusin is a new media and mixed media artist working primarily with AI-generated motion, video, and immersive visual systems, alongside sculptural wall-based works incorporating physical materials.</p>
+      <a class="more" href="#story">Read the story <span aria-hidden="true">&#8595;</span></a>
+    </div>
+    <div class="bo-cue gx" aria-hidden="true"><i></i>Scroll</div>
+  </div>
+</section>
+
+<!-- 2 · the statement lights up word by word -->
+<section class="bm gx" id="bm">
+  <div class="kick gold">From the artist statement</div>
+  <p class="bm-q" id="bmQ">I work at the intersection of emotional storytelling, cinematic motion, and generative systems.</p>
+</section>
+
+<!-- 3 · the story, beside a second portrait -->
+<section class="bs gx" id="story">
+  <aside class="bs-side">
+    <figure class="bs-pic" id="bsPic"><img src="assets/bio/portrait-brush.jpg" alt="Melis Ragusin holding a paintbrush" loading="lazy"></figure>
+  </aside>
+  <div class="bs-main">
+    <article class="bs-ch rv">
+      <div class="bs-l"><span>01</span>About</div>
+      <p class="bs-lead">Her practice explores emotional presence and impermanence, with works presented in galleries, international art fairs, and institutional digital platforms.</p>
+      <div class="body-t"><p>Selected works are also released as curated digital editions through platforms such as Sedition and BlackDove.</p></div>
+    </article>
+    <article class="bs-ch rv">
+      <div class="bs-l"><span>02</span>Artist Bio</div>
+      <div class="body-t dc">
+        <p>Melis Ragusin is a mixed-media and new media artist working across AI-driven video art, real-time generative systems, fine art prints, and sculptural wall pieces. Her practice explores impermanence, emotional presence, and the shifting nature of identity through cinematic motion and evolving digital structures.</p>
+        <p>Born in Izmir, Turkey, she studied International Relations &amp; Economics at Towson University (USA) and completed the Artificial Intelligence: Business Strategies and Applications program at UC Berkeley Executive Education. She continues to expand her practice through advanced studies in generative systems and cinematic storytelling.</p>
+        <p>Ragusin moves fluidly between tactile materials and algorithmic environments, building visual systems that evolve over time. Her work bridges digital aesthetics with physical craftsmanship and has been exhibited internationally.</p>
+      </div>
+    </article>
+    <article class="bs-ch rv">
+      <div class="bs-l"><span>03</span>Artist Statement</div>
+      <p class="bs-lead">My practice explores environments where visuals evolve through internal logic rather than fixed timelines. I am drawn to impermanence — how identities shift, how atmospheres transform, how emotions surface and dissolve.</p>
+      <div class="body-t">
+        <p>Each work functions as a living presence. Some are structured as immersive loops; others operate as generative systems that continuously reshape themselves.</p>
+        <p>I create to explore presence — and to invite viewers into their own emotional interpretation. The same piece can evoke entirely different experiences from person to person. That variability is central to my practice.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 4 · the three ways of working -->
+<section class="bp gx" id="practice">
+  <header class="bp-h">
+    <div class="kick">The Practice</div>
+    <h2 class="h2" data-split>Across <em>mediums.</em></h2>
+  </header>
+  <div class="bp-row">
+    <a class="bc rv" href="archive.html?cat=Motion">
+      <figure><video muted loop playsinline preload="none" poster="assets/hero/media/artwork-2.jpg" data-src="assets/hero/media/artwork-2"></video></figure>
+      <div class="bc-t"><span class="bc-n">01</span><h3>Motion Art</h3><p>Motion art is where my visuals come alive through movement. These are video-based works — loops, short films, or cinematic sequences — often built from AI-generated imagery, sound, and editing.</p><span class="more">See the works <span aria-hidden="true">&#8594;</span></span></div>
+    </a>
+    <a class="bc rv" href="archive.html?cat=New-Media">
+      <figure><img src="assets/bio/newmedia-clouds.jpg" alt="Clouds Series, 2025" loading="lazy"></figure>
+      <div class="bc-t"><span class="bc-n">02</span><h3>New-Media</h3><p>New media works are created with digital and AI-driven processes. These include AI-generated still images, refined through digital manipulation and enhancement, often printed as fine art editions.</p><span class="more">See the works <span aria-hidden="true">&#8594;</span></span></div>
+    </a>
+    <a class="bc rv" href="archive.html?cat=Mixed-Media">
+      <figure><img src="assets/bio/mixedmedia-blow.jpg" alt="Blow Series, 2024" loading="lazy"></figure>
+      <div class="bc-t"><span class="bc-n">03</span><h3>Mixed-Media</h3><p>Mixed media art combines physical materials on surfaces like MDF panels or canvas. I use elements such as epoxy resin, broken glass, chipboard, and cloth to create layered, tactile works that are both sculptural and pictorial.</p><span class="more">See the works <span aria-hidden="true">&#8594;</span></span></div>
+    </a>
+  </div>
+</section>
+
+<!-- 5 · the record -->
+<section class="br gx" id="record">
+  <div class="br-col">
+    <div class="br-h"><span>04</span>Selected Exhibitions &amp; Media</div>
+    <div class="br-two">
+      <div><div class="sub">Exhibitions</div><ul class="ln"><li>Art Miami</li><li>Context Art Miami</li><li>Venice International Art Fair</li><li>Art Weeks Istanbul</li><li>Cannes Yachting Festival</li></ul></div>
+      <div><div class="sub">Media</div><ul class="ln"><li><a href="oksijen-interview.html">Oksijen <span>&#8594;</span></a></li><li><a href="exhibitions-interview.html#press">ITS LIQUID <span>&#8594;</span></a></li><li><a href="exhibitions-interview.html#press">ArtTV <span>&#8594;</span></a></li></ul></div>
+    </div>
+    <a class="more" href="exhibitions-interview.html">All exhibitions &amp; press <span aria-hidden="true">&#8594;</span></a>
+  </div>
+  <div class="br-col">
+    <div class="br-h"><span>05</span>Education &amp; Professional Training</div>
+    <div class="edu rv"><span class="y">2025</span><span><b>UC Berkeley Executive Education</b>Artificial Intelligence: Business Strategies and Applications</span></div>
+    <div class="edu rv"><span class="y">—</span><span><b>Towson University, Baltimore, USA</b>B.A. International Relations &amp; Economics</span></div>
+    <div class="edu rv"><span class="y">—</span><span><b>Lycée Saint-Joseph, Izmir</b>French Baccalaureate</span></div>
+    <div class="br-h" style="margin-top:clamp(50px,8vh,80px)"><span>06</span>Certificates</div>
+    <button class="cert rv" type="button" id="certBtn" aria-label="View the UC Berkeley Executive Education certificate">
+      <span class="cert-c" id="certCard"><img src="assets/berkeley-certificate.jpg" alt="UC Berkeley Executive Education certificate, Artificial Intelligence: Business Strategies and Applications" loading="lazy"><i class="cert-g" aria-hidden="true"></i></span>
+      <span class="cert-l">UC Berkeley Executive Education · 2025 <i aria-hidden="true">&#8599;</i></span>
+    </button>
+  </div>
+</section>
+
+<!-- 6 · close on movement -->
+<section class="be" id="be">
+  <video class="be-v" muted loop playsinline preload="none" poster="assets/hero/media/artwork-7.jpg" data-src="assets/hero/media/artwork-7" aria-hidden="true"></video>
+  <div class="be-t gx">
+    <p class="be-q" data-split>Change is constant. <em>My work reflects that motion.</em></p>
+    <div class="acts rv"><a class="btn-line" href="archive.html">See the works <span aria-hidden="true">&#8594;</span></a><a class="more" href="contact.html">Get in touch <span aria-hidden="true">&#8594;</span></a></div>
+  </div>
+</section>
+
+<div class="cert-lb" id="certLb" role="dialog" aria-modal="true" aria-label="Certificate" hidden>
+  <button class="cert-x" type="button" id="certX" aria-label="Close">&times;</button>
+  <img src="assets/berkeley-certificate.jpg" alt="UC Berkeley Executive Education certificate">
+</div>
+
+</main>
+
+<section class="newsletter" aria-label="Newsletter">
+  <div class="nl-in">
+    <div class="nl-l"><div class="nl-k">Newsletter</div><h3>Subscribe My Newsletter</h3></div>
+    <form class="nl-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return mrSubscribe(event,this)">
+      <input type="hidden" name="form-name" value="newsletter"><input type="hidden" name="bot-field">
+      <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+      <button type="submit">Subscribe <span aria-hidden="true">&#8594;</span></button>
+    </form>
+    <div class="nl-note" role="status"></div>
+  </div>
+</section>
+<footer class="sitefoot">
+  <div class="sf-top">
+    <div class="sf-brand">
+      <div class="sf-mark"><img src="assets/logo-wordmark-tight.png" alt="Melis Ragusin"></div>
+      <div class="sf-tag">New Media &amp; Mixed Media Artist</div>
+      <a class="sf-email" href="mailto:melis@melisragusin.com">melis@melisragusin.com</a>
+    </div>
+    <div class="sf-cols">
+      <div class="sf-col"><div class="sf-h">Explore</div><a href="home.html">Home</a><a href="index.html">Virtual Gallery</a><a href="archive.html">All Projects</a><a href="journal.html">Journal</a></div>
+      <div class="sf-col"><div class="sf-h">About</div><a href="artist-bio.html">Artist Bio</a><a href="exhibitions-interview.html">Exhibitions &amp; Interview</a><a href="contact.html">Contact</a></div>
+      <div class="sf-col"><div class="sf-h">Connect</div><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a><a href="https://vimeo.com/melisragusin" target="_blank" rel="noopener">Vimeo</a><a href="https://www.behance.net/melisrimerr" target="_blank" rel="noopener">Behance</a><a href="https://www.linkedin.com/in/melis-rimer-ragusin-2614bb7/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+  </div>
+  <div class="sf-bottom">
+    <div>&copy; 2026 Melis Ragusin. All rights reserved.</div>
+    <div class="sf-plat"><a href="privacy-policy.html">Privacy</a><a href="https://www.seditionart.com/melis-ragusin" target="_blank" rel="noopener">Sedition</a><a href="https://blackdove.com/e25bb57d-cef1-46b9-9ff1-cc29c46284b6" target="_blank" rel="noopener">Blackdove</a><a href="https://www.instagram.com/melisragusin/" target="_blank" rel="noopener">Instagram</a></div>
+  </div>
+</footer>
+<script src="assets/site.js"></script>
+<script>
+(function () {
+  var d = document, reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bo = d.getElementById('bo'), bm = d.getElementById('bmQ'), bsPic = d.getElementById('bsPic'), tick = false;
+  var desk = matchMedia('(min-width: 900px)'), lastP = -2;
+  var boPic = bo.querySelector('.bo-pic'), boImg = boPic.querySelector('img'), boName = bo.querySelector('.bo-name'), boText = bo.querySelector('.bo-text'), boCue = bo.querySelector('.bo-cue');
+
+  // the statement: one word at a time
+  var words = [];
+  (function () {
+    var t = bm.textContent.trim(), html = '';
+    t.split(/\s+/).forEach(function (w, i) { html += '<span class="w' + (/^(cinematic|motion,|generative|systems\.)$/.test(w) ? ' it' : '') + '">' + mrEsc(w) + '</span> '; });
+    bm.innerHTML = html; words = [].slice.call(bm.querySelectorAll('.w'));
+  })();
+
+  var ease = function (x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+  function upd() {
+    tick = false; var vh = innerHeight;
+    // opening portrait: everything moves on the compositor (transform + opacity only)
+    if (desk.matches) {
+      var r = bo.getBoundingClientRect(), p = reduced ? 1 : ease(Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)) * 1.15));
+      if (Math.abs(p - lastP) > 0.0004) {
+        lastP = p; var W = innerWidth, sx = 1 - p * .56, sy = 1 - p * .27, k = 1.06 - p * .24;
+        boPic.style.transform = 'translate3d(' + (p * .5 * W).toFixed(2) + 'px,' + (p * .15 * vh).toFixed(2) + 'px,0) scale(' + sx.toFixed(5) + ',' + sy.toFixed(5) + ')';
+        boImg.style.transform = 'scale(' + (k / sx).toFixed(5) + ',' + (k / sy).toFixed(5) + ')';
+        boPic.style.setProperty('--sh', Math.max(0, 1 - p * 1.4).toFixed(3));
+        boName.style.opacity = Math.max(0, 1 - p * 2.6).toFixed(3); boName.style.transform = 'translate3d(0,' + (-p * .1 * vh).toFixed(1) + 'px,0)';
+        boText.style.opacity = Math.min(1, Math.max(0, (p - .5) * 2.4)).toFixed(3); boText.style.transform = 'translate3d(0,calc(-50% + ' + ((1 - p) * 60).toFixed(1) + 'px),0)';
+        boCue.style.opacity = Math.max(0, 1 - p * 5).toFixed(3);
+      }
+    } else if (lastP !== -1) { lastP = -1; [boPic, boImg, boName, boText, boCue].forEach(function (e) { e.style.transform = ''; e.style.opacity = ''; }); }
+    // statement
+    var q = bm.getBoundingClientRect(), qp = (vh * .82 - q.top) / (q.height + vh * .3), n = Math.round(qp * words.length * 1.05);
+    words.forEach(function (w, i) { w.classList.toggle('on', i < n || reduced); });
+    // second portrait drifts slower than the page
+    if (bsPic && desk.matches) { var b = bsPic.getBoundingClientRect(); bsPic.style.setProperty('--py', ((b.top + b.height / 2 - vh / 2) * -.06).toFixed(1) + 'px'); }
+  }
+  addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(upd); } }, { passive: true });
+  addEventListener('resize', function () { lastP = -2; upd(); }); upd();
+
+  // videos load and play only while they can be seen
+  var vids = d.querySelectorAll('video[data-src]');
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (en) {
+    en.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) {
+        if (!v.dataset.ok) { v.dataset.ok = 1; ['webm', 'mp4'].forEach(function (x) { if (x === 'webm' && mrVideoExt !== 'webm') return; var s = d.createElement('source'); s.src = v.dataset.src + '.' + x; s.type = 'video/' + x; v.appendChild(s); }); v.load(); }
+        if (!reduced && (v.classList.contains('be-v') || !matchMedia('(hover:hover)').matches)) v.play().catch(function () {});
+      } else v.pause();
+    });
+  }, { rootMargin: '200px' }) : null;
+  vids.forEach(function (v) { if (io) io.observe(v); });
+  // practice panels: the motion panel plays on hover
+  d.querySelectorAll('.bc').forEach(function (c) {
+    var v = c.querySelector('video'); if (!v) return;
+    c.addEventListener('pointerenter', function () { if (!reduced) v.play().catch(function () {}); });
+    c.addEventListener('pointerleave', function () { if (matchMedia('(hover:hover)').matches) v.pause(); });
+  });
+
+  // certificate: tilts towards the pointer, opens large
+  var cb = d.getElementById('certBtn'), cc = d.getElementById('certCard'), lb = d.getElementById('certLb');
+  if (!reduced) {
+    cb.addEventListener('pointermove', function (e) { var b = cc.getBoundingClientRect(), x = (e.clientX - b.left) / b.width - .5, y = (e.clientY - b.top) / b.height - .5; cc.style.setProperty('--ry', (x * 14).toFixed(2) + 'deg'); cc.style.setProperty('--rx', (-y * 10).toFixed(2) + 'deg'); cc.style.setProperty('--ga', (100 + x * 70).toFixed(0) + 'deg'); });
+    cb.addEventListener('pointerleave', function () { cc.style.setProperty('--ry', '0deg'); cc.style.setProperty('--rx', '0deg'); });
+  }
+  function open() { lb.hidden = false; requestAnimationFrame(function () { lb.classList.add('on'); }); d.body.style.overflow = 'hidden'; d.getElementById('certX').focus(); }
+  function close() { lb.classList.remove('on'); d.body.style.overflow = ''; setTimeout(function () { lb.hidden = true; }, 420); cb.focus(); }
+  cb.addEventListener('click', open);
+  d.getElementById('certX').addEventListener('click', close);
+  lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) close(); });
+})();
+
+</script>
+</body>
+</html>
