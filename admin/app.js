@@ -467,7 +467,8 @@ function viewHome() {
   box.addEventListener('click', async (e) => {
     const b = e.target.closest('button[data-act]'); if (!b) return; const s = h.series[+b.closest('.ser').dataset.k];
     if (b.dataset.act === 'rm') { h.series.splice(h.series.indexOf(s), 1); touch(); viewHome(); }
-    if (b.dataset.act === 'work') { const id = await pickWork({}); if (id) { s.work = id; touch(); viewHome(); } }
+    // a strip given another work starts from that work's own name, picture and kind (the old ones belonged to the previous work)
+    if (b.dataset.act === 'work') { const id = await pickWork({}); if (id && id !== s.work) { h.series[h.series.indexOf(s)] = { work: id }; touch(); viewHome(); } }
     if (b.dataset.act === 'img') { const f = await chooseFiles({ multiple: false }); const [p] = await addImages(f, s.work + '-home'); if (p) { s.image = p; touch(); viewHome(); } }
     if (b.dataset.act === 'rmimg') { delete s.image; touch(); viewHome(); }
   });
