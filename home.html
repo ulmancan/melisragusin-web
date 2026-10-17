@@ -344,6 +344,9 @@
     .arc .stage{transform:translateY(-52%);perspective:1100px}
   }
   @media (max-width:479px){ .arc .bar{display:none} }
+  .arc.swipe .pin{position:relative;touch-action:pan-y}
+  .arc.swipe .sc{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
+  .arc.swipe .sc img{pointer-events:none}
   @media (max-width:899px) and (max-height:499px){
     .arc .head{display:none}
     .arc .now{bottom:calc(clamp(26px,5vh,54px) + 30px)}
@@ -592,7 +595,7 @@ const cards = works.map((w, i) => {
   const a = document.createElement('a'); a.className = 'sc'; a.href = 'project.html?id=' + w.id; a.style.setProperty('--glow', w.glow);
   a.setAttribute('aria-label', `${w.title}, Motion Art 2026${w.dur ? ', ' + w.dur : ''}`);
   a.innerHTML = `<div class="pn"><img src="${w.poster}" alt="" decoding="async" ${i > 3 ? 'loading="lazy"' : ''}></div><span class="dm" aria-hidden="true"></span>`; a._dm = a.querySelector('.dm');
-  a.addEventListener('click', (e) => { if (i !== arcIdx) { e.preventDefault(); goArc(i); } });
+  a.addEventListener('click', (e) => { if (swiped) { e.preventDefault(); return; } if (i !== arcIdx) { e.preventDefault(); goArc(i); } });
   a.addEventListener('focus', () => goArc(i));
   stage.appendChild(a); return a;
 });
@@ -605,9 +608,13 @@ function arcMeasure() {
   cw = Math.round(ch * 9 / 16);
   step = cw + (mobile ? 26 : Math.max(56, innerWidth * 0.045)); R = mobile ? 700 : Math.max(1200, innerWidth * 0.95);
   stage.style.setProperty('--cw', cw + 'px'); stage.style.setProperty('--ch', ch + 'px'); arc.style.setProperty('--ch', ch + 'px');
-  arc.style.height = (innerHeight + (works.length - 1) * innerHeight * (mobile ? 0.42 : 0.38)) + 'px';
+  // phones: the wall stays in place and the screens are swiped left and right; elsewhere scrolling turns the wall
+  arc.classList.toggle('swipe', mobile);
+  arc.style.height = mobile ? '' : (innerHeight + (works.length - 1) * innerHeight * 0.38) + 'px';
 }
-function goArc(i) { const r = arc.getBoundingClientRect(); const top = r.top + scrollY, y = top + (i / (works.length - 1)) * (arc.offsetHeight - innerHeight) + 2; if (window.mrLenis) window.mrLenis.scrollTo(y, { duration: 1.1 }); else scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' }); }
+function goArc(i) { if (arcMobile) { swipeT = i; return; }
+  goArcScroll(i); }
+function goArcScroll(i) { const r = arc.getBoundingClientRect(); const top = r.top + scrollY, y = top + (i / (works.length - 1)) * (arc.offsetHeight - innerHeight) + 2; if (window.mrLenis) window.mrLenis.scrollTo(y, { duration: 1.1 }); else scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' }); }
 function arcSet(i) {
   if (i === arcIdx) return; arcIdx = i; const w = works[i];
   curEl.textContent = pad(i + 1); amb.style.setProperty('--amb', w.glow); arc.style.setProperty('--amb', w.glow);
@@ -678,15 +685,44 @@ function frame(now) {
   arcLoop = 0;
   if (!arcNear && Math.abs(arcTarget - arcPos) < 0.0005) return;
   if (works.length) {
-    const p = progress(arc);
-    arcTarget = p * (works.length - 1);
-    arcPos += (arcTarget - arcPos) * (reduced ? 1 : 0.1); if (Math.abs(arcTarget - arcPos) < 0.0005) arcPos = arcTarget;
+    const last = works.length - 1;
+    const p = arcMobile ? (last ? clamp(swipeT, 0, last) / last : 0) : progress(arc);
+    arcTarget = arcMobile ? clamp(swipeT, -0.3, last + 0.3) : p * last;
+    arcPos += (arcTarget - arcPos) * (reduced ? 1 : sw && sw.moved ? 0.35 : 0.12); if (Math.abs(arcTarget - arcPos) < 0.0005) arcPos = arcTarget;
     const bt = `scaleX(${p.toFixed(4)})`; if (bt !== frame.bt) { frame.bt = bt; barEl.style.transform = bt; }
     arcSet(clamp(Math.round(arcPos), 0, works.length - 1));
     const r = arc.getBoundingClientRect(); if (r.bottom > -50 && r.top < innerHeight + 50 && (arcPos !== frame.lp || frame.dirty)) { frame.lp = arcPos; frame.dirty = false; arcRender(); }
   }
   arcLoop = requestAnimationFrame(frame);
 }
+/* phones: a swipe moves along the wall (a vertical swipe still scrolls the page) */
+let swipeT = 0, sw = null, swiped = false;
+const pin = arc.querySelector('.pin');
+pin.addEventListener('pointerdown', (e) => {
+  if (!arcMobile || e.button > 0) return;
+  sw = { id: e.pointerId, x: e.clientX, y: e.clientY, t0: Math.round(arcTarget), moved: false, lx: e.clientX, lt: performance.now(), v: 0 };
+  swiped = false;
+});
+pin.addEventListener('pointermove', (e) => {
+  if (!sw || e.pointerId !== sw.id) return;
+  const dx = e.clientX - sw.x, dy = e.clientY - sw.y;
+  if (!sw.moved) { if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return; sw.moved = true; swiped = true; }
+  const now = performance.now(), dt = Math.max(1, now - sw.lt); sw.v = 0.8 * sw.v + 0.2 * ((e.clientX - sw.lx) / dt); sw.lx = e.clientX; sw.lt = now;
+  swipeT = sw.t0 - dx / (step * 1.05);
+  if (!arcLoop) arcLoop = requestAnimationFrame(frame);
+});
+const swipeEnd = (e) => {
+  if (!sw || (e && e.pointerId !== sw.id)) return;
+  if (sw.moved) {
+    // a flick carries on to the next screen; the wall always comes to rest on a screen
+    let k = Math.round(swipeT - sw.v * 0.35); k = clamp(k, sw.t0 - 3, sw.t0 + 3);
+    if (Math.abs(sw.v) > 0.25 && k === sw.t0) k = sw.t0 + (sw.v < 0 ? 1 : -1);
+    swipeT = clamp(k, 0, works.length - 1);
+    setTimeout(() => { swiped = false; }, 60);
+  } else swipeT = Math.round(swipeT);
+  sw = null; if (!arcLoop) arcLoop = requestAnimationFrame(frame);
+};
+pin.addEventListener('pointerup', swipeEnd); pin.addEventListener('pointercancel', swipeEnd); pin.addEventListener('lostpointercapture', swipeEnd);
 addEventListener('resize', measureAll);
 addEventListener('load', measureAll);
 measureAll(); arcLoop = requestAnimationFrame(frame);
