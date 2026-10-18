@@ -61,6 +61,10 @@ body[data-world="lobby"] #toLobby{display:none}
 #mrload img{width:clamp(80px,15vw,116px);opacity:0;animation:mi 1s var(--ease) forwards}
 @keyframes mi{to{opacity:.96}}
 #mrload.done{opacity:0;visibility:hidden;pointer-events:none}
+/* while the lobby lights up, the controls wait and then fade in */
+#lnav,#pad,.top{transition:opacity 1.2s var(--ease)}
+body.intro #lnav,body.intro #pad{opacity:0;pointer-events:none}
+body.intro .top{opacity:.0}
 /* lobby arrows for phones */
 .lnav{left:50%;bottom:clamp(20px,4vh,40px);transform:translateX(-50%);display:none;align-items:center;gap:10px}
 .lnav button{height:44px;min-width:44px;border:1px solid rgba(244,242,238,.3);border-radius:999px;background:rgba(0,0,0,.45);font-size:16px}
