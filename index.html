@@ -115,13 +115,15 @@ body.intro .top{opacity:.0}
 /* floor plan, bottom left */
 .map{left:clamp(16px,2.6vw,36px);bottom:clamp(16px,3vh,32px);padding:12px 12px 8px;border:1px solid rgba(244,242,238,.14);border-radius:3px;background:rgba(8,8,8,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .map:empty{display:none}
-.map .mt{font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.map .mt{font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .map svg{display:block}
 .map .room{fill:none;stroke:rgba(244,242,238,.35);stroke-width:1}
 .map .wall{fill:rgba(244,242,238,.3)}
 .map .dot{fill:rgba(244,242,238,.55);cursor:pointer;transition:fill .3s}
 .map .dot:hover,.map .dot.on{fill:var(--gold)}
 .map #me path{fill:#8fd8cf}
+/* on smaller screens the hint sits at the top inside the halls, clear of the floor plan and the controller */
+@media (min-width:701px) and (max-width:1199px) and (min-height:561px){body[data-world="hall"] .hint{bottom:auto;top:88px}}
 @media (max-width:700px){
   .pad{transform:scale(.86);transform-origin:100% 100%}
   .map{display:none}

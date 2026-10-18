@@ -364,3 +364,15 @@ details.more>div{display:grid;gap:22px;padding:8px 0 4px}
 .f.bad .in{border-color:#d98a7a}
 .seg button:disabled{opacity:.3;cursor:not-allowed}
 .slot .nm .tag{display:inline-flex;margin:6px 0 0;letter-spacing:.2em}
+
+/* category names */
+.cn{margin-top:22px;padding:18px 18px 14px;border:1px solid var(--line);border-radius:3px;display:grid;gap:12px}
+.cn .cnh{display:flex;align-items:baseline;gap:6px 12px;flex-wrap:wrap}
+.cn .cnh i{font-family:var(--serif);color:var(--gold);font-size:18px}
+.cn .cnh b{font-family:var(--serif);font-weight:400;font-size:22px}
+.cn .cnh .link{margin-left:auto}
+.cn .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cn .f{align-content:start}
+.cn .cw{font-size:12px;color:var(--muted);letter-spacing:.02em}
+.cn .cw b{font-weight:400;color:var(--soft)}
+@media (max-width:760px){.cn .row{grid-template-columns:1fr}.cn{padding:14px 12px}.cn .cnh .link{margin-left:0}}

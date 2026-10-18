@@ -237,7 +237,7 @@
   var meta = (w.meta || []).map(function (m) { var k = m.indexOf(':'); return k > 0 ? [m.slice(0, k).trim(), m.slice(k + 1).trim()] : ['', m]; });
   var pick = function (n) { var r = meta.filter(function (m) { return m[0].toLowerCase() === n; })[0]; return r ? r[1] : ''; };
   var facts = [['Duration', pick('duration')], ['Dimensions', pick('dimensions')], ['Edition', pick('edition')], ['Platform', pick('platform')]].filter(function (f) { return f[1]; }).slice(0, 3);
-  var catName = { Motion: 'Motion Art', 'New-Media': 'New-Media', 'Mixed-Media': 'Mixed-Media' }[w.cat] || w.cat;
+  var catName = (window.CAT_NAMES && window.CAT_NAMES[w.cat] && window.CAT_NAMES[w.cat].name) || { Motion: 'Motion Art', 'New-Media': 'New-Media', 'Mixed-Media': 'Mixed-Media' }[w.cat] || w.cat;
 
   if (!window.PAGE_ID) document.title = w.title + ' — Melis Ragusin'; // on the live site the page already carries its search title
   function IA(u, s) { return window.mrImg ? window.mrImg.attrs(u, s) : ''; }

@@ -40,6 +40,26 @@ copyDir('.', OUT);
 /* ---------- helpers ---------- */
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const abs = (u) => !u ? '' : /^https?:\/\//.test(u) ? u : SITE + '/' + String(u).replace(/^\/+/, '');
+/* category names from the panel (build.mjs → globalThis.MR_CATS): written into the menus, the category cards of the
+   biography, the home page's Motion Art wall and the gallery's hall button, everywhere the pages carry them as text */
+const CATS = globalThis.MR_CATS || {};
+const titled = (s) => { const w = esc(s).split(' '); return w.length > 1 ? w.slice(0, -1).join(' ') + ' <em>' + w[w.length - 1] + '</em>' : w[0]; };
+function catNames(html) {
+  for (const [k, c] of Object.entries(CATS)) {
+    const K = k.replace(/[-]/g, '\\-');
+    html = html
+      .replace(new RegExp(`(<a href="archive\\.html\\?cat=${K}">)[^<]*(</a>)`, 'g'), (x, a, b) => a + esc(c.full) + b)
+      .replace(new RegExp(`(<a class="bc rv" href="archive\\.html\\?cat=${K}">[\\s\\S]*?<h3>)[^<]*(</h3><p>)[\\s\\S]*?(</p>)`), (x, a, b, e) => a + esc(c.name) + b + esc(c.short) + e);
+  }
+  const mo = CATS.Motion;
+  if (mo) html = html
+    .replace('<h2>Motion <em>Art</em></h2>', `<h2>${titled(mo.full)}</h2>`)
+    .replace('>All Motion Art <span', `>All ${esc(mo.name)} <span`)
+    .replace('aria-label="Motion Art 2026"', `aria-label="${esc(mo.name)} 2026"`)
+    .replace('aria-label="Motion Art by Melis Ragusin', `aria-label="${esc(mo.name)} by Melis Ragusin`)
+    .replace('<button id="hallName">Motion Art</button>', `<button id="hallName">${esc(mo.hall)}</button>`);
+  return html;
+}
 const clip = (s, n = 158) => { s = String(s || '').replace(/\s+/g, ' ').trim(); return s.length <= n ? s : s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…'; };
 const PERSON = { '@type': ['Person', 'Organization'], '@id': SITE + '/#person', name: 'Melis Ragusin', url: SITE + '/', image: abs('assets/logo-mr.png'),
   sameAs: ['https://www.instagram.com/melisragusin/', 'https://www.seditionart.com/melis-ragusin', 'https://blackdove.com/e25bb57d-cef1-46b9-9ff1-cc29c46284b6'] };
@@ -71,7 +91,7 @@ const ANALYTICS_BODY = `<noscript><iframe src="https://www.googletagmanager.com/
 // which pictures have light copies: the list build.mjs has just written
 const LIGHT = (() => { try { const t = readFileSync('data-img.js', 'utf8'); return JSON.parse(t.slice(t.indexOf('=') + 1, t.indexOf(';\n'))); } catch (e) { return {}; } })();
 function dress(html, m) {
-  html = html
+  html = catNames(html)
     .replace(/<title>[\s\S]*?<\/title>\s*/i, '')
     .replace(/<meta\s+name="(description|robots|twitter:[^"]*)"[^>]*>\s*/gi, '')
     .replace(/<meta\s+property="og:[^"]*"[^>]*>\s*/gi, '')
@@ -120,7 +140,11 @@ for (const p of SEO.pages) {
     if (a) ld.push({ '@type': 'Article', headline: a.title, author: { '@id': SITE + '/#person' }, publisher: { '@id': SITE + '/#person' }, image: abs(image), url, mainEntityOfPage: url, ...(/^\d{4}-\d{2}/.test(a.date || '') ? { datePublished: a.date } : {}) });
   }
   if (p.cat) vars.PAGE_CAT = p.cat;
-  const m = { url, title: p.title, description: p.description, type: p.type, image, base: p.path !== '/', vars: p.path === '/' ? null : vars, verify: p.path === '/' };
+  let title = p.title, description = p.description;
+  const pc = CATS[p.cat];
+  if (pc && pc.full !== pc.def.full) title = `${pc.full} - Melis Ragusin Art`;
+  if (pc && pc.text && !String(description).startsWith(pc.text.slice(0, 60))) description = clip(pc.text);
+  const m = { url, title, description, type: p.type, image, base: p.path !== '/', vars: p.path === '/' ? null : vars, verify: p.path === '/' };
   m.ld = [webpage(m), ...ld];
   if (p.path === '/') writeFileSync(join(OUT, 'index.html'), dress(src('index.html'), m)); // the gallery opens the site
   else write(p.path, dress(src(p.file), m));
@@ -141,7 +165,8 @@ for (const p of projects) {
   const cover = /\.(mp4|webm)$/i.test(p.video || '') ? p.video.replace(/\.(mp4|webm)$/i, '.jpg') : (p.images || [])[0];
   const title = p.seo_title || `${p.title} - ${p.year} - Melis Ragusin Art`;
   const description = p.seo_description || clip(p.statement) || `${p.title} (${p.year}) by Melis Ragusin.`;
-  const [catPath, catName] = CATPAGE[p.cat] || ['/projects/', 'Projects'];
+  const [catPath, catName0] = CATPAGE[p.cat] || ['/projects/', 'Projects'];
+  const catName = (CATS[p.cat] && CATS[p.cat].full) || catName0;
   const m = { url, title, description, type: 'article', image: cover, base: true, vars: { PAGE_FILE: 'project.html', PAGE_ID: p.id } };
   m.ld = [webpage(m),
     { '@type': 'VisualArtwork', '@id': url + '#artwork', name: p.title, url, creator: { '@id': SITE + '/#person' }, dateCreated: String(p.year || ''), image: abs(cover), description: clip(p.statement, 300), ...(p.medium ? { artMedium: p.medium } : {}) },

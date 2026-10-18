@@ -101,7 +101,73 @@ function cover(w) {
   if (isClip(w.video)) return w.video.replace(/\.(mp4|webm|mov|m4v)$/i, '.jpg');
   return (w.images || [])[0] || '';
 }
-const catName = (c) => `<span lang="en">${t((CATS.find((x) => x[0] === c) || [, 'all'])[1])}</span>`;
+/* ---------- category names (data/site.json) ----------
+   The site's original wording; the names set here replace it everywhere visitors read them (build.mjs, seo.mjs). */
+const CAT_ORIG = {
+ "Motion": {
+  "name": "Motion Art",
+  "full": "Motion Art",
+  "hall": "",
+  "text": "Motion art is where my visuals come alive through movement. These are video-based works — loops, short films, or cinematic sequences — often built from AI-generated imagery, sound, and editing. They are designed to be immersive, playing on large screens, in galleries, or as digital editions. Each piece is crafted to feel alive, shifting with rhythm and atmosphere, inviting the viewer into a world of transformation.",
+  "short": "Motion art is where my visuals come alive through movement. These are video-based works — loops, short films, or cinematic sequences — often built from AI-generated imagery, sound, and editing."
+ },
+ "New-Media": {
+  "name": "New-Media",
+  "full": "New-Media Works",
+  "hall": "",
+  "text": "New media works are created with digital and AI-driven processes. These include AI-generated still images, refined through digital manipulation and enhancement, often printed as fine art editions. They explore identity, impermanence, and transformation through generative systems — artworks that exist between human intention and machine interpretation.",
+  "short": "New media works are created with digital and AI-driven processes. These include AI-generated still images, refined through digital manipulation and enhancement, often printed as fine art editions."
+ },
+ "Mixed-Media": {
+  "name": "Mixed-Media",
+  "full": "Mixed-Media Works",
+  "hall": "",
+  "text": "Mixed media art combines physical materials on surfaces like MDF panels or canvas. I use elements such as epoxy resin, broken glass, chipboard, and cloth to create layered, tactile works that are both sculptural and pictorial. Each material carries symbolic weight, and together they form multidimensional compositions that explore emotion, fragility, and resilience.",
+  "short": "Mixed media art combines physical materials on surfaces like MDF panels or canvas. I use elements such as epoxy resin, broken glass, chipboard, and cloth to create layered, tactile works that are both sculptural and pictorial."
+ }
+};
+const catOf = (k) => ((S.docs['data/site.json'] || {}).categories || {})[k] || CAT_ORIG[k] || {};
+const trimmed = (v) => String(v == null ? '' : v).replace(/\s+/g, ' ').trim();
+const cn = (k) => trimmed(catOf(k).name) || (CAT_ORIG[k] ? CAT_ORIG[k].name : k);
+const cfull = (k) => trimmed(catOf(k).full) || (CAT_ORIG[k] && cn(k) === CAT_ORIG[k].name ? CAT_ORIG[k].full : cn(k));
+const chall = (k) => trimmed(catOf(k).hall) || cn(k);
+const catName = (c) => `<span lang="en">${CAT_ORIG[c] ? esc(cn(c)) : t('all')}</span>`;
+function catNamesDialog() {
+  const NUM = { Motion: 'I', 'New-Media': 'II', 'Mixed-Media': 'III' };
+  const where = (k) => `${t('cWhere')}: <b>${esc(cfull(k))}</b> · <b>${esc(cn(k))}</b> · <b>${esc(chall(k))}</b>`;
+  const block = (k) => { const c = catOf(k), o = CAT_ORIG[k]; return `
+    <div class="cn" data-ck="${k}">
+      <div class="cnh"><i>${NUM[k]}</i><b lang="en">${esc(cn(k))}</b><button class="link" type="button" data-reset>${t('cReset')}</button></div>
+      <div class="row">
+        <div class="f"><label>${t('cName')}</label><input class="in" data-cf="name" maxlength="30" value="${esc(c.name)}" placeholder="${esc(o.name)}"><span class="help">${t('cNameHelp')}</span></div>
+        <div class="f"><label>${t('cFull')}</label><input class="in" data-cf="full" maxlength="48" value="${esc(c.full)}" placeholder="${esc(o.full)}"><span class="help">${t('cFullHelp')}</span></div>
+        <div class="f"><label>${t('cHall')}</label><input class="in" data-cf="hall" maxlength="30" value="${esc(c.hall)}" placeholder="${esc(cn(k))}"><span class="help">${t('cHallHelp')}</span></div>
+      </div>
+      <div class="f"><label>${t('cText')}</label><textarea class="in" data-cf="text" rows="4" maxlength="900">${esc(c.text)}</textarea></div>
+      <div class="f"><label>${t('cShort')}</label><textarea class="in" data-cf="short" rows="3" maxlength="500">${esc(c.short)}</textarea></div>
+      <p class="cw">${where(k)}</p>
+    </div>`; };
+  dialog({ title: t('catNames'),
+    body: `<p class="muted" style="font-size:14px;line-height:1.75;margin-bottom:8px">${t('catNamesLead')}</p>${CATS.map(([k]) => block(k)).join('')}`,
+    foot: `<button class="btn sm solid" type="button" data-close>${t('done')}</button>`,
+    onOpen: (v, close) => {
+      const doc = () => { const d = S.docs['data/site.json'] || (S.docs['data/site.json'] = { categories: clone(CAT_ORIG) }); d.categories = d.categories || {}; return d; };
+      const sync = (box) => { const k = box.dataset.ck; box.querySelector('.cnh b').textContent = cn(k); box.querySelector('[data-cf="hall"]').placeholder = cn(k); box.querySelector('.cw').innerHTML = where(k); };
+      v.addEventListener('input', (e) => {
+        const i = e.target.closest('[data-cf]'); if (!i) return; const box = i.closest('[data-ck]'), k = box.dataset.ck;
+        const d = doc(); d.categories[k] = { ...clone(CAT_ORIG[k]), ...(d.categories[k] || {}) }; d.categories[k][i.dataset.cf] = i.value;
+        touch(); sync(box);
+      });
+      v.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-reset]'); if (!b) return; const box = b.closest('[data-ck]'), k = box.dataset.ck;
+        doc().categories[k] = clone(CAT_ORIG[k]); touch();
+        box.querySelectorAll('[data-cf]').forEach((i) => { i.value = CAT_ORIG[k][i.dataset.cf] || ''; }); sync(box);
+      });
+      v.addEventListener('click', (e) => { if (e.target === v || e.target.closest('[data-close]')) setTimeout(render, 0); });
+      const ta = v.querySelectorAll('textarea'); ta.forEach((x) => { x.style.height = 'auto'; x.style.height = Math.max(70, x.scrollHeight + 2) + 'px'; });
+      v.addEventListener('input', (e) => { if (e.target.tagName === 'TEXTAREA') { e.target.style.height = 'auto'; e.target.style.height = Math.max(70, e.target.scrollHeight + 2) + 'px'; } });
+    } });
+}
 
 /* =========================================================
    SHELL: top bar, toast, dialogs
@@ -273,9 +339,9 @@ function viewWorks() {
   const list = all.filter((w) => (filt.cat === 'all' ? !w.removed : filt.cat === 'hidden' ? w.removed : !w.removed && w.cat === filt.cat) && (!q || `${w.title} ${w.year} ${w.medium} ${w.id}`.toLowerCase().includes(q)));
   app.innerHTML = `
     ${S.restored ? `<div class="banner"><span>${t('restored')}</span><button class="btn sm gold" data-act="publish">${t('publish')}</button></div>` : ''}
-    <div class="head"><div><div class="k kl">${t('studio')}</div><h1>${t('works')}</h1><p>${t('worksLead')}</p></div></div>
+    <div class="head"><div><div class="k kl">${t('studio')}</div><h1>${t('works')}</h1><p>${t('worksLead')}</p></div><button class="btn sm" type="button" data-act="catnames">${t('catNames')}</button></div>
     <div class="bar">
-      <div class="pills" role="group">${[['all', t('all')], ...CATS.map(([c, k]) => [c, `<span lang="en">${t(k)}</span>`]), ['hidden', t('hidden')]].map(([c, l]) => `<button type="button" data-cat="${c}" aria-pressed="${filt.cat === c}">${l}<sup>${count(c)}</sup></button>`).join('')}</div>
+      <div class="pills" role="group">${[['all', t('all')], ...CATS.map(([c]) => [c, `<span lang="en">${esc(cn(c))}</span>`]), ['hidden', t('hidden')]].map(([c, l]) => `<button type="button" data-cat="${c}" aria-pressed="${filt.cat === c}">${l}<sup>${count(c)}</sup></button>`).join('')}</div>
       <label class="search">${I.search}<input type="search" id="q" placeholder="${t('search')}" value="${esc(filt.q)}"></label>
     </div>
     <div class="grid" id="grid">
@@ -341,7 +407,7 @@ function viewWork(id) {
             <div class="f"><label>${t('year')}</label><input class="in" data-b="year" value="${esc(w.year)}" inputmode="numeric" maxlength="4"></div>
             <div class="f"><label>${t('medium')}</label><input class="in" data-b="medium" value="${esc(w.medium)}" placeholder="${t('mediumPh')}"></div>
           </div>
-          <div class="f"><span class="lb">${t('category')}</span><div class="seg" role="group">${CATS.map(([c, k]) => `<button type="button" data-setcat="${c}" aria-pressed="${w.cat === c}" lang="en">${t(k)}</button>`).join('')}</div></div>
+          <div class="f"><span class="lb">${t('category')}</span><div class="seg" role="group">${CATS.map(([c, k]) => `<button type="button" data-setcat="${c}" aria-pressed="${w.cat === c}" lang="en">${esc(cn(c))}</button>`).join('')}</div></div>
         </div>
         <div class="sec"><h3>${t('statement')}</h3>
           <div class="f"><textarea class="in serif" data-b="statement" rows="9">${esc(w.statement)}</textarea><span class="help">${t('statementHelp')}</span></div>
@@ -454,8 +520,8 @@ function viewGallery(hid) {
   const door = (shown.some((x) => x.work === hall.door) && work(hall.door)) || (shown[0] && work(shown[0].work));
   const missing = projects().filter((w) => !w.removed && w.cat === H.cat && !items.some((x) => x.work === w.id));
   app.innerHTML = `
-    <div class="head"><div><div class="k kl">${t('studio')}</div><h1>${t('gallery')}</h1><p>${t('galleryLead')}</p></div><a class="btn sm" href="${SITE}/#${H.id}" target="_blank" rel="noopener">${I.ext}${t('viewSite')}</a></div>
-    <div class="halls" role="group">${HALLS.map((h) => `<button type="button" class="hall" data-hall="${h.id}" aria-pressed="${h.id === H.id}" style="--c:${h.c}"><span class="gl"></span><i>${h.n}</i><b lang="en">${t(h.key)}</b><span>${t('worksIn', { n: ((g[h.id] && g[h.id].works) || []).filter((x) => work(x.work) && !work(x.work).removed).length })}</span></button>`).join('')}</div>
+    <div class="head"><div><div class="k kl">${t('studio')}</div><h1>${t('gallery')}</h1><p>${t('galleryLead')}</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn sm" type="button" data-act="catnames">${t('editNames')}</button><a class="btn sm" href="${SITE}/#${H.id}" target="_blank" rel="noopener">${I.ext}${t('viewSite')}</a></div></div>
+    <div class="halls" role="group">${HALLS.map((h) => `<button type="button" class="hall" data-hall="${h.id}" aria-pressed="${h.id === H.id}" style="--c:${h.c}"><span class="gl"></span><i>${h.n}</i><b lang="en">${esc(chall(h.cat))}</b><span>${t('worksIn', { n: ((g[h.id] && g[h.id].works) || []).filter((x) => work(x.work) && !work(x.work).removed).length })}</span></button>`).join('')}</div>
     <div class="door"><div class="pic">${door && cover(door) ? `<img src="${esc(img(cover(door), 480))}" alt="">` : ''}</div>
       <div><div class="k">${t('door')}</div><div class="nm">${esc(door ? door.title : '—')}${!(door && door.id === hall.door) ? ` <span class="muted" style="font-size:14px;font-family:var(--sans)">· ${t('firstWork')}</span>` : ''}</div>
       <button class="btn sm" type="button" data-act="door">${t('change')}</button><p class="hint">${t('doorHelp')}</p></div></div>
@@ -536,7 +602,7 @@ function stripFrom(id) {
   const w = work(id), s = { work: id }; if (!w) return s;
   if (w.title) s.name = w.title;
   const m = String(w.medium || '').trim();
-  const kind = m && (m.includes('·') || Object.values(KIND).includes(m)) ? m : KIND[w.cat] || m;
+  const kind = m && (m.includes('·') || Object.values(KIND).includes(m) || CATS.some(([c]) => cfull(c) === m)) ? m : (CAT_ORIG[w.cat] ? cfull(w.cat) : KIND[w.cat]) || m;
   if (kind) s.medium = kind;
   const pic = cover(w); if (pic) s.image = pic;
   const tx = shortText(w.statement); if (tx) s.text = tx;
@@ -670,7 +736,7 @@ function label(c) {
   const m = c.path.match(/^data\/(projects|journal)\/(.+)\.json$/);
   const doc = S.docs[c.path] || (S.base[c.path] ? JSON.parse(S.base[c.path]) : {});
   if (m) return `${m[1] === 'projects' ? t('works') : t('journal')} · ${esc(doc.title || m[2])}`;
-  return c.path === 'data/gallery.json' ? t('gallery') : t('home');
+  return c.path === 'data/gallery.json' ? t('gallery') : c.path === 'data/site.json' ? t('catNames') : t('home');
 }
 function publishDialog() {
   const list = changes();
@@ -806,6 +872,7 @@ document.addEventListener('click', async (e) => {
   if (l) { setLang(l.dataset.lang); if (document.body.classList.contains('gated')) gate(); else render(); return; }
   const b = e.target.closest('[data-act]'); if (!b) return;
   if (b.dataset.act === 'publish') publishDialog();
+  if (b.dataset.act === 'catnames') catNamesDialog();
   if (b.dataset.act === 'undo') {
     const p = curPath(); if (!p) return; const d = S.docs[p] || (S.base[p] ? JSON.parse(S.base[p]) : {});
     if (!(await confirmBox(t('undoSure', { t: d.title || label({ path: p }) }), t('undo')))) return;

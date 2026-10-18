@@ -150,6 +150,15 @@
     Motion: "Motion art is where my visuals come alive through movement. These are video-based works — loops, short films, or cinematic sequences — often built from AI-generated imagery, sound, and editing. They are designed to be immersive, playing on large screens, in galleries, or as digital editions. Each piece is crafted to feel alive, shifting with rhythm and atmosphere, inviting the viewer into a world of transformation."
   };
   var CATNAME = { Motion: 'Motion Art', 'New-Media': 'New-Media', 'Mixed-Media': 'Mixed-Media' };
+  // the names and texts set in the panel (data-projects.js); the wording above stays as the fallback
+  var CN = window.CAT_NAMES || {};
+  // a page title in the site's style: the last word in italics
+  var titled = function (s) { var w = esc(s).split(' '); return w.length > 1 ? w.slice(0, -1).join(' ') + ' <em>' + w[w.length - 1] + '</em>' : w[0]; };
+  Object.keys(CN).forEach(function (k) {
+    var c = CN[k]; CATNAME[k] = c.name;
+    CATS.forEach(function (x) { if (x[0] === k) x[1] = esc(c.name); }); // the buttons are written as HTML
+    TITLE[k] = titled(c.full); if (c.text) DESC[k] = c.text; else DESC[k] = '';
+  });
   var YEARS = ['all'].concat(Array.from(new Set(ORDER.map(function (id) { return P[id].year; }))).sort().reverse());
   var q = new URLSearchParams(location.search);
   var qc = q.get('cat') || window.PAGE_CAT; var fCat = CATS.some(function (c) { return c[0] === qc; }) ? qc : 'all';

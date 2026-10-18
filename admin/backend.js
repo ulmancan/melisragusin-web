@@ -51,7 +51,7 @@ async function gql(query, variables = {}) {
 export async function loadAll() {
   if (DEMO) return loadDemo();
   const tree = (alias, dir) => `${alias}: object(expression: $${alias}) { ... on Tree { entries { name type object { ... on Blob { text } } } } }`;
-  const q = `query($owner: String!, $name: String!, $ref: String!, $projects: String!, $journal: String!, $gallery: String!, $home: String!) {
+  const q = `query($owner: String!, $name: String!, $ref: String!, $projects: String!, $journal: String!, $gallery: String!, $home: String!, $site: String!) {
     viewer { login name avatarUrl }
     repository(owner: $owner, name: $name) {
       viewerPermission
@@ -59,10 +59,11 @@ export async function loadAll() {
       ${tree('projects')} ${tree('journal')}
       gallery: object(expression: $gallery) { ... on Blob { text } }
       home: object(expression: $home) { ... on Blob { text } }
+      site: object(expression: $site) { ... on Blob { text } }
     }
   }`;
   const b = REPO.branch;
-  const d = await gql(q, { owner: REPO.owner, name: REPO.name, ref: 'refs/heads/' + b, projects: b + ':data/projects', journal: b + ':data/journal', gallery: b + ':data/gallery.json', home: b + ':data/home.json' });
+  const d = await gql(q, { owner: REPO.owner, name: REPO.name, ref: 'refs/heads/' + b, projects: b + ':data/projects', journal: b + ':data/journal', gallery: b + ':data/gallery.json', home: b + ':data/home.json', site: b + ':data/site.json' });
   const repo = d.repository;
   if (!repo) throw Object.assign(new Error('no-repo'), { code: 404 });
   if (!['WRITE', 'MAINTAIN', 'ADMIN'].includes(repo.viewerPermission)) throw Object.assign(new Error('no-access'), { code: 403 });
@@ -71,6 +72,7 @@ export async function loadAll() {
   add('data/projects', repo.projects); add('data/journal', repo.journal);
   if (repo.gallery && repo.gallery.text != null) files['data/gallery.json'] = repo.gallery.text;
   if (repo.home && repo.home.text != null) files['data/home.json'] = repo.home.text;
+  if (repo.site && repo.site.text != null) files['data/site.json'] = repo.site.text;
   return { user: { login: d.viewer.login, name: d.viewer.name || d.viewer.login, avatar: d.viewer.avatarUrl }, head: repo.ref && repo.ref.target.oid, files };
 }
 
@@ -85,6 +87,7 @@ async function loadDemo() {
   }
   files['data/gallery.json'] = await (await fetch('../data/gallery.json')).text();
   files['data/home.json'] = await (await fetch('../data/home.json')).text();
+  try { const r = await fetch('../data/site.json'); if (r.ok) files['data/site.json'] = await r.text(); } catch (e) {}
   return { user: { login: 'melisragusin', name: 'Melis Ragusin', avatar: '' }, head: 'demo', files };
 }
 

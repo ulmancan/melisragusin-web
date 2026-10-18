@@ -36,10 +36,31 @@ for (const p of projects) {
     status: p.status || '',
   };
 }
+/* ---------- CATEGORY NAMES (data/site.json, edited in the panel) ----------
+   The three categories keep their keys (Motion, New-Media, Mixed-Media) and their addresses (/motion-art/ …);
+   only what visitors read changes: the short name, the full name (menu, page titles), the hall name in the
+   virtual gallery, and the two texts. Anything left empty falls back to the original wording. */
+const CAT_DEFAULT = {
+  Motion: { name: 'Motion Art', full: 'Motion Art' },
+  'New-Media': { name: 'New-Media', full: 'New-Media Works' },
+  'Mixed-Media': { name: 'Mixed-Media', full: 'Mixed-Media Works' },
+};
+const SITE_DATA = (() => { try { return JSON.parse(readFileSync('data/site.json', 'utf8')); } catch (e) { return {}; } })();
+const tidy = (v, max) => String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, max);
+const CAT_NAMES = {};
+for (const [k, d] of Object.entries(CAT_DEFAULT)) {
+  const c = (SITE_DATA.categories || {})[k] || {};
+  const name = tidy(c.name, 30) || d.name;
+  const full = tidy(c.full, 48) || (name !== d.name ? name : d.full);
+  CAT_NAMES[k] = { name, full, hall: tidy(c.hall, 30) || name, text: tidy(c.text, 900), short: tidy(c.short, 500), def: d };
+}
+globalThis.MR_CATS = CAT_NAMES; // seo.mjs writes them into the menus and page titles
+
 writeFileSync(
   'data-projects.js',
   'window.PROJECTS = ' + JSON.stringify(PROJECTS, null, 1) + ';\n' +
-  'window.PROJECT_ORDER = ' + JSON.stringify(ORDER) + ';\n'
+  'window.PROJECT_ORDER = ' + JSON.stringify(ORDER) + ';\n' +
+  'window.CAT_NAMES = ' + JSON.stringify(CAT_NAMES) + ';\n'
 );
 
 /* ---------- VIRTUAL GALLERY & HOME PAGE (single files the panel edits) ---------- */

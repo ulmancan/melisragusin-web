@@ -593,7 +593,7 @@ document.getElementById('arcTot').textContent = pad(works.length);
 if (!works.length) arc.hidden = true;
 const cards = works.map((w, i) => {
   const a = document.createElement('a'); a.className = 'sc'; a.href = 'project.html?id=' + w.id; a.style.setProperty('--glow', w.glow);
-  a.setAttribute('aria-label', `${w.title}, Motion Art 2026${w.dur ? ', ' + w.dur : ''}`);
+  a.setAttribute('aria-label', `${w.title}, ${(window.CAT_NAMES && window.CAT_NAMES.Motion && window.CAT_NAMES.Motion.name) || 'Motion Art'} 2026${w.dur ? ', ' + w.dur : ''}`);
   a.innerHTML = `<div class="pn"><img src="${w.poster}" alt="" decoding="async" ${i > 3 ? 'loading="lazy"' : ''}></div><span class="dm" aria-hidden="true"></span>`; a._dm = a.querySelector('.dm');
   a.addEventListener('click', (e) => { if (swiped) { e.preventDefault(); return; } if (i !== arcIdx) { e.preventDefault(); goArc(i); } });
   a.addEventListener('focus', () => goArc(i));
@@ -621,7 +621,7 @@ function arcSet(i) {
   nowEl.href = 'project.html?id=' + w.id;
   nowEl.classList.add('swap');
   clearTimeout(arcSet.t); arcSet.t = setTimeout(() => {
-    tEl.textContent = w.title; mEl.textContent = `Motion Art · 2026${w.dur ? ' · ' + w.dur : ''} · View work →`;
+    tEl.textContent = w.title; mEl.textContent = `${(window.CAT_NAMES && window.CAT_NAMES.Motion && window.CAT_NAMES.Motion.name) || 'Motion Art'} · 2026${w.dur ? ' · ' + w.dur : ''} · View work →`;
     nowEl.classList.remove('swap');
   }, reduced ? 0 : 320);
   // the screen in front plays, its neighbours warm up, the rest stay as stills
@@ -664,6 +664,7 @@ function arcRender() {
 // the strips are managed in the panel (Ana Sayfa → Seçili Seriler); a work that is gone from the site is left out
 const SERIES = ((window.HOME && window.HOME.series) || []).filter((x) => x && x.work && P[x.work]).map((x) => {
   const w = P[x.work], CATN = { 'Motion': 'Motion Art', 'New-Media': 'New-Media Works', 'Mixed-Media': 'Mixed-Media' };
+  Object.entries(window.CAT_NAMES || {}).forEach(([k, c]) => { CATN[k] = c.full; });
   return { id: x.work, name: x.name || w.title, year: w.year, medium: x.medium || w.medium || CATN[w.cat] || '', img: String(x.image || (w.images || [])[0] || '').replace(/^\/+/, ''), desc: x.text || '' };
 });
 if (!SERIES.length) document.getElementById('series').hidden = true;
@@ -1245,7 +1246,7 @@ function select(i, animate) {
   if (!animate || reduced) { apply(); return; }
   clearTimeout(swapTimer); wall.classList.add('swap'); swapTimer = setTimeout(apply, 300);
 }
-function syncHits() { hits.forEach((h, k) => { const key = current(k); h.href = href(key); h.setAttribute('aria-label', `${W[key][0]}, Motion Art 2026 — view work`); }); }
+function syncHits() { hits.forEach((h, k) => { const key = current(k); h.href = href(key); h.setAttribute('aria-label', `${W[key][0]}, ${(window.CAT_NAMES && window.CAT_NAMES.Motion && window.CAT_NAMES.Motion.name) || 'Motion Art'} 2026 — view work`); }); }
 function panTo(i) {
   if (cam.desk || cam.panMax <= cam.panMin) return;
   const q = SCREENS[i].quad, cx = (Math.min(q[0], q[6]) + Math.min(Math.max(q[2], q[4]), IMG.w)) / 2;
