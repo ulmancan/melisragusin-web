@@ -68,7 +68,6 @@
           <a class="navlink" href="archive.html" aria-haspopup="true">Projects <span class="car" aria-hidden="true">&#9662;</span></a>
           <div class="dropdown">
             <a href="archive.html">All Projects</a>
-            <a href="archive.html?cat=Mixed-Media">Mixed-Media Works</a>
             <a href="archive.html?cat=New-Media">New-Media Works</a>
             <a href="archive.html?cat=Motion">Motion Art</a>
             <div class="sep"></div>
@@ -141,7 +140,7 @@
 (function () {
   'use strict';
   var P = window.PROJECTS || {}, ORDER = (window.PROJECT_ORDER || []).filter(function (id) { return P[id]; }), esc = mrEsc;
-  var CATS = [['all', 'All'], ['Motion', 'Motion Art'], ['New-Media', 'New-Media'], ['Mixed-Media', 'Mixed-Media']];
+  var CATS = [['all', 'All'], ['Motion', 'Motion Art'], ['New-Media', 'New-Media']];
   var TITLE = { all: 'All <em>Works</em>', Motion: 'Motion <em>Art</em>', 'New-Media': 'New-Media <em>Works</em>', 'Mixed-Media': 'Mixed-Media <em>Works</em>' };
   var DESC = {
     all: "Discover cutting-edge AI-enhanced motion art projects that blend artificial intelligence with dynamic visuals to create immersive, interactive, and visually stunning experiences. Perfect for artists, designers, and tech enthusiasts exploring the future of creative expression.",

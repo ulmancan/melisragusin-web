@@ -17,8 +17,9 @@ const DEFAULT_IMAGE = 'assets/bio/portrait-sofa.jpg';
 const OUT = 'dist';
 
 const readJSONDir = (dir) => readdirSync(dir).filter((f) => f.endsWith('.json') && !f.startsWith('._')).map((f) => JSON.parse(readFileSync(`${dir}/${f}`, 'utf8')));
-const projects = readJSONDir('data/projects').filter((p) => p && p.id && !p.removed);
-const journal = existsSync('data/journal') ? readJSONDir('data/journal') : [];
+// the same choice as build.mjs: untitled new entries stay out; Mixed-Media works are New-Media Works
+const projects = readJSONDir('data/projects').filter((p) => p && p.id && !p.removed && String(p.title || '').trim()).map((p) => (p.cat === 'Mixed-Media' ? { ...p, cat: 'New-Media' } : p));
+const journal = (existsSync('data/journal') ? readJSONDir('data/journal') : []).filter((a) => a && a.id && String(a.title || '').trim());
 
 /* ---------- 1. copy the site (without what only the offline preview or the workshop needs) ---------- */
 const SKIP = new Set(['dist', 'tools', 'package.json', 'package-lock.json', 'work', 'shots', 'data', '_to_delete', 'node_modules', '.git', '.github', 'concept-home.html', 'melis-miami-experience.html',
@@ -70,7 +71,7 @@ const ANALYTICS_HEAD = `<!-- Google Tag Manager --><script>(function(w,d,s,l,i){
 // on the live site, links point at the clean addresses (the menu is highlighted first, from the .html names)
 const LINKS = `<script>(function () { var d = document;
     var PAGES = { 'artist-bio.html': 'artist-bio/', 'contact.html': 'contact/', 'exhibitions-interview.html': 'exhibitions-interview/', 'oksijen-interview.html': 'oksijen-interview/', 'privacy-policy.html': 'privacy-policy/', 'journal.html': 'blog/', 'index.html': '/', 'gallery.html': '/' };
-    var CATURL = { Motion: 'motion-art/', 'New-Media': 'new-media-works/', 'Mixed-Media': 'mixed-media-works/' };
+    var CATURL = { Motion: 'motion-art/', 'New-Media': 'new-media-works/', 'Mixed-Media': 'new-media-works/' };
     var clean = function (h) {
       var m = /^(project|article|archive)\\.html(?:\\?(.*))?$/.exec(h), q;
       if (m) {
@@ -130,7 +131,7 @@ const src = (f) => readFileSync(f, 'utf8');
 const urls = []; // for the sitemap: [url, image?]
 
 /* ---------- 2. pages at their old addresses ---------- */
-const CATPAGE = { Motion: ['/motion-art/', 'Motion Art'], 'New-Media': ['/new-media-works/', 'New-Media Works'], 'Mixed-Media': ['/mixed-media-works/', 'Mixed-Media Works'] };
+const CATPAGE = { Motion: ['/motion-art/', 'Motion Art'], 'New-Media': ['/new-media-works/', 'New-Media Works'] };
 for (const p of SEO.pages) {
   const url = SITE + p.path;
   let image = p.image, ld = [], vars = { PAGE_FILE: p.file };
@@ -200,7 +201,9 @@ for (const p of SEO.pages) {
 const R = [];
 // the site's own .html addresses → the clean addresses (the menu links already use these on the live site)
 R.push('/project.html id=:id /projects/:id/ 301!', '/article.html id=:id /:id/ 301!',
-  '/archive.html cat=Motion /motion-art/ 301!', '/archive.html cat=New-Media /new-media-works/ 301!', '/archive.html cat=Mixed-Media /mixed-media-works/ 301!',
+  '/archive.html cat=Motion /motion-art/ 301!', '/archive.html cat=New-Media /new-media-works/ 301!', '/archive.html cat=Mixed-Media /new-media-works/ 301!',
+  // Mixed-Media is no longer a category of its own: its works are New-Media Works now
+  '/mixed-media-works/ /new-media-works/ 301!', '/mixed-media-works /new-media-works/ 301!',
   '/archive.html /projects/ 301!', '/project.html /projects/ 301!', '/article.html /blog/ 301!', '/journal.html /blog/ 301!', '/gallery.html / 301!');
 for (const f of ['artist-bio', 'contact', 'exhibitions-interview', 'oksijen-interview', 'privacy-policy']) R.push(`/${f}.html /${f}/ 301!`);
 // old WordPress addresses that have no page of their own any more

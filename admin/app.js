@@ -34,11 +34,10 @@ const S = {
   uploads: {},   // main path -> { url, files: [{ path, blob }] }
   restored: false,
 };
-const CATS = [['Motion', 'motion'], ['New-Media', 'newmedia'], ['Mixed-Media', 'mixed']];
+const CATS = [['Motion', 'motion'], ['New-Media', 'newmedia']]; // Mixed-Media is part of New-Media now
 const HALLS = [
   { id: 'motion', cat: 'Motion', n: 'I', key: 'hallMotion', c: 'rgba(255,154,106,.9)' },
   { id: 'new', cat: 'New-Media', n: 'II', key: 'hallNew', c: 'rgba(134,168,255,.9)' },
-  { id: 'mixed', cat: 'Mixed-Media', n: 'III', key: 'hallMixed', c: 'rgba(231,194,122,.9)' },
 ];
 const WALLS = [['otomatik', 'auto'], ['sol', 'left'], ['sağ', 'right'], ['karşı', 'end']];
 
@@ -49,7 +48,7 @@ const projects = () => Object.entries(S.docs).filter(([p, d]) => p.startsWith('d
 const stories = () => Object.entries(S.docs).filter(([p, d]) => p.startsWith('data/journal/') && d).map(([, d]) => d)
   .sort((a, b) => (+a.order || 0) - (+b.order || 0) || String(a.id).localeCompare(b.id));
 const work = (id) => S.docs[pPath(id)] || null;
-const gallery = () => S.docs['data/gallery.json'] || (S.docs['data/gallery.json'] = { motion: { works: [] }, new: { works: [] }, mixed: { works: [] } });
+const gallery = () => S.docs['data/gallery.json'] || (S.docs['data/gallery.json'] = { motion: { works: [] }, new: { works: [] } });
 const homeDoc = () => S.docs['data/home.json'] || (S.docs['data/home.json'] = { series: [] });
 
 function changes() {
@@ -117,13 +116,6 @@ const CAT_ORIG = {
   "hall": "",
   "text": "New media works are created with digital and AI-driven processes. These include AI-generated still images, refined through digital manipulation and enhancement, often printed as fine art editions. They explore identity, impermanence, and transformation through generative systems — artworks that exist between human intention and machine interpretation.",
   "short": "New media works are created with digital and AI-driven processes. These include AI-generated still images, refined through digital manipulation and enhancement, often printed as fine art editions."
- },
- "Mixed-Media": {
-  "name": "Mixed-Media",
-  "full": "Mixed-Media Works",
-  "hall": "",
-  "text": "Mixed media art combines physical materials on surfaces like MDF panels or canvas. I use elements such as epoxy resin, broken glass, chipboard, and cloth to create layered, tactile works that are both sculptural and pictorial. Each material carries symbolic weight, and together they form multidimensional compositions that explore emotion, fragility, and resilience.",
-  "short": "Mixed media art combines physical materials on surfaces like MDF panels or canvas. I use elements such as epoxy resin, broken glass, chipboard, and cloth to create layered, tactile works that are both sculptural and pictorial."
  }
 };
 const catOf = (k) => ((S.docs['data/site.json'] || {}).categories || {})[k] || CAT_ORIG[k] || {};
@@ -133,7 +125,7 @@ const cfull = (k) => trimmed(catOf(k).full) || (CAT_ORIG[k] && cn(k) === CAT_ORI
 const chall = (k) => trimmed(catOf(k).hall) || cn(k);
 const catName = (c) => `<span lang="en">${CAT_ORIG[c] ? esc(cn(c)) : t('all')}</span>`;
 function catNamesDialog() {
-  const NUM = { Motion: 'I', 'New-Media': 'II', 'Mixed-Media': 'III' };
+  const NUM = { Motion: 'I', 'New-Media': 'II' };
   const where = (k) => `${t('cWhere')}: <b>${esc(cfull(k))}</b> · <b>${esc(cn(k))}</b> · <b>${esc(chall(k))}</b>`;
   const block = (k) => { const c = catOf(k), o = CAT_ORIG[k]; return `
     <div class="cn" data-ck="${k}">
@@ -525,7 +517,6 @@ function viewGallery(hid) {
     <div class="door"><div class="pic">${door && cover(door) ? `<img src="${esc(img(cover(door), 480))}" alt="">` : ''}</div>
       <div><div class="k">${t('door')}</div><div class="nm">${esc(door ? door.title : '—')}${!(door && door.id === hall.door) ? ` <span class="muted" style="font-size:14px;font-family:var(--sans)">· ${t('firstWork')}</span>` : ''}</div>
       <button class="btn sm" type="button" data-act="door">${t('change')}</button><p class="hint">${t('doorHelp')}</p></div></div>
-    ${H.id === 'mixed' ? `<p class="hint" style="margin-top:18px">${t('soldNote')}</p>` : ''}
     ${missing.length ? `<div class="miss"><span class="k">${t('notInHall')}</span>${missing.map((w) => `<button type="button" class="chip" data-addw="${esc(w.id)}">${I.plus}${esc(w.title)}</button>`).join('')}</div>` : ''}
     <div class="plan" id="plan">${items.map((x, k) => slot(H, x, k, items)).join('')}</div>
     <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap"><button class="btn sm gold" type="button" data-act="add">${I.plus}${t('addToHall')}</button></div>
@@ -738,18 +729,20 @@ function label(c) {
   if (m) return `${m[1] === 'projects' ? t('works') : t('journal')} · ${esc(doc.title || m[2])}`;
   return c.path === 'data/gallery.json' ? t('gallery') : c.path === 'data/site.json' ? t('catNames') : t('home');
 }
+// a new work or story without a title is kept as a draft here: it is published once it has one
+const untitledNew = (c) => c.kind === 'added' && /^data\/(projects|journal)\//.test(c.path) && !trimmed((S.docs[c.path] || {}).title);
 function publishDialog() {
-  const list = changes();
-  if (!list.length) { toast(t('nothingToPublish')); return; }
+  const held = changes().filter(untitledNew), list = changes().filter((c) => !untitledNew(c));
+  if (!list.length) { toast(held.length ? t('heldUntitled', { n: held.length }) : t('nothingToPublish')); return; }
   dialog({ title: t('pubTitle'), small: true,
-    body: `<p class="muted" style="font-size:14px;line-height:1.75">${t('pubLead')}</p><ul class="chg" style="margin-top:18px">${list.map((c) => `<li><i></i>${label(c)} <small>· ${t(c.kind)}</small></li>`).join('')}</ul><div class="prog" hidden><i></i></div>`,
+    body: `<p class="muted" style="font-size:14px;line-height:1.75">${t('pubLead')}</p><ul class="chg" style="margin-top:18px">${list.map((c) => `<li><i></i>${label(c)} <small>· ${t(c.kind)}</small></li>`).join('')}</ul>${held.length ? `<p class="hint" style="margin-top:14px">${t('heldUntitled', { n: held.length })}</p>` : ''}<div class="prog" hidden><i></i></div>`,
     foot: `<button class="btn sm ghost danger" type="button" data-discard style="margin-right:auto">${t('discardAll')}</button><button class="btn sm" data-close>${t('cancel')}</button><button class="btn sm solid" type="button" data-go>${t('pubNow')}</button>`,
     onOpen: (v, close) => {
       v.querySelector('[data-discard]').onclick = async () => { close(); if (!(await confirmBox(t('discardSure'), t('discardAll'), true))) return; resetDocs(); S.uploads = {}; S.restored = false; touch(); render(); };
       v.querySelector('[data-go]').onclick = async (e) => {
         const btn = e.currentTarget; btn.disabled = true; btn.textContent = t('publishing');
         const prog = v.querySelector('.prog'); prog.hidden = false;
-        const ch = changes().map((c) => ({ path: c.path, text: c.text == null ? null : JSON.stringify(clean(JSON.parse(c.text)), null, 2) + '\n' }));
+        const ch = changes().filter((c) => !untitledNew(c)).map((c) => ({ path: c.path, text: c.text == null ? null : JSON.stringify(clean(JSON.parse(c.text)), null, 2) + '\n' }));
         const ups = usedUploads(ch);
         const names = ch.map((c) => { const m = c.path.match(/\/([^/]+)\.json$/); return m ? m[1] : c.path; });
         const bases = {}; ch.forEach((c) => { bases[c.path] = S.base[c.path] == null ? null : S.base[c.path]; });

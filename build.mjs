@@ -16,7 +16,10 @@ const readJSONDir = (dir) =>
 /* ---------- PROJECTS ---------- */
 // an entry marked "removed": true is a work taken off melisragusin.com: it stays out of the site
 const projects = readJSONDir('data/projects')
-  .filter((p) => p && p.id && !p.removed)
+  // a new work saved without a title stays out of the site until it has one
+  .filter((p) => p && p.id && !p.removed && String(p.title || '').trim())
+  // Mixed-Media is part of New-Media Works now (an older copy of a work may still say Mixed-Media)
+  .map((p) => (p.cat === 'Mixed-Media' ? { ...p, cat: 'New-Media' } : p))
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.id.localeCompare(b.id));
 
 const PROJECTS = {};
@@ -37,13 +40,12 @@ for (const p of projects) {
   };
 }
 /* ---------- CATEGORY NAMES (data/site.json, edited in the panel) ----------
-   The three categories keep their keys (Motion, New-Media, Mixed-Media) and their addresses (/motion-art/ …);
+   The two categories keep their keys (Motion, New-Media) and their addresses (/motion-art/, /new-media-works/);
    only what visitors read changes: the short name, the full name (menu, page titles), the hall name in the
    virtual gallery, and the two texts. Anything left empty falls back to the original wording. */
 const CAT_DEFAULT = {
   Motion: { name: 'Motion Art', full: 'Motion Art' },
   'New-Media': { name: 'New-Media', full: 'New-Media Works' },
-  'Mixed-Media': { name: 'Mixed-Media', full: 'Mixed-Media Works' },
 };
 const SITE_DATA = (() => { try { return JSON.parse(readFileSync('data/site.json', 'utf8')); } catch (e) { return {}; } })();
 const tidy = (v, max) => String(v == null ? '' : v).replace(/\s+/g, ' ').trim().slice(0, max);
@@ -65,11 +67,19 @@ writeFileSync(
 
 /* ---------- VIRTUAL GALLERY & HOME PAGE (single files the panel edits) ---------- */
 const readJSON = (f, fallback) => { try { return JSON.parse(readFileSync(f, 'utf8')); } catch (e) { return fallback; } };
-writeFileSync('data-gallery.js', 'window.GALLERY = ' + JSON.stringify(readJSON('data/gallery.json', {}), null, 1) + ';\n');
+// the former Mixed-Media hall is part of the New-Media hall (should an older copy still have it)
+const GALLERY = readJSON('data/gallery.json', {});
+if (GALLERY.mixed) {
+  GALLERY.new = GALLERY.new || { works: [] }; GALLERY.new.works = GALLERY.new.works || [];
+  for (const x of GALLERY.mixed.works || []) if (x && !GALLERY.new.works.some((y) => y.work === x.work)) GALLERY.new.works.push(x);
+  delete GALLERY.mixed;
+}
+writeFileSync('data-gallery.js', 'window.GALLERY = ' + JSON.stringify(GALLERY, null, 1) + ';\n');
 writeFileSync('data-home.js', 'window.HOME = ' + JSON.stringify(readJSON('data/home.json', {}), null, 1) + ';\n');
 
 /* ---------- JOURNAL ---------- */
 const journal = readJSONDir('data/journal')
+  .filter((a) => a && a.id && String(a.title || '').trim()) // a new story saved without a title stays out of the site
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.id.localeCompare(b.id));
 
 const JOURNAL = journal.map((a) => ({
