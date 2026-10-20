@@ -50,7 +50,7 @@
 .frm.pic img{display:block;max-height:72vh;max-width:100%;width:auto;height:auto}
 .glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(var(--ga,115deg),transparent 35%,rgba(255,255,255,.075) 48%,transparent 60%);mix-blend-mode:screen;opacity:.9;transition:background .3s}
 .frm.pic .glare{opacity:.5}
-.fs{position:absolute;right:clamp(16px,1.6vw,24px);top:clamp(16px,1.6vw,24px);width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;cursor:pointer;display:grid;place-items:center;opacity:0;transform:scale(.9);transition:opacity .4s,transform .4s var(--ease),background .4s;line-height:1}
+.fs{position:absolute;right:clamp(16px,1.6vw,24px);top:clamp(16px,1.6vw,24px);width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.5);color:#fff;cursor:pointer;display:grid;place-items:center;opacity:0;transform:scale(.9);transition:opacity .4s,transform .4s var(--ease),background .4s;line-height:1}
 .fs svg{width:16px;height:16px}
 .rig:hover .fs,.fs:focus-visible{opacity:1;transform:none}
 .fs:hover{background:rgba(255,255,255,.18)}
@@ -63,7 +63,7 @@
 .scr .play{position:absolute;inset:0;border:0;cursor:pointer;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:var(--ink)}
 .scr .play::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.35);transition:background .6s}
 .scr .play:hover::before{background:rgba(0,0,0,.12)}
-.scr .pb{position:relative;width:84px;height:84px;border-radius:50%;border:1px solid rgba(255,255,255,.6);display:grid;place-items:center;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:transform .6s var(--ease),background .5s}
+.scr .pb{position:relative;width:84px;height:84px;border-radius:50%;border:1px solid rgba(255,255,255,.6);background:rgba(0,0,0,.38);display:grid;place-items:center;transition:transform .6s var(--ease),background .5s}
 .scr .pb svg{width:22px;height:22px;margin-left:3px}
 .scr .play:hover .pb{transform:scale(1.08);background:rgba(255,255,255,.12)}
 .scr .pl{position:relative;font-size:11px;letter-spacing:.3em;text-transform:uppercase;line-height:1}
@@ -286,19 +286,23 @@
   // the work hangs in the room: it turns gently towards the pointer and catches the light
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduced && matchMedia('(hover:hover)').matches) {
-    stage.addEventListener('pointermove', function (e) {
-      var b = rig.getBoundingClientRect(), x = (e.clientX - (b.left + b.width / 2)) / innerWidth, y = (e.clientY - (b.top + b.height / 2)) / innerHeight;
+    // at most once per frame, whatever the mouse's own rate
+    var pe = null, pq = 0;
+    var tilt = function () {
+      pq = 0; var e = pe, b = rig.getBoundingClientRect(), x = (e.clientX - (b.left + b.width / 2)) / innerWidth, y = (e.clientY - (b.top + b.height / 2)) / innerHeight;
       rig.style.setProperty('--ry', (x * 9).toFixed(2) + 'deg'); rig.style.setProperty('--rx', (-y * 6).toFixed(2) + 'deg');
       frm.style.setProperty('--ga', (100 + x * 60).toFixed(1) + 'deg');
-    });
+    };
+    stage.addEventListener('pointermove', function (e) { pe = e; if (!pq) pq = requestAnimationFrame(tilt); });
     stage.addEventListener('pointerleave', function () { rig.style.setProperty('--ry', '0deg'); rig.style.setProperty('--rx', '0deg'); });
   }
 
   // the light in the room takes the colour of the work, live
   var vid = document.getElementById('pjVid'), src = vid || pimg, cv = document.createElement('canvas'), cx = cv.getContext('2d', { willReadFrequently: true }), cur = [214, 168, 120], tgt = cur.slice(), dead = false;
   cv.width = cv.height = 8;
-  // on a phone the colour comes from the still, once: reading pixels back from a playing video stalls a phone's GPU
-  if (vid && !matchMedia('(hover:hover)').matches) { var still = new Image(); still.src = FIT(cover, 480); src = still; pimg = still; vid = null; }
+  // the colour comes from the work's still, once: reading pixels back from a playing video stalls the graphics card
+  // (a visible hitch every second), on a phone and on a computer alike
+  if (vid) { var still = new Image(); still.src = FIT(cover, 480); src = still; pimg = still; vid = null; }
   function sample() {
     if (dead || !src) return;
     try {

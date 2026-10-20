@@ -60,6 +60,8 @@
     en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { rootMargin: '0px 0px -10% 0px' }) : null;
   window.mrReveal = function (scope) {
+    // pictures are decoded off the main thread, so scrolling never waits for one
+    (scope || d).querySelectorAll('img:not([decoding])').forEach(function (im) { im.decoding = 'async'; });
     (scope || d).querySelectorAll('[data-split]').forEach(function (el) { mrSplit(el); });
     (scope || d).querySelectorAll('.rv,[data-split]').forEach(function (el) { if (io) io.observe(el); else el.classList.add('in'); });
   };
@@ -70,13 +72,14 @@
   window.mrLoaderLeave = function (href) {
     if (!ld || reduced) { location.href = href; return; }
     try { sessionStorage.setItem('mrT', '1'); } catch (e) {}
-    ld.classList.remove('done'); ld.classList.add('leave'); setTimeout(function () { location.href = href; }, 460);
+    ld.classList.remove('done'); ld.classList.add('leave'); setTimeout(function () { location.href = href; }, 240);
   };
+  // the page shows as soon as it is built (pictures arrive as they load), not after every last image
   if (ld) {
     var hide = function () { ld.classList.add('done'); };
     if (reduced) hide();
-    else if (d.readyState === 'complete') setTimeout(hide, 450);
-    else { addEventListener('load', function () { setTimeout(hide, 450); }); setTimeout(hide, 2600); }
+    else if (d.readyState !== 'loading') setTimeout(hide, 120);
+    else { d.addEventListener('DOMContentLoaded', function () { setTimeout(hide, 120); }); setTimeout(hide, 1500); }
   }
   d.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a || e.defaultPrevented) return;

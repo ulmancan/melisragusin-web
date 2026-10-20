@@ -220,7 +220,7 @@
   /* =================== AFTER THE HERO: the rest of the exhibition ===================
      Same dark room, lit only by the work: a thin statement band, a curved wall of screens whose light
      colours the room, the series shown one at a time and dissolving into each other, then where the work is shown. */
-  .grain{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.03;transform:translateZ(0);
+  .grain{display:none;position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.03;transform:translateZ(0);
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   .room-k{display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
   .room-k::before{content:'';width:34px;height:1px;background:currentColor;opacity:.7}
@@ -407,12 +407,12 @@
   @media(max-width:820px){.nl-in{grid-template-columns:1fr;gap:24px}.nl-form{min-width:0;width:100%}}
 
   /* ===== BRAND LOADER (shared): every page opens and closes on the MR mark ===== */
-  #mrload{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .7s var(--ease),visibility .7s}
-  #mrload img{width:clamp(80px,15vw,116px);height:auto;opacity:0;animation:mrload-in 1s var(--ease) forwards}
+  #mrload{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .5s var(--ease),visibility .5s}
+  #mrload img{width:clamp(80px,15vw,116px);height:auto;opacity:0;animation:mrload-in .5s var(--ease) forwards}
   #mrload.cont img{animation:none;opacity:.96}
   @keyframes mrload-in{0%{opacity:0;transform:scale(.96)}100%{opacity:.96;transform:none}}
   #mrload.done{opacity:0;visibility:hidden;pointer-events:none}
-  #mrload.leave{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .45s ease,visibility 0s}
+  #mrload.leave{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .22s ease,visibility 0s}
   #mrload.leave img{animation:none;opacity:.96}
 @media(max-width:900px){.navitem .dropdown{width:100%;align-items:center}.navitem .dropdown a{display:block;text-align:center}}
 </style>
@@ -737,7 +737,7 @@ document.addEventListener('click', (e) => {
   e.preventDefault();
   if (reduced || !ld) { location.href = a.href; return; }
   try { sessionStorage.setItem('mrT', '1'); } catch (err) {}
-  ld.classList.remove('done'); ld.classList.add('leave'); setTimeout(() => { location.href = a.href; }, 460);
+  ld.classList.remove('done'); ld.classList.add('leave'); setTimeout(() => { location.href = a.href; }, 240);
 });
 addEventListener('pageshow', (e) => { if (ld && e.persisted) { ld.classList.remove('leave'); ld.classList.add('done'); } });
 })();
@@ -1006,7 +1006,7 @@ function warm(i) { const v = st[i].vids[1 - st[i].cur]; if (v.preload !== 'auto'
 
 /* ---------- WebGL ---------- */
 const gl = canvas.getContext('webgl2', { alpha: false, antialias: false, premultipliedAlpha: false, powerPreference: 'high-performance' });
-let U = {}, tex = {}, glOK = !!gl, imagesReady = false, dpr = Math.min(devicePixelRatio || 1, finePointer ? 1.5 : 1.25);
+let U = {}, tex = {}, glOK = !!gl, imagesReady = false, dpr = Math.min(devicePixelRatio || 1, finePointer ? 1.25 : 1); // the room is a photograph: more pixels would add cost, not detail
 const VS = `#version 300 es
 in vec2 a; void main(){ gl_Position = vec4(a, 0., 1.); }`;
 const FS = `#version 300 es
@@ -1176,7 +1176,7 @@ function frame(now) {
   gl.uniform1fv(U.uLvl, st.map((S) => S.lvl));
   gl.uniform1fv(U.uHot, st.map((S) => S.hot));
   gl.drawArrays(gl.TRIANGLES, 0, 3);
-  if (dt > 24 && fresh) { if (++slowFrames > 20 && dpr > 1) { dpr = Math.max(1, dpr - .25); slowFrames = 0; resizeCanvas(); } }
+  if (dt > 22 && (fresh || moved)) { if (++slowFrames > 8 && dpr > 1) { dpr = Math.max(1, dpr - .25); slowFrames = 0; resizeCanvas(); } }
   else slowFrames = Math.max(0, slowFrames - 1);
 }
 
@@ -1315,7 +1315,7 @@ requestAnimationFrame(frame);
 
 <script>
   (function(){function hide(){var l=document.getElementById('mrload');if(l)l.classList.add('done');}
-  window.addEventListener('load',function(){setTimeout(hide,450);});setTimeout(hide,2600);})();
+  if(document.readyState!=='loading')setTimeout(hide,120);else document.addEventListener('DOMContentLoaded',function(){setTimeout(hide,120);});setTimeout(hide,1500);})();
 </script>
 </body>
 </html>
