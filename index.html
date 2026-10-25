@@ -135,6 +135,43 @@ body[data-world="lobby"] .map{display:none}
 /* the walking controller belongs to the halls: in the lobby you choose a door by pointing at it */
 .pad{transition:opacity .6s var(--ease),visibility .6s}
 body[data-world="lobby"] .pad{opacity:0;visibility:hidden;pointer-events:none}
+/* the guided tour: a quiet button in the halls; while it runs, a small bar and the name of the work in front of you */
+.tourgo,.tourbar{left:50%;bottom:clamp(22px,4vh,40px);transform:translateX(-50%)}
+.tourgo{display:flex;align-items:center;gap:10px;height:44px;padding:0 20px 0 16px;border:1px solid rgba(244,242,238,.32);border-radius:999px;background:rgba(0,0,0,.5);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#e4ddd2;transition:background .4s,color .4s,border-color .4s,opacity .6s}
+.tourgo{pointer-events:auto}
+.tourgo:hover{background:var(--ink);color:#000;border-color:var(--ink)}
+.tourgo svg{width:14px;height:14px;fill:currentColor}
+.tourbar{display:flex;align-items:center;gap:6px;height:48px;padding:0 8px;border:1px solid rgba(244,242,238,.22);border-radius:999px;background:rgba(0,0,0,.62)}
+.tourbar button{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;transition:background .3s}
+.tourbar button:hover{background:rgba(255,255,255,.1)}
+.tourbar svg{width:16px;height:16px;fill:none;stroke:#e4ddd2;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tourbar #tPlay svg{fill:#e4ddd2;stroke-width:2.2}
+.tourbar #tN{min-width:64px;text-align:center;font-size:11px;letter-spacing:.2em;color:var(--muted)}
+.tourbar #tEnd{white-space:nowrap;width:auto;padding:0 14px;border-radius:999px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#d8d2c8;border-left:1px solid var(--line);border-radius:0 999px 999px 0}
+.tourcap{left:50%;bottom:calc(clamp(22px,4vh,40px) + 64px);transform:translate(-50%,8px);opacity:0;pointer-events:none!important;transition:opacity .6s,transform .8s var(--ease);display:grid;justify-items:center;gap:4px;text-align:center;max-width:min(620px,calc(100vw - 40px));text-shadow:0 2px 16px rgba(0,0,0,.8)}
+.tourcap.on{opacity:1;transform:translate(-50%,0);pointer-events:auto!important}
+.tourcap .tt{font-family:var(--serif);font-style:italic;font-weight:300;font-size:clamp(22px,2.2vw,30px);line-height:1.1}
+.tourcap .ty{font-size:10.5px;letter-spacing:.3em;color:var(--gold)}
+.tourend{left:50%;top:50%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:12px;padding:28px 30px;background:rgba(6,6,6,.9);border:1px solid var(--line);border-radius:3px;text-align:center}
+.tourend .k{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.tourend .h{font-family:var(--serif);font-weight:300;font-size:clamp(28px,2.6vw,38px);margin-bottom:6px}
+.tourend button{white-space:nowrap;min-width:240px;padding:12px 18px;border:1px solid rgba(244,242,238,.32);border-radius:999px;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;transition:background .4s,color .4s}
+.tourend button:hover{background:var(--ink);color:#000}
+.tourend #teNext{background:var(--ink);color:#000}
+body[data-world="lobby"] .tourgo{display:none}
+body.touring .pad{opacity:0;visibility:hidden;pointer-events:none}
+@media (min-width:1200px){body[data-world="hall"] .hint{bottom:calc(clamp(22px,4vh,40px) + 64px)}}
+@media (max-width:700px){.tourgo{left:16px;transform:none;bottom:18px}}
+@media (max-width:700px),(orientation:landscape) and (max-height:560px){
+  .tourgo{height:40px;padding:0 16px 0 13px;font-size:10px;bottom:16px}
+  .tourbar{bottom:16px}
+  .tourbar #tEnd{padding:0 10px;font-size:9.5px;letter-spacing:.14em}
+  .tourbar #tN{min-width:52px;letter-spacing:.12em}
+  .tourcap{bottom:84px}
+  .tourend{padding:24px 20px;width:calc(100vw - 48px);max-width:340px}
+  .tourend button{min-width:0;width:100%;letter-spacing:.16em}
+  body:has(#info.on) .tourbar,body:has(#info.on) .tourcap{opacity:0;pointer-events:none!important}
+}
 noscript{position:fixed;inset:0;display:grid;place-items:center;font-size:16px}
 @media (hover:none){.map{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(8,8,8,.82)}}
 /* phones held sideways: the card fits the screen and scrolls, the map and the controller step aside while it is open */
@@ -173,6 +210,20 @@ noscript{position:fixed;inset:0;display:grid;place-items:center;font-size:16px}
   <span class="hub" role="slider" aria-label="Joystick: drag to walk and turn" title="Drag to walk"></span>
 </div></div>
 <div class="ui map" id="map"></div>
+<button class="ui tourgo" id="tourGo" hidden aria-label="Start the guided tour"><svg viewBox="0 0 24 24"><path d="M7 4.8v14.4L19 12z"/></svg>Guided tour</button>
+<div class="ui tourbar" id="tourBar" hidden role="group" aria-label="Guided tour">
+  <button id="tPrev" aria-label="Previous work"><svg viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></svg></button>
+  <button id="tPlay" aria-label="Pause the tour"></button>
+  <button id="tNext" aria-label="Next work"><svg viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6"/></svg></button>
+  <span id="tN" aria-live="polite"></span>
+  <button id="tEnd">End tour</button>
+</div>
+<button class="ui tourcap" id="tourCap" aria-label="About this work"><span class="tt"></span><span class="ty"></span></button>
+<div class="ui tourend" id="tourEnd" hidden role="dialog" aria-label="End of the tour">
+  <div class="k">End of the hall</div><div class="h">Tour complete</div>
+  <button id="teNext"></button><button id="teLobby">Back to the lobby</button><button id="teFree">Walk freely</button>
+</div>
+
 <div id="tip"></div>
 <div id="toast" role="status"></div>
 <aside id="info" aria-live="polite">
