@@ -161,7 +161,14 @@ body[data-world="lobby"] .pad{opacity:0;visibility:hidden;pointer-events:none}
 body[data-world="lobby"] .tourgo{display:none}
 body.touring .pad{opacity:0;visibility:hidden;pointer-events:none}
 @media (min-width:1200px){body[data-world="hall"] .hint{bottom:calc(clamp(22px,4vh,40px) + 64px)}}
-@media (max-width:700px){.tourgo{left:16px;transform:none;bottom:18px}}
+/* phones: the start button sits up under the logo, where no browser bar or home indicator can cover it;
+   the running tour's bar keeps clear of the bottom edge (Safari's toolbar may float over it) */
+@media (max-width:700px){
+  .tourgo{left:16px;right:auto;transform:none;top:calc(env(safe-area-inset-top,0px) + 68px);bottom:auto!important}
+  body[data-world="hall"] .hint{top:124px}
+  .tourbar{bottom:calc(env(safe-area-inset-bottom,0px) + 26px)!important}
+  .tourcap{bottom:calc(env(safe-area-inset-bottom,0px) + 94px)!important}
+}
 @media (max-width:700px),(orientation:landscape) and (max-height:560px){
   .tourgo{height:40px;padding:0 16px 0 13px;font-size:10px;bottom:16px}
   .tourbar{bottom:16px}
